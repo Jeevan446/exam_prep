@@ -3,7 +3,7 @@ const router = express.Router();
 const{addexamType} = require('../controllers/demomode.controller');
 
 
-router.post('/examtype', addexamType);
+router.post('/addexamtype', addexamType);
 
 module.exports = router;
 
