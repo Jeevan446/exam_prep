@@ -5,7 +5,6 @@ const demomodeRouter=require('./src/routers/demomode.router')
 require('dotenv').config();
 db();  //connectection db
 
-
 app.use('/api/demomode/',demomodeRouter);
 app.get('/home',(req,res)=>{
 return res.status(200).json({mesage:"Hello world"});
