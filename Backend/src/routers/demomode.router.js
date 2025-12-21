@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const{addexamType} = require('../controllers/demomode.controller');
+const{addexamtype} = require('../controllers/demomode.controller');
 
 
-router.post('/addexamtype', addexamType);
+router.post('/addexamtype', addexamtype);
 
 module.exports = router;
 
