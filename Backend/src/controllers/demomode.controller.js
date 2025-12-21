@@ -17,32 +17,43 @@ async function addexamtype(req, res) {
 }
 
 async function addSubject(req, res) {
-  const { name, chapters } = req.body;
+  const {examtype, name, chapters } = req.body;
+
   try {
     const subjectfound = await subjectModel.findOne({ name: name });
     if (subjectfound) {
       return res.status(409).json({ message: "Sorry subject already exists" });
     }
-    await subjectModel.create({ name: name, chapters: chapters });
+    await subjectModel.create({ examtype:examtype,name: name, chapters: chapters });
     return res.status(200).json({ message: "New subject created sucessfully" });
   } catch (err) {
     console.log("Error from addsubject function", err);
   }
 }
 
-async function getExamType(req,res) {
-    try {
-        const examtypefound = await examtypeModel.find();
+async function getExamType(req, res) {
+  try {
+    const examtypefound = await examtypeModel.find();
 
     if (!examtypefound) {
-      return res.status(409).json({message:"not found"});
+      return res.status(404).json({ message: "not found" });
     }
-     return res.status(200).json({examTypes:examtypefound});
-        
+    return res.status(200).json({ examTypes: examtypefound });
+  } catch (err) {
+    console.log("There is error on exam type");
+  }
+}
+async function getSubjects(req, res) {
+  try {
+    const subjectFound = await subjectModel.find();
+    if (!subjectFound) {
+      return res.status(404).json({ message: "subject not found" });
     }
-    catch(err){
-     console.log("there is error on exam type"); 
-    }
+
+    return res.status(200).json({ subjects: subjectFound });
+  } catch (err) {
+    console.log("Error from getsubjects function",err);
+  }
 }
 
-module.exports = {getExamType, addexamtype, addSubject };
+module.exports = { getExamType, addexamtype, addSubject, getSubjects };
