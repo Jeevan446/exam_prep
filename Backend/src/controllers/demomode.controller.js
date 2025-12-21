@@ -29,4 +29,20 @@ async function addSubject(req, res) {
     console.log("Error from addsubject function", err);
   }
 }
-module.exports = { addexamtype, addSubject };
+
+async function getExamType(req,res) {
+    try {
+        const examtypefound = await examtypeModel.find();
+
+    if (!examtypefound) {
+      return res.status(409).json({message:"not found"});
+    }
+     return res.status(200).json({examTypes:examtypefound});
+        
+    }
+    catch(err){
+     console.log("there is error on exam type"); 
+    }
+}
+
+module.exports = {getExamType, addexamtype, addSubject };
