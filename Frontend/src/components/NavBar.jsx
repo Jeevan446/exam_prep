@@ -10,7 +10,7 @@ function NavBar() {
             </div>
 
             {/* Hidden on mobile, flex on medium (md) screens and up */}
-            <div className="hidden md:flex justify-center items-center gap-4 lg:gap-16">
+            <div className="hidden lg:flex justify-center items-center gap-4 lg:gap-16">
                 <button className={btnClass}>
                     <span className="relative">COURSES<span className={underlineClass}></span></span>
                 </button>
