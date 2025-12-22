@@ -1,60 +1,70 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 
 function ExamTypePage({ isOpen, setIsOpen }) {
-    return (
-        <div>
+  const [data, setData] = useState([]);
 
-            <main className="grow">
+  // Fetch exams from API
+  async function fetchData() {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/demomode/getexams"
+      );
+      console.log(response.data.examTypes);
+      setData(response.data.examTypes);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
-                <NavBar />
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-                <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+  return (
+    <div className="min-h-screen flex flex-col">
+      <NavBar />
 
-                <h1 className={`
-                    font-bold text-2xl
-                    mt-20 md:mt-[15vh]
-                    mx-4 md:mx-40 
-                    ml-18
-                    ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
-                `}>Please select your exam type:</h1>
+      <div className="flex flex-1">
+        <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-                <div className={`
-                    flex flex-col col-gap-8 
-                    
-                    mt-1 md:mt-1 p-6 md:p-10
-                    mx-4 md:mx-40 
+        <main
+          className={`
+            flex-1
+            mt-20 md:mt-[15vh]
+            mx-4 md:mx-40
+            ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+          `}
+        >
+          <h1 className="font-bold text-2xl mb-6">
+            Please select your exam type:
+          </h1>
 
-                    ml-18
-                    
-                    {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+          <div
+            className={`
+              flex flex-col gap-8
+              p-6 md:p-10
+              bg-slate-300 border-2 border-slate-400 rounded-xl drop-shadow-2xl
+              min-h-[60vh]
+            `}
+          >
+            {data.map((item, key) => (
+              <div key={key}>
+                <div>{item.name}</div>
+                <div>{item.discription}</div>
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
 
-                    bg-slate-300 border-2 border-slate-400 rounded-xl drop-shadow-2xl min-h-screen
-                `}>
-
-                    <p className="border-b border-slate-400"> 
-                        <h1 className="font-bold  ">IOST</h1>
-                        Institute of Science and Technology is a institute of TU that provides Programs like:
-                        B.Sc. (Nutrition & Dietetics)
-                        B.Sc. CSIT (Computer Science & Information Technology)
-                        B.Math Sc. (Bachelor in Mathematical Sciences)
-                        BIT (Bachelor in Information Technology)
-                        BDS (Bachelor in Data Science)
-                        B.Tech (Food Technology). <br />
-                        <button className="font-bold relative group bg-slate-200 text-slate-900 border-none rounded-xl 
-                        px-3 md:px-6 py-2 cursor-pointer hover:bg-slate-900 hover:text-white transition-all duration-600 text-xs md:text-base">
-                            IOST
-                        </button>
-                    </p>
-                </div>
-
-            </main>
-
-            <Footer />
-        </div>
-    );
+      <Footer />
+    </div>
+  );
 }
 
 export default ExamTypePage;
