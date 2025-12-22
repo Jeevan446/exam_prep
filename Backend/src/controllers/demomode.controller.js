@@ -1,13 +1,14 @@
 const examtypeModel = require("../models/examtypes.model");
 const subjectModel = require("../models/subject.model");
+
 async function addexamtype(req, res) {
-  const { name, subjects } = req.body;
+  const { name, subjects ,discription} = req.body;
   try {
     const examtypefound = await examtypeModel.findOne({ name: name });
     if (examtypefound) {
       return res.status(409).json({ message: "Sorry examtype already exists" });
     }
-    await examtypeModel.create({ name: name, subjects: subjects });
+    await examtypeModel.create({ name: name, subjects: subjects ,discription:discription});
     return res
       .status(200)
       .json({ message: "New examtype creaated sucessfully" });
@@ -38,7 +39,7 @@ async function getExamType(req, res) {
     if (!examtypefound) {
       return res.status(404).json({ message: "not found" });
     }
-    return res.status(200).json({ examTypes: examtypefound });
+    return res.status(200).json({ examTypes: examtypefound ,discription:discription});
   } catch (err) {
     console.log("There is error on exam type");
   }
