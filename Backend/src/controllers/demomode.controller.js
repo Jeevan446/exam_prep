@@ -60,7 +60,7 @@ async function getSubjects(req, res) {
 async function addQuestions(req,res){
 try{
 const{name,examtype,subject,chapter,level,options,answer,marks,creator}=req.body;
-const isquestioonAvail=await questionModel.find({name:name,examtype:examtype})
+const isquestionAvail=await questionModel.findOne({name:name,examtype:examtype})
 if(isquestionAvail){
   return res.status(409).json({message:"Sorry the question already in the questionbank"})
 }
