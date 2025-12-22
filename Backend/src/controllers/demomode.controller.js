@@ -1,5 +1,6 @@
 const examtypeModel = require("../models/examtypes.model");
 const subjectModel = require("../models/subject.model");
+const questionModel=require('../models/question.model')
 async function addexamtype(req, res) {
   const { name, subjects } = req.body;
   try {
@@ -56,4 +57,19 @@ async function getSubjects(req, res) {
   }
 }
 
-module.exports = { getExamType, addexamtype, addSubject, getSubjects };
+async function addQuestions(req,res){
+try{
+const{name,examtype,subject,chapter,level,options,answer,marks,creator}=req.body;
+const isquestioonAvail=await questionModel.find({name:name,examtype:examtype})
+if(isquestionAvail){
+  return res.status(409).json({message:"Sorry the question already in the questionbank"})
+}
+
+await questionModel.create({name:name,examtype:examtype,subject:subject,chapter:chapter,level:level,options:options,answer:answer,marks:marks,creator:creator})
+return res.status(200).json({message:"Question created sucessfully"})
+}catch(err){
+  console.log("Error occured in addQuestions page",err)
+}
+}
+
+module.exports = { getExamType, addexamtype, addSubject, getSubjects,addQuestions};
