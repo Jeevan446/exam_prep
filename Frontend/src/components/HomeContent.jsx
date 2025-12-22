@@ -38,6 +38,7 @@ function HomeContent({ isOpen }) {
                     Review your results and track your progress over time.
                 </p>
                 <button className={btnClass}>Demo Mode</button>
+                
             </div>
 
         </div>
