@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Route, Routes} from "react-router-dom";
 import Homepage from "./pages/HomePage";
+import ExamTypePage from "./pages/ExamTypePage"
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,7 @@ function App() {
       <>
         <Routes>
             <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         </Routes>
       </>
   );
