@@ -5,6 +5,14 @@ const questionSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  examtype:{
+    type:String,
+    required:true
+  },
+  subject:{
+type:String,
+required:true
+  },
   chapter: {
     type: String, 
     required: true,
