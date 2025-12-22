@@ -33,13 +33,14 @@ async function addSubject(req, res) {
 }
 
 async function getExamType(req, res) {
+
   try {
     const examtypefound = await examtypeModel.find();
 
     if (!examtypefound) {
       return res.status(404).json({ message: "not found" });
     }
-    return res.status(200).json({ examTypes: examtypefound ,discription:discription});
+    return res.status(200).json({ examTypes: examtypefound});
   } catch (err) {
     console.log("There is error on exam type");
   }
