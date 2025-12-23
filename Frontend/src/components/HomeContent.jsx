@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+
+
 function HomeContent({ isOpen }) {
     // Reusable button class
 const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-gray-200 hover:text-black hover:border-gray-400 transition-all duration-500";
@@ -21,7 +24,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
                 <p className="text-lg text-slate-800  max-w-md text-wrap">
                     The Demo Mode contains different list of exam types, their subjects and questions.
                 </p>
-                <button className={btnClass}>Demo Mode</button>
+                <Link to = "/examtype"><button className={btnClass}>Demo Mode</button></Link>
             </div>
 
             {/* Row 2 */}
@@ -29,7 +32,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
                 <p className="text-lg text-slate-800 max-w-md">
                     Access practice sessions to improve your speed and accuracy.
                 </p>
-                <button className={btnClass}>Practice Mode</button>
+                <Link to = "/examtype"><button className={btnClass}>Practice Mode</button></Link>
             </div>
 
             {/* Row 3 */}
@@ -37,7 +40,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
                 <p className="text-lg text-slate-800 max-w-md">
                     Review your results and track your progress over time.
                 </p>
-                <button className={btnClass}>Demo Mode</button>
+                <Link to = "/examtype"><button className={btnClass}>Weekly Test</button></Link>
                 
             </div>
 
