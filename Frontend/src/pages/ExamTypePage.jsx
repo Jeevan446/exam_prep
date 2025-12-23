@@ -56,10 +56,16 @@ function ExamTypePage({ isOpen, setIsOpen }) {
               {data.map((item, key) => (
 
                 <Fragment key={key}>
-
-                  <div className="">{item.name}</div>
+                  <Link to="/subjects"
+                    state={{ examType: item.name }}
+                  >
+                  <div className=""
+                    
+                  >
+                      {item.name}
+                  </div>
                   <div>{item.discription}</div>
-
+                  </Link>
                 </Fragment>
               ))}
           </div>
