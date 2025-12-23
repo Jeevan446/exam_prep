@@ -8,7 +8,7 @@ import { AiFillNotification } from "react-icons/ai"; //speaker icon
 function SideBar({ isOpen, setIsOpen }) {
     return (
         <div className="sidebar-container flex">
-            <div className={`fixed top-16 left-0 h-full bg-slate-400 transition-all duration-300 text-black font-bold z-20 border-r-2 border-slate-900
+            <div className={`fixed top-16 left-0 h-full bg-gray-400 transition-all duration-300 text-black font-bold z-20 border-r-2 border-gray-500
                 ${isOpen ? "w-48" : "w-16"}
                 md:${isOpen ? "w-64" : "w-24"}
                 `}>
@@ -23,9 +23,9 @@ function SideBar({ isOpen, setIsOpen }) {
                     </button>
                 </div>
 
-                <nav className="border-b-2 border-t-2">
+                <nav className="border-b-2 border-t-2 border-gray-600">
                     <ul>
-                        <li className="flex items-center p-4 hover:bg-slate-900 cursor-pointer hover:text-white transition-all duration-600">
+                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
                             <FaHome size={24} />
                             <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                 Home
@@ -34,9 +34,9 @@ function SideBar({ isOpen, setIsOpen }) {
                     </ul>
                 </nav>
 
-                <nav className="border-b-2">
+                <nav className="border-b-2 border-gray-600">
                     <ul>
-                        <li className="flex items-center p-4 hover:bg-slate-900 cursor-pointer hover:text-white transition-all duration-600">
+                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
                             <SiGitbook  size={24} />
                             <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                 Courses
@@ -45,9 +45,9 @@ function SideBar({ isOpen, setIsOpen }) {
                     </ul>
                 </nav>
 
-                <nav className="border-b-2">
+                <nav className="border-b-2 border-gray-600">
                     <ul>
-                        <li className="flex items-center p-4 hover:bg-slate-900 cursor-pointer hover:text-white transition-all duration-600">
+                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
                             <AiFillNotification size={24} />
                             <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                 Notice
@@ -57,9 +57,9 @@ function SideBar({ isOpen, setIsOpen }) {
                 </nav>
 
 
-                <nav className="border-b-2">
+                <nav className="border-b-2 border-gray-600">
                     <ul>
-                        <li className="flex items-center p-4 hover:bg-slate-900 cursor-pointer hover:text-white transition-all duration-600">
+                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
                             <FaUserAlt size={24} />
                             <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                 About Us
