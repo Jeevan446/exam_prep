@@ -6,7 +6,7 @@ const{addexamtype,addSubject,getExamType,getSubjects,addQuestions} = require('..
 router.post('/addexamtype', addexamtype);
 router.post('/addsubject',addSubject)
 router.get('/getexams',getExamType)
-router.get('/getsubjects',getSubjects)
+router.get('/:examtype/subjects',getSubjects)
 router.post("/addquestions",addQuestions)
 module.exports = router;
 
