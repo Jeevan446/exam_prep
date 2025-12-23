@@ -46,8 +46,9 @@ async function getExamType(req, res) {
   }
 }
 async function getSubjects(req, res) {
+console.log(req.params)
   try {
-    const subjectFound = await subjectModel.find();
+    const subjectFound = await subjectModel.find({examtype:req.params.examtype});
     if (!subjectFound) {
       return res.status(404).json({ message: "subject not found" });
     }
