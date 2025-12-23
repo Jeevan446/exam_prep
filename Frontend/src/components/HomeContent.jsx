@@ -1,6 +1,6 @@
 function HomeContent({ isOpen }) {
     // Reusable button class
-    const btnClass = "font-bold relative group flex bg-slate-400 p-6 text-slate-900 border-none rounded-xl cursor-pointer hover:bg-slate-900 hover:text-white transition-all duration-600";
+const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-gray-200 hover:text-black hover:border-gray-400 transition-all duration-500";
 
     return (
         <div className={`
@@ -13,7 +13,7 @@ function HomeContent({ isOpen }) {
             
             {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
 
-            bg-slate-300 border-2 border-slate-400 rounded-xl drop-shadow-2xl min-h-screen
+            bg-gray-300 border-2 border-gray-400 rounded-xl drop-shadow-2xl min-h-screen
         `}>
             
             {/* Row 1 */}

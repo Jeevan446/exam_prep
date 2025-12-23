@@ -1,10 +1,10 @@
 function NavBar() {
     // Added responsive text sizes and horizontal padding
-    const btnClass = "font-bold relative group bg-slate-200 text-slate-900 border-none rounded-xl px-3 md:px-6 py-2 cursor-pointer hover:bg-slate-900 hover:text-white transition-all duration-600 text-xs md:text-base";
+    const btnClass = "font-bold relative group bg-gray-200 text-gray-700 border-none rounded-xl px-3 md:px-6 py-2 cursor-pointer hover:bg-gray-600 hover:text-gray-200 transition-all duration-600 text-xs md:text-base";
     const underlineClass = "absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-600 group-hover:w-full";
 
     return (
-        <div className="bg-slate-400 text-black flex justify-between items-center p-4 h-16 z-20 fixed top-0 w-full border-b-2 border-slate-900">
+        <div className="bg-gray-400 text-black flex justify-between items-center p-4 h-16 z-20 fixed top-0 w-full border-b-2 border-gray-600">
             <div className="flex items-center font-bold">
                 <p>LOGO</p>
             </div>
