@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
@@ -8,7 +9,7 @@ import { AiFillNotification } from "react-icons/ai"; //speaker icon
 function SideBar({ isOpen, setIsOpen }) {
     return (
         <div className="sidebar-container flex">
-            <div className={`fixed top-16 left-0 h-full bg-gray-400 transition-all duration-300 text-black font-bold z-20 border-r-2 border-gray-500
+            <div className={`fixed top-16 left-0 h-full bg-gray-400 transition-all duration-300 text-black font-bold z-10 border-r-2 border-gray-500
                 ${isOpen ? "w-48" : "w-16"}
                 md:${isOpen ? "w-64" : "w-24"}
                 `}>
@@ -28,7 +29,7 @@ function SideBar({ isOpen, setIsOpen }) {
                         <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
                             <FaHome size={24} />
                             <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
-                                Home
+                               <Link to="/">Home</Link> 
                             </span>
                         </li>
                     </ul>

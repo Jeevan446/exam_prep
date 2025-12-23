@@ -42,7 +42,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
             {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
           `}
         >
-          <h1 className="font-bold  text-2xl sm:te text-gray-700 mb-6">
+          <h1 className="font-bold  text-2xl sm:te text-gray-600 mb-6">
             Please select your exam type:
           </h1>
 
@@ -51,23 +51,28 @@ function ExamTypePage({ isOpen, setIsOpen }) {
               flex flex-col gap-8
               p-6 md:p-10
               bg-gray-300 border-2 border-gray-400 rounded-xl drop-shadow-2xl
-              min-h-[60vh]
+              h-auto w-full
             `}>
-              {data.map((item, key) => (
-
-                <Fragment key={key}>
-                  <Link to="/subjects"
-                    state={{ examType: item.name }}
-                  >
-                  <div className=""
-                    
-                  >
-                      {item.name}
+            {data.map((item, key) => (
+              <Fragment key={key}>
+                <Link
+                  to="/subjects"
+                  state={{ examType: item.name }}
+                  className="border border-gray-400 flex flex-col gap-2 p-4 hover:bg-gray-200 transition-colors"
+                >
+                  <div className="flex-1 cursor-pointer text-xl text-gray-600 font-bold underline">
+                    {item.name}
                   </div>
-                  <div>{item.discription}</div>
-                  </Link>
-                </Fragment>
-              ))}
+
+                  <div className="flex-1 text-xl cursor-pointer text-gray-600 ">
+                    {item.discription}
+                  </div>
+
+                  <button className="font-bold relative group flex-1 bg-gray-700 p-2 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-gray-200 hover:text-black hover:border-gray-400 transition-all duration-500 md:w-16 flex justify-center">{item.name}</button>
+                </Link>
+
+              </Fragment>
+            ))}
           </div>
         </main>
       </div>
