@@ -37,11 +37,8 @@ function SubjectPage({ isOpen, setIsOpen }) {
 
       <main
         className={`
-            flex-1
-            mt-20 md:mt-[15vh] p-6 md:p-10
-            mx-4 md:mx-40 
-            ml-18
-            {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+            w-full
+            bg-gray-900
           `}
       >
         <div className="flex ">
@@ -51,17 +48,15 @@ function SubjectPage({ isOpen, setIsOpen }) {
 
         <div
           className={` Exam-Type-Details
-              flex flex-col gap-8
-              p-6 md:p-10
-              bg-gray-300 border-2 border-gray-400 rounded-xl drop-shadow-2xl
-              h-auto w-full
+              bg-gray-600 border-2 border-gray-400 rounded-xl drop-shadow-2xl
+
             `}
         >
           {data.length > 0 ? (
             data.map((item, key) => (
               <h1 key={key}>
                 <Link to=""
-                  className="border rounded border-gray-400 flex flex-col gap-2 p-4 hover:bg-gray-200 transition-colors"
+                  className="border rounded w-[95%] border-gray-400 flex flex-col gap-2 p-4 hover:bg-gray-200 transition-colors"
                 >
                 <div className="cursor-pointer text-xl text-gray-600">
                   <span className=" mr-2">{key+1}.</span>
