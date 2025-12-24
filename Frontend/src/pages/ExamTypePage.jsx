@@ -42,39 +42,44 @@ function ExamTypePage({ isOpen, setIsOpen }) {
             mt-20 md:mt-[15vh] p-6 md:p-10
             mx-4 md:mx-40 
             ml-18
-            {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+            ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
           `}
         >
-          <h1 className="font-bold  text-2xl sm:te text-gray-600 mb-6">
+          <h1 className="font-bold  text-3xl sm:te text-gray-600 mb-6">
             Please select your exam type:
           </h1>
 
           <div
             className={` Exam-Type-Details
-              flex flex-col gap-8
+              flex flex-col gap-4
               p-6 md:p-10
               bg-gray-300 border-2 border-gray-400 rounded-xl drop-shadow-2xl
               h-auto w-full
             `}>
             {data.map((item, key) => (
-              <Fragment key={key}>
-                <Link
-                  to="/subjects"
-                  state={{ examType: item.name }}
-                  className="border border-gray-400 flex flex-col gap-2 p-4 hover:bg-gray-200 transition-colors"
-                >
-                  <div className="flex-1 cursor-pointer text-xl text-gray-600 font-bold underline">
+              
+              <div key={key} className="border rounded border-gray-400 p-4 " >
+
+                <div className=" text-gray-600">
+                  <div className="flex-1 text-2xl font-bold underline">
                     {item.name}
                   </div>
 
-                  <div className="flex-1 text-xl cursor-pointer text-gray-600 ">
+                  <div className="flex-1 mt-2 text-xl">
                     {item.discription}
                   </div>
+                </div>
 
-                  <button className="font-bold relative group flex-1 bg-gray-700 p-2 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-gray-200 hover:text-black hover:border-gray-400 transition-all duration-500 md:w-16 flex justify-center">{item.name}</button>
+                <Link
+                  to="/subjects"
+                  state={{ examType: item.name }}
+                >
+                  <button className="font-bold mt-2 bg-gray-700 p-2 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-gray-200 hover:text-black hover:border-gray-400 transition-all duration-500 md:w-16 flex justify-center">{item.name}</button>
+
                 </Link>
 
-              </Fragment>
+              </div>
+
             ))}
           </div>
         </main>

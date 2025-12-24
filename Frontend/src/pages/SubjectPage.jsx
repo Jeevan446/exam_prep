@@ -30,34 +30,38 @@ function SubjectPage({ isOpen, setIsOpen }) {
   }, []);
 
   return (
-    <div className=" w-full flex items-center  justify-center bg-amber-200 ">
+    <div className=" w-full flex flex-col items-center  justify-center ">
       <NavBar />
 
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
+      <div className=" flex mt-30 gap-4 items-center justify-center">
+        <h1 className=" sm:text-xl  md:text-2xl text-gray-600 font-bold">
+          Select your subjects
+        </h1>
+        <SiGitbook className="" />
+      </div>
       <main
-  className="
-    mt-[100px]
-    px-4
-    transition-all duration-300
-
-    w-[80%]
-
-    ml-16
-
-    lg:w-[70%]
-     bg-amber-700 
-     
-  "
->
-             <h1 className=" text-xl">Select your subjects</h1>
-            {
-                data.length>0?data.map((item,key)=>(<h1  key={key}><Link to='' className=" bg-yellow-500">{item}</Link></h1>)):<h1>Sorry no subject found</h1>
-            }
-            </main>
-            {/* <Footer /> */}
-        </div>
-    );
+        className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-gray-400 flex flex-col gap-6 md:gap-8 items-center
+        ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
+      >
+        {data.length > 0 ? (
+          data.map((item, key) => (
+            <Link
+              to=""
+              className=" border rounded border-gray-400 p-4 w-[90%] hover:bg-gray-600 hover:text-gray-200 duration-300"
+            >
+              <span>{key + 1}.</span>
+              <span className="ml-2">{item}</span>
+            </Link>
+          ))
+        ) : (
+          <h1>Sorry no subject found</h1>
+        )}
+      </main>
+      {/* <Footer /> */}
+    </div>
+  );
 }
 
 export default SubjectPage;
