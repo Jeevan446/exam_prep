@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import { Fragment } from "react"; // Lets you group elements without a wrapper node.
 import { Link } from "react-router-dom";
 
+
+
 function ExamTypePage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
 
