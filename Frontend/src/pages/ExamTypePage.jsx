@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 function ExamTypePage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
 
+  
   // Fetch exams from API
   async function fetchData() {
     try {
