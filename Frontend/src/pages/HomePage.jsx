@@ -9,7 +9,7 @@ function Homepage({ isOpen, setIsOpen }) {
             <NavBar />
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
             <HomeContent  isOpen={isOpen} setIsOpen={setIsOpen} />
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }

@@ -77,7 +77,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
         </main>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -30,26 +30,32 @@ function SubjectPage({ isOpen, setIsOpen }) {
   }, []);
 
   return (
-    <div>
+    <div className=" w-full flex items-center  justify-center bg-amber-200 ">
       <NavBar />
 
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-            <main
-                className={`
-            flex-1
-            mt-20 md:mt-[15vh] p-6 md:p-10
-            mx-4 md:mx-40 
-            ml-18
-            {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
-          `}
-            >
-             <h1>Select your subjects</h1>
+      <main
+  className="
+    mt-[100px]
+    px-4
+    transition-all duration-300
+
+    w-[80%]
+
+    ml-16
+
+    lg:w-[70%]
+     bg-amber-700 
+     
+  "
+>
+             <h1 className=" text-xl">Select your subjects</h1>
             {
-                data.length>0?data.map((item,key)=>(<h1  key={key}><Link to=''>{item}</Link></h1>)):<h1>Sorry no subject found</h1>
+                data.length>0?data.map((item,key)=>(<h1  key={key}><Link to='' className=" bg-yellow-500">{item}</Link></h1>)):<h1>Sorry no subject found</h1>
             }
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
