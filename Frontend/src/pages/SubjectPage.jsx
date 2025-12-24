@@ -48,7 +48,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
             >
              <h1>Select your subjects</h1>
             {
-                data.length>0?data.map((item,key)=>(<h1  key={key}><Link to=''>{item}</Link></h1>)):<h1>Sorry no subject found</h1>
+                data.length>0?data.map((item,key)=>(<h1  key={key}><Link to=' '>{item}</Link></h1>)):<h1>Sorry no subject found</h1>
             }
             </main>
             <Footer />
