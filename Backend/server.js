@@ -1,14 +1,16 @@
+require('dotenv').config();
 const express=require('express');
 const cors=require('cors')
 const app=express()
 const db=require('./src/db/config.db')
 const demomodeRouter=require('./src/routers/demomode.router')
-require('dotenv').config();
+const  userRouter =require('./src/routers/user.router');
 db(); 
 
 app.use(cors())
 app.use(express.json())
 app.use('/api/demomode/',demomodeRouter);
+app.use('/api/user',userRouter);
 
 
 app.get('/home',(req,res)=>{
