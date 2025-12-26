@@ -25,48 +25,56 @@ function SideBar({ isOpen, setIsOpen }) {
                 </div>
 
                 <nav className="border-b-2 border-t-2 border-gray-600">
-                    <ul>
-                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
-                            <FaHome size={24} />
-                            <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
-                               <Link to="/">Home</Link> 
-                            </span>
-                        </li>
-                    </ul>
+                    <Link to="/">
+                        <ul>
+                            <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
+                                <FaHome size={24} />
+                                <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
+                                Home
+                                </span>
+                            </li>
+                        </ul>
+                    </Link> 
                 </nav>
 
                 <nav className="border-b-2 border-gray-600">
-                    <ul>
-                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
-                            <SiGitbook  size={24} />
-                            <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
-                                Courses
-                            </span>
-                        </li>
-                    </ul>
+                    <Link to="" >
+                        <ul>
+                            <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
+                                <SiGitbook  size={24} />
+                                <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
+                                    Courses
+                                </span>
+                            </li>
+                        </ul>
+                    </Link>
                 </nav>
 
                 <nav className="border-b-2 border-gray-600">
-                    <ul>
-                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
-                            <AiFillNotification size={24} />
-                            <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
-                                Notice
-                            </span>
-                        </li>
-                    </ul>
+                    <Link to="" >
+                        <ul>
+                            <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
+                                <AiFillNotification size={24} />
+                                <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
+                                    Notice
+                                </span>
+                            </li>
+                        </ul>
+                    </Link>
                 </nav>
 
 
                 <nav className="border-b-2 border-gray-600">
-                    <ul>
-                        <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
-                            <FaUserAlt size={24} />
-                            <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
-                                About Us
-                            </span>
-                        </li>
-                    </ul>
+                    <Link to="">
+                        <ul>
+                            <li className="flex items-center p-4 hover:bg-gray-600 cursor-pointer hover:text-white transition-all duration-600">
+                                <FaUserAlt size={24} />
+                                <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
+                                    About Us
+                                </span>
+                            </li>
+                        </ul>
+                    </Link>
                 </nav>
             </div>
         </div>
