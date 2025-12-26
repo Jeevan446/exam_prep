@@ -21,7 +21,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
             
             {/* Row 1 */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-400 pb-6">
-                <p className="text-lg text-slate-800  max-w-md text-wrap">
+                <p className="sm:text-md md:text-xl text-slate-800  max-w-md text-wrap">
                     The Demo Mode contains different list of exam types, their subjects and questions.
                 </p>
                 <Link to = "/examtype"><button className={btnClass}>Demo Mode</button></Link>
@@ -29,7 +29,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
 
             {/* Row 2 */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-400 pb-6">
-                <p className="text-lg text-slate-800 max-w-md">
+                <p className="sm:text-md md:text-xl text-slate-800 max-w-md">
                     Access practice sessions to improve your speed and accuracy.
                 </p>
                 <Link to = "/examtype"><button className={btnClass}>Practice Mode</button></Link>
@@ -37,7 +37,7 @@ const btnClass = "font-bold relative group flex bg-gray-700 p-6 text-white round
 
             {/* Row 3 */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <p className="text-lg text-slate-800 max-w-md">
+                <p className="sm:text-md md:text-xl text-slate-800 max-w-md">
                     Review your results and track your progress over time.
                 </p>
                 <Link to = "/examtype"><button className={btnClass}>Weekly Test</button></Link>
