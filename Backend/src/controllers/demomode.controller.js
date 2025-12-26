@@ -1,6 +1,7 @@
 const examtypeModel = require("../models/examtypes.model");
 const subjectModel = require("../models/subject.model");
 const questionModel=require('../models/question.model')
+const chapterModel=require('../models/chapter.model')
 async function addexamtype(req, res) {
   const { name, subjects ,discription} = req.body;
   try {
@@ -31,7 +32,6 @@ async function addSubject(req, res) {
     console.log("Error from addsubject function", err);
   }
 }
-
 async function getExamType(req, res) {
 
   try {
@@ -59,6 +59,7 @@ console.log(req.params)
   }
 }
 
+
 async function addQuestions(req,res){
 try{
 const{name,examtype,subject,chapter,level,options,answer,marks,creator}=req.body;
@@ -74,4 +75,28 @@ return res.status(200).json({message:"Question created sucessfully"})
 }
 }
 
-module.exports = { getExamType, addexamtype, addSubject, getSubjects,addQuestions};
+async function addChapter(req,res){
+  try{
+    const {examtype,subject,name}=req.body;
+
+    const chapterfound=await chapterModel.findOne({examtype:examtype,subject:subject,name:name})
+    if(chapterfound){
+      return res.status(409).json({message:"Sorry chapter already exists"})
+    }
+    chapterModel.create({examtype:examtype,subject:subject,name:name})
+    return res.status(200).json({message:"chapter created sucessfully"})
+  }catch(err){
+    console.log("Error from addchapter function")
+  }
+}
+
+async function getChapters(req,res){
+  console.log(req.params)
+try{
+  const chapters=await chapterModel.find({examtype:req.params.examtype,subject:req.params.subjects});
+  return res.status(200).json({message:chapters})
+}catch(err){
+  console.log("Error from showchapter function")
+}
+}
+module.exports = { getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapter,getChapters};
