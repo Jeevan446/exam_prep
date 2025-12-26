@@ -48,11 +48,11 @@ function SubjectPage({ isOpen, setIsOpen }) {
         {data.length > 0 ? (
           data.map((item, key) => (
             <Link
-              to=""
+              to="/chapters"
               className=" border rounded border-gray-400 p-4 w-[90%] hover:bg-gray-600 hover:text-gray-200 duration-300"
-            >
-              <span>{key + 1}.</span>
-              <span className="ml-2">{item}</span>
+              >
+                <span>{key + 1}.</span>
+                <span className="ml-2">{item}</span>
             </Link>
           ))
         ) : (
