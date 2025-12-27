@@ -74,6 +74,20 @@ return res.status(200).json({message:"Question created sucessfully"})
   console.log("Error occured in addQuestions page",err)
 }
 }
+async function getQuestions(req,res){
+try{
+  
+  const questions=await questionModel.find({examtype:req.params.examtype,subject:req.params.subject,chapter:req.params.chapter})
+ if(questions){
+  return res.status(200).json({message:questions})
+ }
+ else{
+  return res.status(404).json({message:"Sorry question not found"})
+ }
+}catch(err){
+console.log("Error at getquestions function")
+}
+}
 
 async function addChapter(req,res){
   try{
@@ -94,9 +108,14 @@ async function getChapters(req,res){
   console.log(req.params)
 try{
   const chapters=await chapterModel.find({examtype:req.params.examtype,subject:req.params.subjects});
+if (chapters){
   return res.status(200).json({message:chapters})
+}
+else{
+  return res.status(404).json({message:"Sorry chapter not found"})
+}
 }catch(err){
   console.log("Error from showchapter function")
 }
 }
-module.exports = { getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapter,getChapters};
+module.exports = { getQuestions,getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapter,getChapters};
