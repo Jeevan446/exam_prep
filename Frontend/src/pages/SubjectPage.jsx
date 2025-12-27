@@ -61,7 +61,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
           <h1>Sorry no subject found</h1>
         )}
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
