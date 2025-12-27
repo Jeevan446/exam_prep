@@ -4,6 +4,9 @@ import Homepage from "./pages/HomePage";
 import ExamTypePage from "./pages/ExamTypePage"
 import SubjectPage from "./pages/SubjectPage";
 import ChaptersPage from "./pages/ChaptersPage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +17,8 @@ function App() {
             <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
             <Route path="/subjects" element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
             <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
         </Routes>
       </>
   );
