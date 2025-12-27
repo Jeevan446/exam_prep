@@ -45,10 +45,7 @@ function ChaptersPage({ isOpen, setIsOpen }) {
 
         <div
           className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-gray-400 flex flex-col gap-6 md:gap-8 items-center
-                    ${
-                      isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"
-                    }
-                    `}
+           ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
         >
           {data.length > 0 ? (
             data.map((item, key) => (
@@ -61,11 +58,11 @@ function ChaptersPage({ isOpen, setIsOpen }) {
               </Link>
             ))
           ) : (
-            <h1>Sorry no chaptersfound</h1>
+            <h1>Sorry no chapters found</h1>
           )}
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
