@@ -40,8 +40,8 @@ const SignUpForm = () => {
     try {
       // Additional client-side validation before submission
       if (!values.email.match(/^[a-z]+[0-9]*@gmail\.com$/)) {
-        setErrors({ 
-          email: "Email must start with lowercase letters (numbers optional) and end with @gmail.com" 
+        setErrors({
+          email: "Email must start with lowercase letters (numbers optional) and end with @gmail.com"
         });
         return;
       }
@@ -123,10 +123,9 @@ const SignUpForm = () => {
                 <Field
                   type="text"
                   name="username"
-                  placeholder="johndoe"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${
-                    errors.username && touched.username ? 'border-red-500' : 'border-gray-300'
-                  }`}
+
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.username && touched.username ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 <ErrorMessage
                   name="username"
@@ -144,9 +143,8 @@ const SignUpForm = () => {
                   type="email"
                   name="email"
                   placeholder="example@gmail.com"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${
-                    errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 <ErrorMessage
                   name="email"
@@ -165,9 +163,8 @@ const SignUpForm = () => {
                   type="password"
                   name="password"
                   placeholder="••••••••"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${
-                    errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 <ErrorMessage
                   name="password"
@@ -188,9 +185,8 @@ const SignUpForm = () => {
                   type="password"
                   name="confirmPassword"
                   placeholder="••••••••"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${
-                    errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                    }`}
                 />
                 <ErrorMessage
                   name="confirmPassword"
