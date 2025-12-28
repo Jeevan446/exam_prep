@@ -44,14 +44,14 @@ function ChaptersPage({ isOpen, setIsOpen }) {
         </div>
 
         <div
-          className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-gray-400 flex flex-col gap-6 md:gap-8 items-center
+          className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-black flex flex-col gap-6 md:gap-8 items-center
            ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
         >
           {data.length > 0 ? (
             data.map((item, key) => (
               <Link
                 key={key}
-                className=" border rounded border-gray-400 sm:text-sm md:text-xl p-4 w-[90%] hover:bg-gray-600 hover:text-gray-200 duration-500"
+                className=" border rounded border-black sm:text-sm md:text-xl p-4 w-[90%] hover:bg-black hover:text-white duration-500"
               >
                 <span>{key + 1}.</span>
                 <span className="ml-2">{item.name}</span>
