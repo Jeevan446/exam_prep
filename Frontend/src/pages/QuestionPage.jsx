@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { RotateCcw } from 'lucide-react';
 import axios from 'axios';
-
+import { Link, useLocation } from "react-router-dom";
 export default function MCQQuiz() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
 
   // Fetch questions from API
+  const location = useLocation();
   async function fetchData() {
-    try {
+    try{
       const response = await axios.get(
-        "http://localhost:3000/api/demomode/BIT/Mathematics/Algebra/questions"
+        `http://localhost:3000/api/demomode/${location.state.examType}/${location.state.subject}/${location.state.chapter}/questions`
       );
       setQuizQuestions(response.data.message);
     } catch (err) {

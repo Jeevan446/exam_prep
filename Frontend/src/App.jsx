@@ -20,7 +20,7 @@ function App() {
             <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-             <Route path="examtype/chapter/questionpage" element={<QuestionPage />} />
+             <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
         </Routes>
       </>
   );

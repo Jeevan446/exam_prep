@@ -50,6 +50,8 @@ function ChaptersPage({ isOpen, setIsOpen }) {
           {data.length > 0 ? (
             data.map((item, key) => (
               <Link
+              to='/examtype/chapter/questionpage'
+              state={{examType:location.state.examType,subject:location.state.subject,chapter:item.name}}
                 key={key}
                 className=" border rounded border-black sm:text-sm md:text-xl p-4 w-[90%] hover:bg-black hover:text-white duration-500"
               >
