@@ -9,7 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import QuestionPage from "./pages/QuestionPage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AdminPage from "./pages/AdminPage";
-
+import AddquestionPage from "./pages/AddquestionPage";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -21,8 +21,9 @@ function App() {
             <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-             <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
-              <Route path="/admin" element={<AdminPage />} />
+            <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/addquestion" element={<AddquestionPage />} />
         </Routes>
       </>
   );
