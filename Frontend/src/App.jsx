@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Homepage from "./pages/HomePage";
-import ExamTypePage from "./pages/ExamTypePage"
+import ExamTypePage from "./pages/ExamTypePage";
 import SubjectPage from "./pages/SubjectPage";
 import ChaptersPage from "./pages/ChaptersPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import QuestionPage from './pages/QuestionPage';
+import QuestionPage from "./pages/QuestionPage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
       <>
         <Routes>
