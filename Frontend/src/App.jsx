@@ -22,7 +22,7 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
              <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
-              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/admin" element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         </Routes>
       </>
   );
