@@ -9,7 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import QuestionPage from "./pages/QuestionPage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AdminPage from "./pages/AdminPage";
-
+import AddquestionPage from "./pages/AddquestionPage";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
