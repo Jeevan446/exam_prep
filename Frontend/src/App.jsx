@@ -21,9 +21,8 @@ function App() {
             <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin/addquestion" element={<AddquestionPage />} />
+             <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
+              <Route path="/admin" element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         </Routes>
       </>
   );

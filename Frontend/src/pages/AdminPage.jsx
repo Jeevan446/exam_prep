@@ -1,31 +1,34 @@
 import React from 'react';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+import SideBar from '../components/SideBar';
 
-const AdminPage = () => {
+const AdminPage = ( { isOpen, setIsOpen} ) => {
     return (
-        <div className="flex flex-col min-h-screen w-full">
+        <div className="flex flex-col min-h-screen w-full items-center justify-center ">
 
             {/* Navbar */}
             <Navbar />
 
-            <main className="mt-[10vh] w-full bg-red-300 p-4">
+            <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+
+            <main className="mt-[20vh] w-full bg-gray-300 border-2 border-black ml-auto mr-auto justify-center p-30">
 
                 {/* Card row */}
                 <div className="flex flex-wrap gap-4 mb-6">
-                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-green-200 rounded text-center">
+                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-gray-500 rounded text-center text-white">
                         <span>Total no of users</span>
                         <span>1000</span>
                     </div>
-                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-green-200 rounded text-center">
+                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-gray-500 rounded text-center text-white">
                         <span>Total of questions</span>
                         <span>1000</span>
                     </div>
-                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-green-200 rounded text-center">
+                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-gray-500 rounded text-center text-white">
                         <span>active users</span>
                         <span>1000</span>
                     </div>
-                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-green-200 rounded text-center">
+                    <div className="flex-1 flex flex-col min-w-[150px] p-4  bg-gray-500 rounded text-center text-white">
                         <span>Total no of users</span>
                         <span>1000</span>
                     </div>
@@ -34,16 +37,18 @@ const AdminPage = () => {
 
 
                 {/* Buttons row */}
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        Add questions
-                    </button>
-                    <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        Add questions for live questions
-                    </button>
-                     <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        Add roles to users
-                    </button>
+                <div className="flex flex-col md:flex-row justify-center gap-4">
+
+                        <button className="px-4 py-4 font-bold md:px-9 md:py-5 bg-black lg:px-18 lg:py-6 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-all duration-500  flex justify-center ">
+                            Add questions
+                        </button>
+                        <button className="px-4 py-4 font-bold  bg-black lg:px-18 lg:py-6 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-all duration-500  flex justify-center ">
+                            Add questions for live questions
+                        </button>
+                        <button className="px-4 py-4 font-bold  bg-black lg:px-18 lg:py-6 text-white rounded-xl cursor-pointer border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-all duration-500  flex justify-center ">
+                            Add roles to users
+                        </button>
+
                 </div>
 
             </main>
