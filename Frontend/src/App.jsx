@@ -13,36 +13,17 @@ import AdminPage from "./pages/AdminPage";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
-      <Routes>
-        <Route
-          path="/"
-          element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />}
-        />
-        <Route
-          path="/examtype"
-          element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />}
-        />
-        <Route
-          path="/subjects"
-          element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />}
-        />
-        <Route
-          path="/chapters"
-          element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />}
-        />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="examtype/chapter/questionpage"
-          element={<QuestionPage />}
-        />
-         <Route
-          path="admin"
-          element={<AdminPage />}
-        />
-      </Routes>
-    </>
+      <>
+        <Routes>
+            <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/subjects" element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+             <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
+        </Routes>
+      </>
   );
 }
 
