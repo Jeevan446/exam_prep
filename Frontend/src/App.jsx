@@ -4,15 +4,20 @@ import Homepage from "./pages/HomePage";
 import ExamTypePage from "./pages/ExamTypePage";
 import SubjectPage from "./pages/SubjectPage";
 import ChaptersPage from "./pages/ChaptersPage";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+import LoginPage from "./pages/auth/LoginPage";
 import QuestionPage from "./pages/QuestionPage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import AdminPage from "./pages/AdminPage";
-import AddquestionPage from "./pages/AddquestionPage";
+import AdminPage from "./pages/admin/AdminPage";
+import AddquestionPage from "./pages/admin/AddquestionPage";
 import Loading from "./components/Loading";
-import AddSubject from "./pages/AddSubject";
-import AddChapterPage from "./pages/AddChapterPage";
+import AddSubject from "./pages/admin/AddSubject";
+import AddChapterPage from "./pages/admin/AddChapterPage";
+import EditQuestionPage from "./pages/admin/EditQuestionPage";
+
+
+
+
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -29,6 +34,7 @@ function App() {
         <Route path="/admin/addquestion" element={<AddquestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         <Route path="/admin/addsubjects" element={<AddSubject isOpen={isOpen} setIsOpen={setIsOpen} />} />
         <Route path="/admin/addchapters" element={<AddChapterPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/admin/editquestion" element={<EditQuestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
 
       </Routes>
     </>
