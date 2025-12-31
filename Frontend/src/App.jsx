@@ -10,21 +10,28 @@ import QuestionPage from "./pages/QuestionPage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AdminPage from "./pages/AdminPage";
 import AddquestionPage from "./pages/AddquestionPage";
+import Loading from "./components/Loading";
+import AddSubject from "./pages/AddSubject";
+import AddChapterPage from "./pages/AddChapterPage";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-      <>
-        <Routes>
-            <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-            <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-            <Route path="/subjects" element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-            <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-             <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
-              <Route path="/admin" element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        </Routes>
-      </>
+    <>
+      <Routes>
+        <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/subjects" element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
+        <Route path="/admin" element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/admin/addquestion" element={<AddquestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/admin/addsubjects" element={<AddSubject isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/admin/addchapters" element={<AddChapterPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+
+      </Routes>
+    </>
   );
 }
 
