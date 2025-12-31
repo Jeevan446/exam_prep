@@ -14,7 +14,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/demomode/${examType}/subjects`
+        `/api/demomode/${examType}/subjects`
       );
 
       const names = response.data.subjects.map((item) => item.name);

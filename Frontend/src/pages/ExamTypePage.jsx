@@ -12,7 +12,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
   async function fetchData() {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/demomode/getexams"
+        "/api/demomode/getexams"
       );
       console.log(response.data.examTypes);
       setData(response.data.examTypes);

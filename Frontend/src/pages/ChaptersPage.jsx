@@ -14,7 +14,7 @@ function ChaptersPage({ isOpen, setIsOpen }) {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/demomode/${location.state.examType}/${location.state.subject}/chapters`
+        `/api/demomode/${location.state.examType}/${location.state.subject}/chapters`
       );
 
       setData(response.data.message);

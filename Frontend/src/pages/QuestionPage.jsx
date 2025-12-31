@@ -11,7 +11,7 @@ export default function MCQQuiz() {
   async function fetchData() {
     try{
       const response = await axios.get(
-        `http://localhost:3000/api/demomode/${location.state.examType}/${location.state.subject}/${location.state.chapter}/questions`
+        `/api/demomode/${location.state.examType}/${location.state.subject}/${location.state.chapter}/questions`
       );
       setQuizQuestions(response.data.message);
     } catch (err) {
@@ -60,7 +60,7 @@ export default function MCQQuiz() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
-            Multiple Choice Quiz
+            Multiple Choice Question
           </h1>
           <p className="text-gray-600 text-center mb-6">
             Select an answer to see if it's correct

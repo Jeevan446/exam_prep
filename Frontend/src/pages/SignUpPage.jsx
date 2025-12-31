@@ -47,7 +47,7 @@ const SignUpForm = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/user/register",
+        "/api/user/register",
         {
           username: values.username.trim(),
           email: values.email.trim().toLowerCase(),
