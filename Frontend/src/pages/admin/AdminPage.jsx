@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from '../components/NavBar';
-import Footer from '../components/Footer';
-import SideBar from '../components/SideBar';
+import Navbar from '../../components/NavBar';
+import Footer from '../../components/Footer';
+import SideBar from '../../components/SideBar';
 
 const AdminPage = ( { isOpen, setIsOpen} ) => {
     return (
