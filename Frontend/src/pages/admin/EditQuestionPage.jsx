@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaRegEdit, FaCheck, FaTimes } from "react-icons/fa";
 import axios from "axios";
-import Loading from "../components/Loading";
+import Loading from "../../components/Loading";
 
 const EditQuestionPage = () => {
   const [questions, setQuestions] = useState([
@@ -32,9 +32,9 @@ const EditQuestionPage = () => {
   //   fetchQuestions();
   // }, []);
 
-  // if (loading) {
-  //   return <Loading />
-  // }
+  if (loading) {
+    return <Loading />
+  }
 
 
   const [editingId, setEditingId] = useState(null);
