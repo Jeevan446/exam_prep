@@ -2,8 +2,47 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useState,useEffect } from "react";
+
 
 const AddQuestionForm = () => {
+  const [examtype,setExamtype]=useState([]) 
+  const [selectedExamtype,setSelectedExamtype]=useState('')
+  const [subjects,setSubjects]=useState([])
+  async function fetchexamtypeData() {
+    try {
+      const response = await axios.get(
+        "/api/demomode/getexams"
+      );
+    const arr=response.data.examTypes.map((item)=>{
+        return (item.name)
+      })
+      console.log(arr)
+
+      setExamtype(arr);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+  async function fetchsubjectData(examType) { 
+    try {
+      const response = await axios.get(
+        `/api/demomode/${examType}/subjects`
+      );
+
+      const names = response.data.subjects.map((item) => item.name);
+setSubjects(names)
+      // setData(names);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchexamtypeData();
+  }, []);
+
+
   const initialValues = {
     name: "",
     examtype: "",
@@ -73,11 +112,25 @@ const AddQuestionForm = () => {
             {/* Exam Type */}
             <div>
               <label className="block font-medium mb-1">Exam Type</label>
-              <Field as="select" name="examtype" className="w-full border px-3 py-2 rounded">
+              <Field as="select" name="examtype" className="w-full border px-3 py-2 rounded"  
+              onChange={(e) => {
+                setSubjects([])
+                const value = e.target.value;
+                setFieldValue("examtype", value);
+                setSelectedExamtype(e.target.value) 
+             if(e.target.value.trim){
+              fetchsubjectData(e.target.value)
+             }
+
+       }}
+              >
                 <option value="">Select Exam Type</option>
-                <option value="Midterm">Midterm</option>
-                <option value="Final">Final</option>
-                <option value="Quiz">Quiz</option>
+               {
+             
+                examtype.map((i,key)=>(
+                  <option key={key} value={i}>{i}</option>
+                ))
+               }
               </Field>
               <ErrorMessage name="examtype" component="p" className="text-red-500 text-sm mt-1" />
             </div>
@@ -87,9 +140,11 @@ const AddQuestionForm = () => {
               <label className="block font-medium mb-1">Subject</label>
               <Field as="select" name="subject" className="w-full border px-3 py-2 rounded">
                 <option value="">Select Subject</option>
-                <option value="Math">Math</option>
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
+                {
+                  subjects.length>0 && subjects.map((e,key)=>(
+                     <option value={e} key={key}>{e}</option>
+                  ))
+                }
               </Field>
               <ErrorMessage name="subject" component="p" className="text-red-500 text-sm mt-1" />
             </div>

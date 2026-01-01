@@ -2,6 +2,15 @@ import React from 'react'
 
 export const AddExamType = () => {
   return (
-    <div>AddExamType</div>
+<>
+<form>
+  <input type='text'></input>
+  <input type='description'></input>
+
+</form>
+</>
+    
   )
 }
+
+export default AddExamType
