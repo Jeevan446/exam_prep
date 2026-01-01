@@ -47,7 +47,7 @@ const SignUpForm = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3000/api/user/register",
+        "/api/user/register",
         {
           username: values.username.trim(),
           email: values.email.trim().toLowerCase(),
@@ -162,7 +162,7 @@ const SignUpForm = () => {
                 <Field
                   type="password"
                   name="password"
-                  placeholder="••••••••"
+                  placeholder=""
                   className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
                     }`}
                 />

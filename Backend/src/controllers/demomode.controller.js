@@ -2,6 +2,8 @@ const examtypeModel = require("../models/examtypes.model");
 const subjectModel = require("../models/subject.model");
 const questionModel=require('../models/question.model')
 const chapterModel=require('../models/chapter.model')
+
+// add exam type
 async function addexamtype(req, res) {
   const { name, subjects ,discription} = req.body;
   try {
@@ -18,6 +20,8 @@ async function addexamtype(req, res) {
   }
 }
 
+// add subject
+
 async function addSubject(req, res) {
   const {examtype, name, chapters } = req.body;
 
@@ -32,6 +36,10 @@ async function addSubject(req, res) {
     console.log("Error from addsubject function", err);
   }
 }
+
+
+// get ExamType
+
 async function getExamType(req, res) {
 
   try {
@@ -45,6 +53,9 @@ async function getExamType(req, res) {
     console.log("There is error on exam type");
   }
 }
+
+//get subjects
+
 async function getSubjects(req, res) {
 console.log(req.params)
   try {
@@ -59,6 +70,7 @@ console.log(req.params)
   }
 }
 
+//add questions
 
 async function addQuestions(req,res){
 try{
@@ -74,6 +86,9 @@ return res.status(200).json({message:"Question created sucessfully"})
   console.log("Error occured in addQuestions page",err)
 }
 }
+
+//get questions
+
 async function getQuestions(req,res){
 try{
   
@@ -89,6 +104,8 @@ console.log("Error at getquestions function")
 }
 }
 
+// add chapters
+
 async function addChapter(req,res){
   try{
     const {examtype,subject,name}=req.body;
@@ -103,6 +120,8 @@ async function addChapter(req,res){
     console.log("Error from addchapter function")
   }
 }
+
+// get chapters
 
 async function getChapters(req,res){
   console.log(req.params)

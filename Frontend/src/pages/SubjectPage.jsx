@@ -14,7 +14,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/demomode/${examType}/subjects`
+        `/api/demomode/${examType}/subjects`
       );
 
       const names = response.data.subjects.map((item) => item.name);
@@ -41,6 +41,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
         </h1>
         <SiGitbook className="md:w-8 md:h-8 sm:w-4 sm:h-4" />
       </div>
+      
       <main
         className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-black flex flex-col gap-6 md:gap-8 items-center
         ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
