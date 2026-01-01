@@ -14,6 +14,7 @@ import Loading from "./components/Loading";
 import AddSubject from "./pages/admin/AddSubject";
 import AddChapterPage from "./pages/admin/AddChapterPage";
 import EditQuestionPage from "./pages/admin/EditQuestionPage";
+import NoticePage from "./pages/NoticePage";
 
 
 //check
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin/addsubjects" element={<AddSubject isOpen={isOpen} setIsOpen={setIsOpen} />} />
         <Route path="/admin/addchapters" element={<AddChapterPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         <Route path="/admin/editquestion" element={<EditQuestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route path="/notice" element={<NoticePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
 
       </Routes>
     </>

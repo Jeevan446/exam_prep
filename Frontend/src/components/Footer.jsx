@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 function Footer() {
   return (
     <footer
@@ -11,6 +13,8 @@ function Footer() {
                     </p>
                 </div>
         </div>
+        <button onClick={() => toast.success("congrats")}>click me</button>
+                <button onClick={() => toast.error("failed")}>Test me</button>
     </footer>
   );
 }
