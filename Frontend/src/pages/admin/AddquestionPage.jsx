@@ -421,34 +421,7 @@ const AddQuestionForm = () => {
               ) : (
                 "Add Question"
               )}
-            </button>
-
-            {/* Debug Info Panel (Optional - remove in production) */}
-            <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
-              <p className="font-semibold mb-2">Current State:</p>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <p className="text-gray-600">Exam Type:</p>
-                  <p className="font-medium">{selectedExamtype || "Not selected"}</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Subject:</p>
-                  <p className="font-medium">{selectedSubject || "Not selected"}</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Chapters Loaded:</p>
-                  <p className="font-medium">{chapters.length}</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">API Called:</p>
-                  <p className="font-medium text-xs break-words">
-                    {selectedExamtype && selectedSubject 
-                      ? `/api/demomode/${selectedExamtype}/${selectedSubject}/chapters`
-                      : "N/A"}
-                  </p>
-                </div>
-              </div>
-            </div>
+            </button>  
           </Form>
         )}
       </Formik>
