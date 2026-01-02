@@ -23,6 +23,7 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
+      <div data-theme="valentine">
       <Routes>
         <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
         <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
@@ -39,6 +40,8 @@ function App() {
         <Route path="/notice" element={<NoticePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
 
       </Routes>
+
+      </div>
     </>
   );
 }

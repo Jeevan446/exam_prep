@@ -5,7 +5,7 @@ function NavBar() {
     const underlineClass = "absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-600 group-hover:w-full";
 
     return (
-        <div className="bg-white text-black flex justify-between items-center p-4 h-16 z-20 fixed top-0 w-full border-b-2 border-black">
+        <div className="bg-base text-black flex justify-between items-center p-4 h-16 z-20 fixed top-0 w-full border-b-2 border-black">
             <div className="flex items-center font-bold">
                 <p>LOGO</p>
             </div>
