@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const{addexamtype,addSubject,getExamType,getSubjects,addQuestions,addChapter,getChapters,getQuestions} = require('../controllers/demomode.controller');
+const{ getQuestions,addexamtype,addSubject,getExamType,getSubjects,addQuestions,addChapter,getChapters,getQuestions} = require('../controllers/demomode.controller');
 
 
 router.post('/addexamtype', addexamtype);
@@ -11,6 +11,7 @@ router.get('/:examtype/subjects',getSubjects)
 router.get('/:examtype/:subjects/chapters',getChapters)
 router.get('/:examtype/:subject/:chapter/questions',getQuestions)
 router.post("/addquestions",addQuestions)
+router.get("/getquestions",getQuestions)
 module.exports = router;
 
 
