@@ -16,33 +16,62 @@ import AddChapterPage from "./pages/admin/AddChapterPage";
 import EditQuestionPage from "./pages/admin/EditQuestionPage";
 import NoticePage from "./pages/NoticePage";
 
-
 //check
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
-      <div data-theme="valentine">
+    <div data-theme="halloween">
+
       <Routes>
-        <Route path="/" element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/examtype" element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/subjects" element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/chapters" element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
+        <Route
+          path="/"
+          element={<Homepage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/examtype"
+          element={<ExamTypePage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/subjects"
+          element={<SubjectPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/chapters"
+          element={<ChaptersPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/examtype/chapter/questionpage" element={<QuestionPage />} />
-        <Route path="/admin" element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/admin/addquestion" element={<AddquestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/admin/addsubjects" element={<AddSubject isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/admin/addchapters" element={<AddChapterPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/admin/editquestion" element={<EditQuestionPage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-        <Route path="/notice" element={<NoticePage isOpen={isOpen} setIsOpen={setIsOpen} />} />
-
+        <Route
+          path="/examtype/chapter/questionpage"
+          element={<QuestionPage />}
+        />
+        <Route
+          path="/admin"
+          element={<AdminPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/admin/addquestion"
+          element={<AddquestionPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/admin/addsubjects"
+          element={<AddSubject isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/admin/addchapters"
+          element={<AddChapterPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/admin/editquestion"
+          element={<EditQuestionPage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/notice"
+          element={<NoticePage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
       </Routes>
-
-      </div>
-    </>
+    </div>
   );
 }
 

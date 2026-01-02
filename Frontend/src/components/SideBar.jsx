@@ -8,26 +8,26 @@ import { AiFillNotification } from "react-icons/ai"; //speaker icon
 
 function SideBar({ isOpen, setIsOpen }) {
     return (
-        <div className="sidebar-container flex">
-            <div className={`fixed top-16 left-0 h-full bg-white transition-all duration-300 text-black font-bold z-10 border-r-2 border-black
+        <div className="sidebar-container  flex">
+            <div className={`fixed top-16 left-0 h-full  transition-all duration-300 z-10 
                 ${isOpen ? "w-48" : "w-16"}
                 md:${isOpen ? "w-64" : "w-24"}
                 `}>
 
                 <div className="flex justify-between items-center px-4 mt-4 mb-6 ">
-                    <h2 className={`text-xl font-bold cursor-pointer ${isOpen ? "block" : "hidden"}`}>
+                    <h2 className={`text text-primary font-bold cursor-pointer ${isOpen ? "block" : "hidden"}`}>
                         MENU
                     </h2>
 
                     <button className="block p-1" onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? <IoCloseCircleOutline size={24} /> : <FaBarsStaggered size={24} />}
+                        {isOpen ? <IoCloseCircleOutline className="text-primary" size={24} /> : <FaBarsStaggered size={24} className="text-primary" />}
                     </button>
                 </div>
 
-                <nav className="border-b-2 border-t-2 border-black">
+                <nav className="border-b-2 border-t-2  border-base-300">
                     <Link to="/">
                         <ul>
-                            <li className="flex items-center p-4 hover:bg-black cursor-pointer hover:text-white transition-all duration-600">
+                            <li className="link link-primary flex items-center p-4 transition-all  duration-600">
                                 <FaHome size={24} />
                                 <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                 Home
@@ -37,10 +37,10 @@ function SideBar({ isOpen, setIsOpen }) {
                     </Link> 
                 </nav>
 
-                <nav className="border-b-2 border-black">
+                <nav className="border-b-2 border-base-300">
                     <Link to="" >
                         <ul>
-                            <li className="flex items-center p-4 hover:bg-black cursor-pointer hover:text-white transition-all duration-600">
+                            <li className="link link-primary flex items-center p-4 transition-all duration-600">
                                 <SiGitbook  size={24} />
                                 <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                     Courses
@@ -50,10 +50,10 @@ function SideBar({ isOpen, setIsOpen }) {
                     </Link>
                 </nav>
 
-                <nav className="border-b-2 border-black">
+                <nav className="border-b-2 border-base-300">
                     <Link to="" >
                         <ul>
-                            <li className="flex items-center p-4 hover:bg-black cursor-pointer hover:text-white transition-all duration-600">
+                            <li className="link link-primary flex items-center p-4 bg-base transition-all duration-600">
                                 <AiFillNotification size={24} />
                                 <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                     Notice
@@ -64,10 +64,10 @@ function SideBar({ isOpen, setIsOpen }) {
                 </nav>
 
 
-                <nav className="border-b-2 border-black">
+                <nav className="border-b-2 border-base-300 ">
                     <Link to="">
                         <ul>
-                            <li className="flex items-center p-4 hover:bg-black cursor-pointer hover:text-white transition-all duration-600">
+                            <li className="link link-primary flex items-center p-4 transition-all duration-600">
                                 <FaUserAlt size={24} />
                                 <span className={`ml-4 ${isOpen ? "block" : "hidden"}`}>
                                     About Us

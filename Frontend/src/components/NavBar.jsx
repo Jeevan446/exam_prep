@@ -1,39 +1,39 @@
 import { Link } from "react-router-dom";
 function NavBar() {
     // Added responsive text sizes and horizontal padding
-    const btnClass = "font-bold relative group bg-black text-white border-none rounded-xl px-3 md:px-6 py-2 cursor-pointer hover:bg-white hover:text-black transition-all duration-600 text-xs md:text-base";
-    const underlineClass = "absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-600 group-hover:w-full";
+    const btnClass = "btn btn-info px-3 md:px-6 py-2 cursor-pointer  text-xs md:text-base";
+
 
     return (
-        <div className="bg-base text-black flex justify-between items-center p-4 h-16 z-20 fixed top-0 w-full border-b-2 border-black">
+        <div className="bg-base-300 flex justify-between items-center p-3 h-16 z-20 fixed top-0 w-full ">
             <div className="flex items-center font-bold">
-                <p>LOGO</p>
+                <p className="text-primary">LOGO</p>
             </div>
 
             {/* Hidden on mobile, flex on medium (md) screens and up */}
             <div className="hidden lg:flex justify-center items-center gap-4 lg:gap-16">
                 <button className={btnClass}>
-                    <span className="relative">COURSES<span className={underlineClass}></span></span>
+                    <span className="relative">COURSES</span>
                 </button>
                 <Link to="/notice">
                     <button className={btnClass}>
-                        <span className="relative">NOTICE<span className={underlineClass}></span></span>
+                        <span className="relative">NOTICE</span>
                     </button>
                 </Link>
                 <button className={btnClass}>
-                    <span className="relative">ABOUT US<span className={underlineClass}></span></span>
+                    <span className="relative">ABOUT US</span>
                 </button>
             </div>
 
             {/* Smaller gap for mobile, larger for desktop */}
             <div className="flex gap-2 md:gap-12 items-center">
                 <button className={btnClass}>
-                    <span className="relative">SUBSCRIPTION<span className={underlineClass}></span></span>
+                    <span className="relative">SUBSCRIPTION</span>
                 </button>
                 <Link to="/signup">
                     <button className={btnClass}>
 
-                        <span className="relative">ACCOUNT<span className={underlineClass}></span></span>
+                        <span className="relative">ACCOUNT</span>
 
                     </button>
                 </Link>
