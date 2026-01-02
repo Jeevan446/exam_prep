@@ -16,7 +16,7 @@ const btnClass = "font-bold relative group flex bg-black p-6 text-white rounded-
 
                 ml-18
                 
-                {} ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+                 ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
 
                 bg-gray-300 border-2 border-black rounded drop-shadow-2xl min-h-screen 
             `}>
