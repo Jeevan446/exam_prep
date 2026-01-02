@@ -1,41 +1,69 @@
 import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/NavBar";
-import Footer from "../components/Footer";
 import axios from "axios";
 
+import NavBar from "../components/NavBar";
+import SideBar from "../components/SideBar";
+import Footer from "../components/Footer";
+
 const NoticePage = ({ isOpen, setIsOpen }) => {
-  const [notice, setNotice] = useState([]);
+  const [notices, setNotices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  async function fetchData() {
+  const fetchData = async () => {
     try {
-      const response = await axios.get(`/api/user/getnotice`);
-
-      //   console.log(response);
-      //   console.log(response.data.data.message)
-      const n = response.data.data.map((e) => {
-        return e.message;
-      });
-      setNotice(n);
-      //   console.log(n);
-    } catch (err) {
-      console.log(err.message);
+      const response = await axios.get("/api/user/getnotice");
+      setNotices(response.data.data.reverse());
+    } catch (error) {
+      console.error("Error fetching notices:", error.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-100">
       <NavBar />
 
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+    
+      <div className="flex pt-16">
+        {/* Sidebar */}
+        <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div>
-        {notice.map((item, key) => (
-          <div key={key}>{item}</div>
-        ))}
+        {/* Main Content */}
+        <main
+          className={`
+            flex-1 
+            p-4 sm:p-6 
+            transition-all duration-300
+            ${isOpen ? "ml-64" : "ml-15"}
+          `}
+        >
+          <h1 className="text-2xl font-bold mb-4">Notices</h1>
+
+          {loading ? (
+            <p>Loading notices...</p>
+          ) : notices.length === 0 ? (
+            <p>No notices available.</p>
+          ) : (
+            <div className="grid gap-4">
+              {notices.map((notice) => (
+                <div
+                  key={notice._id}
+                  className="bg-white p-4 rounded-lg shadow hover:shadow-md transition"
+                >
+                  <p className="text-lg">{notice.message}</p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {new Date(notice.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
       </div>
 
       <Footer />

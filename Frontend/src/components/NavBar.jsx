@@ -1,4 +1,4 @@
- import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 function NavBar() {
     // Added responsive text sizes and horizontal padding
     const btnClass = "font-bold relative group bg-black text-white border-none rounded-xl px-3 md:px-6 py-2 cursor-pointer hover:bg-white hover:text-black transition-all duration-600 text-xs md:text-base";
@@ -15,9 +15,11 @@ function NavBar() {
                 <button className={btnClass}>
                     <span className="relative">COURSES<span className={underlineClass}></span></span>
                 </button>
-                <button className={btnClass}>
-                    <span className="relative">NOTICE<span className={underlineClass}></span></span>
-                </button>
+                <Link to="/notice">
+                    <button className={btnClass}>
+                        <span className="relative">NOTICE<span className={underlineClass}></span></span>
+                    </button>
+                </Link>
                 <button className={btnClass}>
                     <span className="relative">ABOUT US<span className={underlineClass}></span></span>
                 </button>
@@ -28,7 +30,7 @@ function NavBar() {
                 <button className={btnClass}>
                     <span className="relative">SUBSCRIPTION<span className={underlineClass}></span></span>
                 </button>
-                <Link to ="/signup">
+                <Link to="/signup">
                     <button className={btnClass}>
 
                         <span className="relative">ACCOUNT<span className={underlineClass}></span></span>
