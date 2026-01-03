@@ -4,7 +4,7 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
-import { SiGitbook } from "react-icons/si"; //book icon
+import {BookOpen} from  'lucide-react' //book icon
 
 function SubjectPage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
@@ -30,20 +30,21 @@ function SubjectPage({ isOpen, setIsOpen }) {
   }, []);
 
   return (
-    <div className=" w-full flex flex-col items-center  justify-center ">
+    <div className=" w-full ">
       <NavBar />
 
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
-
-      <div className=" flex mt-30 gap-4 items-center justify-center">
-        <h1 className=" sm:text-xl  md:text-2xl text-gray-600 font-bold">
+       <div className="w-full flex flex-col items-center  justify-center">
+      <div className=" flex mt-[3%] gap-4 items-center justify-center">
+        <h1 className=" sm:text-xl  md:text-2xl text-secondary font-bold">
           Select your subjects
         </h1>
-        <SiGitbook className="md:w-8 md:h-8 sm:w-4 sm:h-4" />
+        <BookOpen className="size-7 text-secondary" />
+       
       </div>
       
       <main
-        className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-gray-300 border-2 border-black flex flex-col gap-6 md:gap-8 items-center
+        className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-base-300   flex flex-col gap-6 md:gap-8 items-center
         ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
       >
         {data.length > 0 ? (
@@ -51,7 +52,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
             <Link
               to="/chapters"
               state={{ examType: examType, subject: item}}
-            className=" border rounded border-black sm:text-sm md:text-xl p-4 w-[90%] hover:bg-black hover:text-white duration-500"
+            className=" border bg-base-100 rounded border-secondary sm:text-sm md:text-xl p-4 w-[90%] hover:bg-black hover:text-white duration-500"
               key={key}
               >
                 <span>{key + 1}.</span>
@@ -64,6 +65,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
       </main>
       <Footer />
     </div>
+       </div>
   );
 }
 

@@ -15,7 +15,7 @@ function SideBar({ isOpen, setIsOpen }) {
       <div className="relative flex items-center h-20 px-4">
         <h2 className={`text-base-content/50 font-black tracking-widest text-xs transition-all duration-300 
           ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"}`}>
-          DASHBOARD
+          MENU
         </h2>
         
         {/* FORCED LARGE HITBOX: btn-md + w-12 h-12 + absolute/right logic */}

@@ -7,7 +7,7 @@ function Footer() {
     >
       <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className="text-sm md:text-base text-base-content/50 font-medium tracking-wide">
+          <p className="text-sm p-3 md:text-base text-base-content/50 font-medium tracking-wide">
             © 2026 | EntrancePrep | All rights reserved.
           </p>
         </div>
@@ -16,7 +16,7 @@ function Footer() {
       {/* Testing Buttons Section */}
       <div className="flex gap-4 pb-4">
         <button 
-          onClick={() => toast.success("congrats")} 
+          onClick={() => toast.success("sucessfull")} 
           className="btn btn-ghost btn-xs text-primary/60 hover:text-primary transition-colors"
         >
           click me

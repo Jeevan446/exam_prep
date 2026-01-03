@@ -3,19 +3,19 @@ import Footer from "./Footer";
 
 function HomeContent({ isOpen }) {
   // Cleaned up DaisyUI button classes
-  const btnClass = "btn btn-secondary btn-wide shadow-lg";
+  const btnClass = "btn btn-secondary shadow-lg";
 
   return (
-    <div className={`transition-all duration-300 min-h-screen flex flex-col
-      ${isOpen ? "pl-48 md:pl-64" : "pl-20"} 
+    <div className={`transition-all duration-300 min-h-screen  flex flex-col
+      ${isOpen ? "pl-14  lg:pl-48 md:pl-20" : "pl-14 md:pl-20"} 
     `}>
       
       {/* Main Content Container */}
-      <main className="flex-grow p-4 md:p-10 mt-16">
-        <div className="max-w-5xl mx-auto space-y-8 bg-base-300 p-6 md:p-12 rounded-xl shadow-2xl border border-base-content/10">
+      <main className="flex-grow p-4 md:p-10  mt-16 ">
+        <div className=" lg:max-w-5xl mx-auto space-y-8 bg-base-300 p-6 md:p-12 rounded-xl shadow-2xl border border-base-content/10">
           
           {/* Row 1: Demo */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors">
+          <div className="p-4 flex flex-col md:flex-row items-center justify-between gap-6 md:p-6 rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors">
             <p className="text-lg text-center md:text-left max-w-lg">
               The <span className="text-secondary font-bold">Demo Mode</span> contains different lists of exam types, subjects, and questions to get you started.
             </p>

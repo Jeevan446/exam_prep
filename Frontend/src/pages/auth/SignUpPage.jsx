@@ -88,9 +88,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-black p-4">
+      <div className="bg-base-300 border border-secondary p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-secondary mb-6">
           Create Account
         </h2>
 
@@ -110,60 +110,60 @@ const SignUpForm = () => {
             <Form className="space-y-5">
               {/* Display submission errors */}
               {errors.submit && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
+                <div className="p-3 bg-red-50 border border-red-200 text-error rounded-md text-sm">
                   {errors.submit}
                 </div>
               )}
 
               {/* Username Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-secondary mb-1">
                   Username
                 </label>
                 <Field
                   type="text"
                   name="username"
 
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.username && touched.username ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.username && touched.username ? 'border-red-500' : 'border-gray-300'
                     }`}
                 />
                 <ErrorMessage
                   name="username"
                   component="p"
-                  className="text-red-500 text-xs mt-1"
+                  className="text-error text-xs mt-1"
                 />
               </div>
 
               {/* Email Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-secondary mb-1">
                   Email Address
                 </label>
                 <Field
                   type="email"
                   name="email"
                   placeholder="example@gmail.com"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 border  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
                     }`}
                 />
                 <ErrorMessage
                   name="email"
                   component="p"
-                  className="text-red-500 text-xs mt-1"
+                  className="text-error text-xs mt-1"
                 />
                 {/* Format text removed from here */}
               </div>
 
               {/* Password Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-secondary mb-1">
                   Password
                 </label>
                 <Field
                   type="password"
                   name="password"
                   placeholder=""
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2 border  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
                     }`}
                 />
                 <ErrorMessage
@@ -178,14 +178,14 @@ const SignUpForm = () => {
 
               {/* Confirm Password Field */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-secondary mb-1">
                   Confirm Password
                 </label>
                 <Field
                   type="password"
                   name="confirmPassword"
                   placeholder="••••••••"
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none transition ${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-2  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
                     }`}
                 />
                 <ErrorMessage
@@ -197,9 +197,8 @@ const SignUpForm = () => {
 
               {/* Submit Button */}
               <button
-                type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white font-bold py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                className="w-full btn btn-secondary font-bold py-2 rounded-md"
               >
                 {isSubmitting ? "Processing..." : "Register"}
               </button>
