@@ -21,7 +21,7 @@ import NoticePage from "./pages/NoticePage";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div data-theme="halloween">
+    <div data-theme="forest">
 
       <Routes>
         <Route

@@ -1,55 +1,49 @@
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
-
 function HomeContent({ isOpen }) {
-    // Reusable button class
-const btnClass = "btn btn-secondary flex text-center item-center p-6 cursor-pointer";
+  // Cleaned up DaisyUI button classes
+  const btnClass = "btn btn-secondary btn-wide shadow-lg";
 
-    return (
-        <div>
-            <div className={`
-                grid grid-cols-1 grid-rows-3 gap-8 
-                
-                mt-20 md:mt-[15vh] p-6 md:p-10
-                mx-4 md:mx-40 
+  return (
+    <div className={`transition-all duration-300 min-h-screen flex flex-col
+      ${isOpen ? "pl-48 md:pl-64" : "pl-20"} 
+    `}>
+      
+      {/* Main Content Container */}
+      <main className="flex-grow p-4 md:p-10 mt-16">
+        <div className="max-w-5xl mx-auto space-y-8 bg-base-300 p-6 md:p-12 rounded-xl shadow-2xl border border-base-content/10">
+          
+          {/* Row 1: Demo */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors">
+            <p className="text-lg text-center md:text-left max-w-lg">
+              The <span className="text-secondary font-bold">Demo Mode</span> contains different lists of exam types, subjects, and questions to get you started.
+            </p>
+            <Link to="/examtype" className={btnClass}>Demo Mode</Link>  
+          </div>
 
-                ml-18
-                
-                 ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-40 duration-300"}
+          {/* Row 2: Practice */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors">
+            <p className="text-lg text-center md:text-left max-w-lg">
+              Access <span className="text-secondary font-bold">Practice Sessions</span> to improve your speed and accuracy with real-time feedback.
+            </p>
+            <Link to="/examtype" className={btnClass}>Practice Mode</Link>
+          </div>
 
-                bg-base-300 border-2 rounded drop-shadow-2xl min-h-screen 
-            `}>
-                
-                {/* Row 1 */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-2 border-base-400 px-18  pb-6">
-                    <p className="sm:text-md md:text-xl border p-12 max-w-md text-wrap">
-                        -The Demo Mode contains different list of exam types, their subjects and questions.
-                    </p>
-                    <Link to = "/examtype"><button className={btnClass}>Demo Mode</button></Link>
-                </div>
+          {/* Row 3: Weekly */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors">
+            <p className="text-lg text-center md:text-left max-w-lg">
+              Review your results and track your progress over time with our <span className="text-secondary font-bold">Weekly Tests</span>.
+            </p>
+            <Link to="/examtype" className={btnClass}>Weekly Test</Link>
+          </div>
 
-                {/* Row 2 */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-2 px-18 pb-6">
-                    <p className="sm:text-md md:text-xl  border p-12 max-w-md">
-                        Access practice sessions to improve your speed and accuracy.
-                    </p>
-                    <Link to = "/examtype"><button className={btnClass}>Practice Mode</button></Link>
-                </div>
-
-                {/* Row 3 */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-2 px-18  pb-6">
-                    <p className="sm:text-md md:text-xl  border p-12 max-w-md">
-                        Review your results and track your progress over time.
-                    </p>
-                    <Link to = "/examtype"><button className={btnClass}>Weekly Test</button></Link>
-                    
-                </div>
-            </div>
-
-            <Footer />
         </div>
-    );
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
 
 export default HomeContent;
