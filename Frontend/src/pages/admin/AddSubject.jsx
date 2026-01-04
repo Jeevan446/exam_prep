@@ -1,44 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddSubject = () => {
-  const [examType, setExamType] = useState(""); 
-  const [subject, setSubject] = useState(""); 
+  const [examTypes, setExamTypes] = useState([]);
+  const [examType, setExamType] = useState("");
+  const [subject, setSubject] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Fetch exam types
+  const fetchExamTypes = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/demomode/getexams");
+      const arr = response.data.examTypes.map((item) => item.name);
+      setExamTypes(arr);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to load exam types.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExamTypes();
+  }, []);
+
+  // Handle adding subject
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!examType || !subject.trim()) {
-      alert("Please select an exam type and enter a subject");
+      toast.error("Please select an exam type and enter a subject");
       return;
     }
+     
 
-    // Example: Send data to API
-    console.log({ examType, subject });
-    setExamType("");
-    setSubject("");
+    try {
+      setSubmitting(true);
+      const response = await axios.post("/api/demomode/addsubject", {
+        examtype: examType,
+        name: subject.trim(),
+        chapters: [],
+      });
+
+      toast.success(response.data.message || "Subject added successfully!");
+      setSubject(""); 
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Failed to add subject");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 px-3">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
-      >
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-3">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Subject</h2>
 
-        {/* Exam Type Select */}
+        {/* Exam Type */}
         <label className="block mb-2 font-medium">Select Exam Type</label>
-        <select
-          value={examType}
-          onChange={(e) => setExamType(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">-- Select Exam Type --</option>
-          <option value="Midterm">Midterm</option>
-          <option value="Final">Final</option>
-          <option value="Quiz">Quiz</option>
-        </select>
+        {loading ? (
+          <div className="w-full p-3 mb-4 text-center">Loading exam types...</div>
+        ) : (
+          <select
+            value={examType}
+            onChange={(e) => setExamType(e.target.value)}
+            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={submitting}
+          >
+            <option value="">-- Select Exam Type --</option>
+            {examTypes.map((type, idx) => (
+              <option key={idx} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        )}
 
-        {/* Subject Name Input */}
+        {/* Subject Input */}
         <label className="block mb-2 font-medium">Subject Name</label>
         <input
           type="text"
@@ -46,15 +89,21 @@ const AddSubject = () => {
           onChange={(e) => setSubject(e.target.value)}
           placeholder="Enter subject name"
           className="w-full p-3 mb-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={submitting || !examType}
         />
 
         <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+          onClick={handleSubmit}
+          disabled={submitting || loading || !examType}
+          className={`w-full text-white p-3 rounded-lg transition ${
+            submitting || loading || !examType
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
         >
-          Add Subject
+          {submitting ? "Adding..." : "Add Subject"}
         </button>
-      </form>
+      </div>
     </div>
   );
 };
