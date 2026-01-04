@@ -4,7 +4,7 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
-import {BookOpen} from  'lucide-react' //book icon
+import { BookOpen } from "lucide-react"; //book icon
 
 function SubjectPage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
@@ -13,9 +13,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
 
   async function fetchData() {
     try {
-      const response = await axios.get(
-        `/api/demomode/${examType}/subjects`
-      );
+      const response = await axios.get(`/api/demomode/${examType}/subjects`);
 
       const names = response.data.subjects.map((item) => item.name);
 
@@ -30,42 +28,43 @@ function SubjectPage({ isOpen, setIsOpen }) {
   }, []);
 
   return (
-    <div className=" w-full ">
+    <div className="w-full flex flex-col ml-auto mr-auto">
       <NavBar />
 
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
-       <div className="w-full flex flex-col items-center  justify-center">
-      <div className=" flex mt-[3%] gap-4 items-center justify-center">
-        <h1 className=" sm:text-xl  md:text-2xl text-secondary font-bold">
-          Select your subjects
-        </h1>
-        <BookOpen className="size-7 text-secondary" />
-       
-      </div>
-      
-      <main
-        className={`mt-[30px]  py-10 transition-all duration-300 w-[80%] ml-16 lg:w-[70%] bg-base-300   flex flex-col gap-6 md:gap-8 items-center
-        ${isOpen ? "lg:ml-50 duration-300" : "lg:ml-20 duration-300"}`}
+
+      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center">
+
+      <div className={` py-10 transition-all duration-300 w-[80%] ml-20 lg:w-[70%] border bg-base-300 border-secondary/20 shadow-2xl rounded-xl 
+        flex flex-col gap-6 md:gap-8 items-center
+        ${isOpen ? "lg:ml-80 duration-300" : "lg:ml-20 duration-300"}`}
       >
-        {data.length > 0 ? (
-          data.map((item, key) => (
-            <Link
-              to="/chapters"
-              state={{ examType: examType, subject: item}}
-            className=" border bg-base-100 rounded border-secondary sm:text-sm md:text-xl p-4 w-[90%] hover:bg-black hover:text-white duration-500"
-              key={key}
-              >
-                <span>{key + 1}.</span>
-                <span className="ml-2">{item}</span>
-            </Link>
-          ))
-        ) : (
-          <h1>Sorry no subject found</h1>
-        )}
-      </main>
-      <Footer />
-    </div>
-       </div>
+            <div className="flex gap-4 items-center justify-center">
+              <h1 className="sm:text-xl  md:text-2xl lg:text-3xl text-primary font-bold">
+                Select your subject
+              </h1>
+              <BookOpen className="size-7 text-secondary" />
+            </div>
+
+            {data.length > 0 ? (
+              data.map((item, key) => (
+                <Link
+                to="/chapters"
+                state={{ examType: examType, subject: item }}
+                className="border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] hover:text-secondary"
+                key={key}
+                >
+                  <span className="text-secondary">{key + 1}.</span>
+                  <span className="ml-2">{item}</span>
+                </Link>
+              ))
+            ) : (
+              <h1>Sorry no subject found</h1>
+            )}
+          </div>
+        </div>
+        <Footer />
+      </div>
   );
 }
 
