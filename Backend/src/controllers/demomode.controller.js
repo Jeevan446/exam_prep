@@ -105,21 +105,44 @@ console.log("Error at getquestions function")
 }
 
 // add chapters
+async function addChapters(req, res) {
+  try {
+    const { examtype, subject, chapters } = req.body;
 
-async function addChapter(req,res){
-  try{
-    const {examtype,subject,name}=req.body;
-
-    const chapterfound=await chapterModel.findOne({examtype:examtype,subject:subject,name:name})
-    if(chapterfound){
-      return res.status(409).json({message:"Sorry chapter already exists"})
+    if (!examtype || !subject || !Array.isArray(chapters) || chapters.length === 0) {
+      return res.status(400).json({ message: "Please provide examtype, subject, and at least one chapter" });
     }
-    chapterModel.create({examtype:examtype,subject:subject,name:name})
-    return res.status(200).json({message:"chapter created sucessfully"})
-  }catch(err){
-    console.log("Error from addchapter function")
+
+    // Filter out chapters that already exist
+    const existingChapters = await chapterModel.find({
+      examtype,
+      subject,
+      name: { $in: chapters }
+    }).select("name");
+
+    const existingNames = existingChapters.map(ch => ch.name);
+
+    const newChapters = chapters
+      .filter(ch => !existingNames.includes(ch))
+      .map(ch => ({ examtype, subject, name: ch }));
+
+    if (newChapters.length === 0) {
+      return res.status(409).json({ message: "All chapters already exist" });
+    }
+
+    // Use chapterModel here
+    await chapterModel.insertMany(newChapters);
+
+    res.status(200).json({ 
+      message: "Chapters added successfully", 
+      added: newChapters.map(c => c.name) 
+    });
+  } catch (err) {
+    console.error("Error from addChapters function:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
+
 
 // get chapters
 
@@ -137,4 +160,4 @@ else{
   console.log("Error from showchapter function")
 }
 }
-module.exports = { getQuestions,getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapter,getChapters};
+module.exports = { getQuestions,getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapters,getChapters};
