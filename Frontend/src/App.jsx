@@ -15,6 +15,7 @@ import AddSubject from "./pages/admin/AddSubject";
 import AddChapterPage from "./pages/admin/AddChapterPage";
 import EditQuestionPage from "./pages/admin/EditQuestionPage";
 import NoticePage from "./pages/NoticePage";
+import AddExamType from "./pages/admin/AddExamType";
 
 //check
 
@@ -69,6 +70,10 @@ function App() {
         <Route
           path="/notice"
           element={<NoticePage isOpen={isOpen} setIsOpen={setIsOpen} />}
+        />
+        <Route
+          path="/admin/addexamtype"
+          element={<AddExamType isOpen={isOpen} setIsOpen={setIsOpen} />}
         />
       </Routes>
     </div>
