@@ -56,13 +56,13 @@ export default function MCQQuiz() {
   const score = calculateScore();
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
+    <div className="min-h-screen p-6">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+        <div className="bg-base-300 rounded-lg shadow-2xl p-8 border border-secondary/20">
+          <h1 className="text-3xl font-bold text-secondary mb-2 text-center">
             Multiple Choice Question
           </h1>
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-ghost text-center mb-6">
             Select an answer to see if it's correct
           </p>
 
@@ -92,14 +92,14 @@ export default function MCQQuiz() {
               return (
                 <div
                   key={q._id}
-                  className="border-2 border-gray-200 rounded-lg p-5 bg-gray-50"
+                  className="border-2 border-secondary/40 rounded-lg p-5 bg-base-100"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center">
-                      <span className="text-lg font-semibold text-indigo-600 mr-3">
+                      <span className="text-lg font-semibold text-secondary mr-3">
                         Q{qIndex + 1}.
                       </span>
-                      <p className="text-lg text-gray-800 font-medium flex-1">
+                      <p className="text-lg text-ghost font-medium flex-1">
                         {q.name}
                       </p>
                     </div>
@@ -155,14 +155,14 @@ export default function MCQQuiz() {
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleReset}
-              className="px-8 py-3 rounded-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-all flex items-center gap-2"
+              className="btn btn-secondary px-8 py-3 rounded-lg font-semibold flex items-center gap-2"
             >
               <RotateCcw size={20} />
               Retake Quiz
             </button>
           </div>
 
-          <p className="text-center text-sm text-gray-500 mt-4">
+          <p className="text-center text-sm text-ghost mt-4">
             Answered: {Object.keys(userAnswers).length} / {quizQuestions.length}
           </p>
         </div>
