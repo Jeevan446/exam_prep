@@ -9,7 +9,7 @@ function NavBar() {
 
                 <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold text-primary font-mono tracking-tighter">
-                        Logo
+                        EntrixNP
                     </h1>
                     <div className=" flex items-center gap-4">
                         <Link to="" className="hidden lg:flex items-center gap-2 btn btn-primary ">
