@@ -7,7 +7,7 @@ const demomodeRouter = require("./src/routers/demomode.router");
 const userRouter = require("./src/routers/user.router");
 const noticeRouter = require("./src/routers/notice.router");
 
-//connection to db
+//connection to database
 db();
 
 app.use(cors());
