@@ -11,7 +11,7 @@ function HomeContent({ isOpen }) {
     `}>
       
       {/* Main Content Container */}
-      <main className="flex-grow p-4 md:p-10  mt-16 ">
+      <main className="flex-grow mt-4  md:p-10 md:mt-10 ">
         <div className=" lg:max-w-5xl mx-auto space-y-8 bg-base-300 p-6 md:p-12 rounded-xl shadow-2xl border border-base-content/10">
           
           {/* Row 1: Demo */}
