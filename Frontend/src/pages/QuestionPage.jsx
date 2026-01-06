@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { RotateCcw } from 'lucide-react';
 import axios from 'axios';
-import { Link, useLocation } from "react-router-dom";
-export default function MCQQuiz() {
+import { useLocation } from "react-router-dom";
+import NavBar from '../components/NavBar';
+import SideBar from '../components/SideBar';
+import { motion, AnimatePresence, easeOut } from "framer-motion";
+
+export default function MCQQuiz({ isOpen, setIsOpen }) {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // Fetch questions from API
   const location = useLocation();
+
   async function fetchData() {
-    try{
+    if (!location.state) {
+      console.error("No navigation state found");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { examType, subject, chapter } = location.state;
       const response = await axios.get(
-        `/api/demomode/${location.state.examType}/${location.state.subject}/${location.state.chapter}/questions`
+        `/api/demomode/${examType}/${subject}/${chapter}/questions`
       );
-      setQuizQuestions(response.data.message);
+      setQuizQuestions(response.data.message || []);
     } catch (err) {
-      console.log(err.message);
+      console.error("Fetch Error:", err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -23,40 +37,68 @@ export default function MCQQuiz() {
     fetchData();
   }, []);
 
-  // Handle answer selection
+
+
   const handleAnswerSelect = (questionId, selectedOption) => {
     if (!userAnswers[questionId]) {
-      setUserAnswers({
-        ...userAnswers,
+      setUserAnswers(prev => ({
+        ...prev,
         [questionId]: selectedOption
-      });
+      }));
     }
   };
 
-  // Reset quiz
   const handleReset = () => {
     setUserAnswers({});
+    handleScroll();
   };
 
-  // Calculate score
+  const handleScroll = () => {
+    window.scrollTo({
+      top: 0,       // scroll to the very top
+      behavior: 'smooth' // smooth scrolling
+    });
+  }
+
+
+
   const calculateScore = () => {
     let correct = 0;
     quizQuestions.forEach(q => {
       if (userAnswers[q._id] === q.answer) {
-        correct += q.marks; // Add marks for correct answer
+        correct += q.marks;
       }
     });
     return correct;
   };
 
-  // Total marks
-  const totalMarks = quizQuestions.reduce((acc, q) => acc + q.marks, 0);
 
-  const allAnswered = Object.keys(userAnswers).length === quizQuestions.length;
+
+  const totalMarks = quizQuestions.reduce((acc, q) => acc + (q.marks || 0), 0);
+  const answeredCount = Object.keys(userAnswers).length;
+  const allAnswered = quizQuestions.length > 0 && answeredCount === quizQuestions.length;
+
+  // if all answerd is ture then run 
+  useEffect(() => {
+    if (allAnswered) {
+      const popup = document.getElementById("final-score-popup");
+      if (popup) {
+        popup.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [allAnswered]);
+
+
   const score = calculateScore();
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-xl">Loading Quiz...</div>;
+  }
+
   return (
-    <div className="min-h-screen p-6">
+    <div className="w-full flex flex-col ml-auto mr-auto">
+      <NavBar />
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="max-w-3xl mx-auto">
         <div className="bg-base-300 rounded-lg shadow-2xl p-8 border border-secondary/20">
           <h1 className="text-3xl font-bold text-secondary mb-2 text-center">
@@ -65,24 +107,6 @@ export default function MCQQuiz() {
           <p className="text-ghost text-center mb-6">
             Select an answer to see if it's correct
           </p>
-
-          {allAnswered && (
-            <div className="mb-6 p-4 bg-indigo-50 rounded-lg border-2 border-indigo-200">
-              <h2 className="text-xl font-semibold text-indigo-900 mb-2">
-                Final Score
-              </h2>
-              <p className="text-lg text-indigo-700">
-                You scored {score} out of {totalMarks}
-              </p>
-              <p className="text-sm text-indigo-600 mt-1">
-                {score === totalMarks
-                  ? "Perfect score! 🎉"
-                  : score >= totalMarks * 0.7
-                  ? "Great job! 👏"
-                  : "Keep practicing! 💪"}
-              </p>
-            </div>
-          )}
 
           <div className="space-y-6">
             {quizQuestions.map((q, qIndex) => {
@@ -113,19 +137,19 @@ export default function MCQQuiz() {
                       const isSelected = userAnswer === option;
                       const isCorrectOption = option === q.answer;
 
-                      let bgColor = 'bg-white hover:bg-gray-100';
-                      let borderColor = 'border-gray-300';
-                      let textColor = 'text-gray-700';
+                      let bgColor = 'bg-base-100 hover:bg-base-100';
+                      let borderColor = 'border-secondary/20  hover:border-secondary/50 transition-colors';
+                      let textColor = 'text-ghost';
 
                       if (hasAnswered) {
                         if (isCorrectOption) {
-                          bgColor = 'bg-green-100';
+                          bgColor = 'bg-success';
                           borderColor = 'border-green-300';
-                          textColor = 'text-green-900';
+                          textColor = 'text-white';
                         } else if (isSelected && !isCorrectOption) {
-                          bgColor = 'bg-red-100';
+                          bgColor = 'bg-error';
                           borderColor = 'border-red-500';
-                          textColor = 'text-red-900';
+                          textColor = 'text-white';
                         }
                       } else if (isSelected) {
                         bgColor = 'bg-indigo-100';
@@ -136,8 +160,9 @@ export default function MCQQuiz() {
                       return (
                         <button
                           key={optIndex}
+                          disabled={hasAnswered}
                           onClick={() => handleAnswerSelect(q._id, option)}
-                          className={`w-full text-left p-3 border-2 rounded-lg transition-all ${bgColor} ${borderColor} ${textColor} cursor-pointer`}
+                          className={`w-full text-left p-3 border-2 rounded-lg transition-all ${bgColor} ${borderColor} ${textColor} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'}`}
                         >
                           <span className="font-medium mr-2">
                             {String.fromCharCode(65 + optIndex)}.
@@ -152,6 +177,34 @@ export default function MCQQuiz() {
             })}
           </div>
 
+          {/* result pop up message when all answer attemped */}
+          <AnimatePresence>
+
+            {allAnswered && (
+              <motion.div id="final-score-popup"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit ={{opacity:0,scale:0.5}}
+                transition={{ duration: 0.5 ,ease:"easeOut"}}
+
+                className="mb-6 mt-[3%] p-4 bg-base-100 rounded-lg border-2 border-secondary/50">
+                <h2 className="text-xl font-semibold text-secondary mb-2">
+                  Final Score
+                </h2>
+                <p className="text-lg text-ghost">
+                  You scored <span className='text-secondary font-bold'>{score}</span> out of <span className='text-secondary font-bold'>{totalMarks}</span>
+                </p>
+                <p className="text-sm text-secondary mt-1">
+                  {score === totalMarks
+                    ? "Perfect score! "
+                    : score >= totalMarks * 0.7
+                      ? "Great job! "
+                      : "Keep practicing!"}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleReset}
@@ -163,7 +216,7 @@ export default function MCQQuiz() {
           </div>
 
           <p className="text-center text-sm text-ghost mt-4">
-            Answered: {Object.keys(userAnswers).length} / {quizQuestions.length}
+            Answered: {answeredCount} / {quizQuestions.length}
           </p>
         </div>
       </div>

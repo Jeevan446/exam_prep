@@ -1,14 +1,14 @@
 import React from 'react';
-import Navbar from '../../components/NavBar';
+import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import SideBar from '../../components/SideBar';
 
 const AdminPage = ( { isOpen, setIsOpen} ) => {
     return (
-        <div className="flex flex-col min-h-screen w-full items-center justify-center ">
+        <div className="flex flex-col min-h-screen ">
 
             {/* Navbar */}
-            <Navbar />
+            <NavBar />
 
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 

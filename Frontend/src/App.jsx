@@ -45,7 +45,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/examtype/chapter/questionpage"
-          element={<QuestionPage />}
+          element={<QuestionPage isOpen={isOpen} setIsOpen={setIsOpen} />}
         />
         <Route
           path="/admin"
