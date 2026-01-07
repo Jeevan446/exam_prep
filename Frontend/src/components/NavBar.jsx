@@ -5,10 +5,10 @@ import {Megaphone, Users, CreditCard, CircleUserRound, GraduationCap} from "luci
 function NavBar() {
     return (
         <header className="bg-base-300 border-b border-base-content/20 sticky top-0 z-20">
-            <div className="mx-auto max-w-7xl p-3">
+            <div className="p-3 mx-auto max-w-7xl">
 
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold text-primary font-mono tracking-tighter">
+                    <h1 className="text-xl font-bold text-primary font-mono tracking-tighter md:text-3xl">
                         EntrixNP
                     </h1>
                     <div className=" flex items-center gap-4">
@@ -27,14 +27,14 @@ function NavBar() {
                             <Users className="size-5" />
                         </Link>
 
-                        <Link to="" className="flex items-center gap-2 btn btn-primary">
-                            <span className="hidden md:block">SUBSCRIPTION</span>
-                            <CreditCard className="size-5"/>
+                        <Link to="" className="flex items-center gap-2 md:btn btn-primary">
+                            <span className="hidden md:block md:text-base-100">SUBSCRIPTION</span>
+                            <CreditCard className="size-8 text-primary md:size-5 md:text-base-100 "/>
                         </Link>
 
-                        <Link to="/signup" className="flex items-center gap-2 btn btn-primary">
-                            <span className="hidden md:block">ACCOUNT</span>
-                            <CircleUserRound className="size-5"/>
+                        <Link to="/signup" className="flex items-center gap-2 md:btn btn-primary ">
+                            <span className="hidden md:block md:text-base-100">ACCOUNT</span>
+                            <CircleUserRound className="size-8 text-primary md:size-5 md:text-base-100 "/>
                         </Link>
                     </div>
                 </div>

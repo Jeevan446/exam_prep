@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, PanelLeftClose, House, BookOpen, Megaphone, UsersRound } from "lucide-react";
 
@@ -7,14 +8,14 @@ function SideBar({ isOpen, setIsOpen }) {
 
   return (
     <aside 
-      className={`bg-base-200 border-r border-base-content/10 fixed top-16 left-0 z-10 transition-all duration-300 ease-in-out
+      className={` fixed -left-5 bg-base-200 border-r border-base-content/10 top-[7vh]  md:top-16 md:left-0 z-10 transition-all duration-300 ease-in-out
         ${isOpen ? "w-48 md:w-64" : "w-20"} 
         h-[calc(100vh-64px)]`}
     >
       {/* Header Section - Simplified layout to prevent hit-box shifting */}
       <div className="relative flex items-center h-20 px-4">
         <h2 className={`text-base-content/50 font-black tracking-widest text-xs transition-all duration-300 
-          ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"}`}>
+          ${isOpen ? "opacity-100 translate-x-4" : "opacity-0 -translate-x-4 pointer-events-none"}`}>
           MENU
         </h2>
         
@@ -31,7 +32,7 @@ function SideBar({ isOpen, setIsOpen }) {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex flex-col gap-2 px-3">
+      <div className="flex flex-col  gap-2 px-3">
         <Link to="/" className={linkStyle}>
           <House size={22} className="shrink-0 text-primary group-hover:scale-110 transition-transform" />
           <span className={`whitespace-nowrap transition-all duration-300 ease-in-out 
