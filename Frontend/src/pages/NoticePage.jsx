@@ -39,7 +39,7 @@ const NoticePage = ({ isOpen, setIsOpen }) => {
           md:pt-17
           px-4 sm:px-6 lg:px-8
           transition-all duration-300
-          ${isOpen ? "lg:ml-64" : "lg:ml-20"} ml-12
+          ${isOpen ? "lg:ml-64" : "lg:ml-20"}
         `}
       >
         <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center text-secondary">

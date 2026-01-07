@@ -1,71 +1,67 @@
-
 import { Link } from "react-router-dom";
-import { Menu, PanelLeftClose, House, BookOpen, Megaphone, UsersRound } from "lucide-react";
+import {
+  House,
+  BookOpen,
+  Megaphone,
+  UsersRound,
+  PanelLeftClose
+} from "lucide-react";
+import { useSidebar } from "../context/sidebarContext";
 
-function SideBar({ isOpen, setIsOpen }) {
-  const linkStyle = `btn btn-ghost flex items-center justify-start gap-4 px-4 w-full border-none font-medium 
-    hover:bg-primary/10 hover:text-primary transition-all duration-300 group overflow-hidden`;
+function SideBar() {
+  const { isOpen, closeSidebar } = useSidebar();
+
+  const linkStyle =
+    "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
 
   return (
-    <aside 
-      className={` fixed -left-5 bg-base-200 border-r border-base-content/10 top-[7vh]  md:top-16 md:left-0 z-10 transition-all duration-300 ease-in-out
-        ${isOpen ? "w-48 md:w-64" : "w-20"} 
-        h-[calc(100vh-64px)]`}
-    >
-      {/* Header Section - Simplified layout to prevent hit-box shifting */}
-      <div className="relative flex items-center h-20 px-4">
-        <h2 className={`text-base-content/50 font-black tracking-widest text-xs transition-all duration-300 
-          ${isOpen ? "opacity-100 translate-x-4" : "opacity-0 -translate-x-4 pointer-events-none"}`}>
-          MENU
-        </h2>
-        
-        {/* FORCED LARGE HITBOX: btn-md + w-12 h-12 + absolute/right logic */}
-        <button
-          className={`btn btn-ghost btn-circle btn-md text-primary absolute transition-all duration-300
-            ${isOpen ? "right-4" : "left-1/2 -translate-x-1/2"} 
-            w-14 h-14 min-h-0`} // Forced large dimensions
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Sidebar"
-        >
-          {isOpen ? <PanelLeftClose size={20} /> : <Menu size={28} />}
-        </button>
-      </div>
+    <>
+      {/* OVERLAY */}
+      {isOpen && (
+        <div
+          onClick={closeSidebar}
+          className="fixed inset-0 bg-black/60 z-40"
+        />
+      )}
 
-      {/* Navigation Links */}
-      <div className="flex flex-col  gap-2 px-3">
-        <Link to="/" className={linkStyle}>
-          <House size={22} className="shrink-0 text-primary group-hover:scale-110 transition-transform" />
-          <span className={`whitespace-nowrap transition-all duration-300 ease-in-out 
-            ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 pointer-events-none"}`}>
-            Home
-          </span>
-        </Link>
+      {/* SIDEBAR */}
+      <aside
+        onClick={(e) => e.stopPropagation()}
+        className={`fixed top-0 left-0 h-screen w-64 
+          bg-base-200 border-r border-base-content/10
+          transition-transform duration-300
+          z-50
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className=" relative p-4 pt-10 flex flex-col gap-2">
+          <div className=" flex justify-between items-center p-7">
+            <span className="font-bold text-xl font-mono text-ghost uppercase tracking-tight">Menu</span>
+           <button onClick={closeSidebar}><PanelLeftClose /></button>
+          </div>
 
-        <Link to="/courses" className={linkStyle}>
-          <BookOpen size={22} className="shrink-0 text-primary group-hover:scale-110 transition-transform" />
-          <span className={`whitespace-nowrap transition-all duration-300 ease-in-out 
-            ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 pointer-events-none"}`}>
-            Courses
-          </span>
-        </Link>
+          <Link to="/" className={linkStyle} onClick={closeSidebar}>
+            <House size={20} />
+            <span>Home</span>
+          </Link>
 
-        <Link to="/notice" className={linkStyle}>
-          <Megaphone size={22} className="shrink-0 text-primary group-hover:scale-110 transition-transform" />
-          <span className={`whitespace-nowrap transition-all duration-300 ease-in-out 
-            ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 pointer-events-none"}`}>
-            Notice
-          </span>
-        </Link>
+          <Link to="/courses" className={linkStyle} onClick={closeSidebar}>
+            <BookOpen size={20} />
+            <span>Courses</span>
+          </Link>
 
-        <Link to="/about" className={linkStyle}>
-          <UsersRound size={22} className="shrink-0 text-primary group-hover:scale-110 transition-transform" />
-          <span className={`whitespace-nowrap transition-all duration-300 ease-in-out 
-            ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10 pointer-events-none"}`}>
-            About Us
-          </span>
-        </Link>
-      </div>
-    </aside>
+          <Link to="/notice" className={linkStyle} onClick={closeSidebar}>
+            <Megaphone size={20} />
+            <span>Notice</span>
+          </Link>
+
+          <Link to="/about" className={linkStyle} onClick={closeSidebar}>
+            <UsersRound size={20} />
+            <span>About Us</span>
+          </Link>
+        </div>
+      </aside>
+    </>
   );
 }
 
