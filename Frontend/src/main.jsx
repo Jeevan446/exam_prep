@@ -4,15 +4,18 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import { Toaster } from "react-hot-toast"
+import { SidebarProvider } from "./context/SidebarContext.jsx";
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <StrictMode>
-      <App />
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-      />
+      <SidebarProvider>
+        <App />
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+        />
+      </SidebarProvider>
 
     </StrictMode>
   </BrowserRouter>,
