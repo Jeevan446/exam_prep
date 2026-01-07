@@ -1,4 +1,5 @@
-import React from "react";
+import { Link } from "react-router-dom";
+
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import SideBar from "../../components/SideBar";
@@ -40,22 +41,21 @@ const AdminPage = ({ isOpen, setIsOpen }) => {
 
         {/* Buttons Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-          <button className="btn btn-info">Add questions</button>
-          <button className="btn btn-info">
-            Add questions for live
-          </button>
-          <button className="btn btn-info">
-            Add roles to users
-          </button>
-          <button className="btn btn-info">
-            Add roles to users
-          </button>
-          <button className="btn btn-info">
-            Add roles to users
-          </button>
-          <button className="btn btn-info">
-            Add roles to users
-          </button>
+          <Link to="/admin/addquestion" className="btn btn-info">
+            <button >Add question</button>
+          </Link>
+          <Link to="/admin/addchapters" className="btn btn-info">
+            <button>Add chapters</button>
+          </Link>
+          <Link to="/admin/addexamtype" className="btn btn-info">
+            <button>Add examtype</button>
+          </Link>
+          <Link to="/admin/addsubjects" className="btn btn-info">
+            <button>Add subjects</button>
+          </Link>   
+          <Link to="" className="btn btn-info">
+            <button>Promote User</button>
+          </Link>                   
         </div>
       </main>
 

@@ -57,22 +57,22 @@ const AddSubject = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-3">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Add New Subject</h2>
+    <div className="flex justify-center items-center min-h-screen px-3">
+      <div className="bg-base-300 p-8 rounded-lg border border-secondary shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-secondary text-center">Add New Subject</h2>
 
         {/* Exam Type */}
-        <label className="block mb-2 font-medium">Select Exam Type</label>
+        <label className="block mb-2 text-secondary font-medium">Select Exam Type</label>
         {loading ? (
-          <div className="w-full p-3 mb-4 text-center">Loading exam types...</div>
+          <div className="w-full p-3 mb-4 text-secondary text-center">Loading exam types...</div>
         ) : (
           <select
             value={examType}
             onChange={(e) => setExamType(e.target.value)}
-            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 mb-4 border border-secondary rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
             disabled={submitting}
           >
-            <option value="">-- Select Exam Type --</option>
+            <option value="" className="text-info">-- Select Exam Type --</option>
             {examTypes.map((type, idx) => (
               <option key={idx} value={type}>
                 {type}
@@ -82,24 +82,20 @@ const AddSubject = () => {
         )}
 
         {/* Subject Input */}
-        <label className="block mb-2 font-medium">Subject Name</label>
+        <label className="block mb-2 text-secondary font-medium">Subject Name</label>
         <input
           type="text"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           placeholder="Enter subject name"
-          className="w-full p-3 mb-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-6 border rounded-lg border-secondary outline-none focus:ring-2 focus:ring-blue-500"
           disabled={submitting || !examType}
         />
 
         <button
           onClick={handleSubmit}
           disabled={submitting || loading || !examType}
-          className={`w-full text-white p-3 rounded-lg transition ${
-            submitting || loading || !examType
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`btn w-full btn-secondary p-3 rounded-lg transition `}
         >
           {submitting ? "Adding..." : "Add Subject"}
         </button>

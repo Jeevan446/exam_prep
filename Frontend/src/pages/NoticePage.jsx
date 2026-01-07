@@ -4,10 +4,13 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
+import { useSidebar } from "../context/sidebarContext";
 
-const NoticePage = ({ isOpen, setIsOpen }) => {
+
+const NoticePage = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isOpen } = useSidebar();
 
   const fetchData = async () => {
     try {
@@ -30,7 +33,7 @@ const NoticePage = ({ isOpen, setIsOpen }) => {
       <NavBar />
 
       {/* Sidebar (FIXED) */}
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <SideBar  />
 
       {/* Main Content */}
       <main
