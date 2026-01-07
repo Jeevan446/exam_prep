@@ -46,7 +46,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
             </div>
 
             {data.map((item, key) => (
-              <div key={key} className=" border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-sm md:text-xl lg:text-2xl justify-center p-4 w-[90%]">
+              <div key={key} className=" flex flex-col gap-2 border-secondary rounded-lg bg-base-100  border border-secondary/20 hover:border-secondary/50 transition-colors text-sm md:text-xl lg:text-xl justify-center p-4 w-[90%]">
                 <div>
 
                   <div className="flex-1 font-bold underline text-secondary">

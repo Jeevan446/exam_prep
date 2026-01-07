@@ -206,8 +206,8 @@ const AddQuestionForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New Question</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-base-100 border border-secondary shadow-md rounded-lg mt-7 scale-95">
+      <h2 className="text-2xl font-bold mb-6 text-secondary">Add New Question</h2>
 
       <Formik
         initialValues={initialValues}
@@ -218,7 +218,7 @@ const AddQuestionForm = () => {
           <Form className="flex flex-col gap-4">
             {/* Exam Type */}
             <div>
-              <label className="block font-medium mb-1 text-gray-700">Exam Type *</label>
+              <label className="block font-medium mb-1 text-ghost">Exam Type *</label>
               <Field 
                 as="select" 
                 name="examtype" 
@@ -231,13 +231,13 @@ const AddQuestionForm = () => {
                   <option key={index} value={item}>{item}</option>
                 ))}
               </Field>
-              {loadingExamType && <p className="text-blue-500 text-sm mt-1">Loading exam types...</p>}
+              {loadingExamType && <p className="text-secondary text-sm mt-1">Loading exam types...</p>}
               <ErrorMessage name="examtype" component="p" className="text-red-500 text-sm mt-1" />
             </div>
 
             {/* Subject */}
             <div>
-              <label className="block font-medium mb-1 text-gray-700">Subject *</label>
+              <label className="block font-medium mb-1 text-ghost">Subject *</label>
               <Field 
                 as="select" 
                 name="subject" 
