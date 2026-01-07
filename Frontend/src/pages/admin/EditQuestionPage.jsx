@@ -12,14 +12,14 @@ const EditQuestionPage = () => {
     { id: 4, text: "This is question 4" },
     { id: 5, text: "This is question 5" },
   ]);
-  const [loading ,setLoading] =useState(true);
+  const [loading ,setLoading] =useState(false);
 
   // ===================Data Fetch=====================
 
   // const fetchQuestions = async () => {
   //   try {
   //     setLoading(true);
-  //     const response = await axios.get("http://localhost3000/api/demomode/"); 
+  //     const response = await axios.get("/api/demomode/"); 
   //     setQuestions(response.data);
   //     setLoading(false);
   //   } catch (error) {

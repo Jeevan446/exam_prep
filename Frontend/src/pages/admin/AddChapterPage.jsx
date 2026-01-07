@@ -137,25 +137,25 @@ const AddSubjectWithChapters = () => {
 
   /* -------------------- UI -------------------- */
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gray-100 px-3 py-10">
+    <div className="flex justify-center items-start min-h-screen px-3 py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-lg"
+        className="bg-base-300 p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-lg border border-secondary"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">
+        <h2 className="text-2xl font-bold mb-6 text-center text-secondary">
           Add Subject & Chapters
         </h2>
 
         {/* -------- EXAM TYPE -------- */}
-        <label className="block mb-2 font-medium">Select Exam Type</label>
+        <label className="block mb-2 font-medium text-secondary">Select Exam Type</label>
         <select
           value={examType}
           onChange={(e) => setExamType(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">-- Select Exam Type --</option>
+          <option value="" className="text-info">-- Select Exam Type --</option>
           {loadingExamType ? (
-            <option disabled>Loading...</option>
+            <option disabled className="text-secondary">Loading...</option>
           ) : (
             examTypes.map((type, idx) => (
               <option key={idx} value={type}>
@@ -166,14 +166,14 @@ const AddSubjectWithChapters = () => {
         </select>
 
         {/* -------- SUBJECT SELECTION -------- */}
-        <label className="block mb-2 font-medium">Select Subject</label>
+        <label className="block mb-2 font-medium text-secondary">Select Subject</label>
         <select
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border border-secondary rounded-lg focus:ring-2 focus:ring-blue-500"
           disabled={!examType || loadingSubjects}
         >
-          <option value="">-- Select or enter new subject --</option>
+          <option value="" className="text-info">-- Select or enter new subject --</option>
           {loadingSubjects ? (
             <option disabled>Loading subjects...</option>
           ) : (
@@ -186,21 +186,21 @@ const AddSubjectWithChapters = () => {
         </select>
 
         {/* -------- ADD CHAPTER -------- */}
-        <label className="block mb-2 font-medium">Add Chapters</label>
+        <label className="block mb-2 font-medium text-secondary">Add Chapters</label>
         <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             type="text"
             value={chapterInput}
             onChange={(e) => setChapterInput(e.target.value)}
             placeholder="Enter chapter name"
-            className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="flex-1 p-3 border rounded-lg border-secondary outline-none focus:ring-2 focus:ring-blue-500"
             disabled={!subject || submitting}
           />
           <button
             type="button"
             onClick={handleAddChapter}
             disabled={!chapterInput.trim() || submitting}
-            className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+            className="btn btn-secondary"
           >
             Add
           </button>
@@ -209,24 +209,24 @@ const AddSubjectWithChapters = () => {
         {/* -------- CHAPTER LIST -------- */}
         {chapters.length > 0 && (
           <div className="mb-4">
-            <h3 className="font-medium mb-2">Chapters Added</h3>
-            <ul className="border rounded-lg p-3 space-y-2 max-h-64 overflow-y-auto">
+            <h3 className="font-medium text-secondary mb-2">Chapters Added</h3>
+            <ul className="border border-secondary rounded-lg p-3 space-y-2 max-h-64 overflow-y-auto">
               {chapters.map((c, index) => (
                 <li
                   key={index}
-                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 p-2 rounded"
+                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-base-100 p-2 rounded"
                 >
                   {editingIndex === index ? (
                     <div className="flex gap-2 w-full">
                       <input
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
-                        className="flex-1 border p-2 rounded"
-                      />
+                        className="text-ghost flex-1 border border-secondary p-2 rounded"
+                      />  
                       <button
                         type="button"
                         onClick={() => handleSaveChapter(index)}
-                        className="text-green-600"
+                        className="text-green-600"  
                       >
                         <FaCheck />
                       </button>
@@ -269,7 +269,7 @@ const AddSubjectWithChapters = () => {
         <button
           type="submit"
           disabled={submitting}
-          className={`w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 ${
+          className={`w-full btn btn-secondary ${
             submitting ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
