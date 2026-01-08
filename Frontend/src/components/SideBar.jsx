@@ -6,18 +6,37 @@ import {
   UsersRound,
   PanelLeftClose,
   CircleUserRound,
-  LogOut
+  LogOut,
+  ChevronDown,
+  ChevronUp,
+  LogIn,
 } from "lucide-react";
 import { useSidebar } from "../context/sidebarContext";
-import {useUser} from '../context/userContext';
+import { useUser } from "../context/userContext";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function SideBar() {
   const { isOpen, closeSidebar } = useSidebar();
-  const {logout} =useUser();
+  const { logout, user, login } = useUser();
+  const [isDroppedDown, setIsDroppedDown] = useState(false);
 
   const linkStyle =
     "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
 
+  useEffect(() => {
+    console.log(isDroppedDown);
+  }, [isDroppedDown]);
+
+  const toggleDropDown = () => {
+    setIsDroppedDown((prev) => !prev);
+  };
+
+  // const handleOnClick = () => {
+  //   // closeSidebar();
+  //   toggleDropDown();
+  //
+  // }
   return (
     <>
       {/* OVERLAY */}
@@ -40,8 +59,12 @@ function SideBar() {
       >
         <div className=" relative p-4 pt-10 flex flex-col gap-2">
           <div className=" flex justify-between items-center p-7">
-            <span className="font-bold text-xl font-mono text-ghost uppercase tracking-tight">Menu</span>
-            <button onClick={closeSidebar}><PanelLeftClose /></button>
+            <span className="font-bold text-xl font-mono text-ghost uppercase tracking-tight">
+              Menu
+            </span>
+            <button onClick={closeSidebar}>
+              <PanelLeftClose />
+            </button>
           </div>
 
           <Link to="/" className={linkStyle} onClick={closeSidebar}>
@@ -63,22 +86,61 @@ function SideBar() {
             <UsersRound size={20} />
             <span>About Us</span>
           </Link>
+
+          <div
+            to=""
+            className={"flex flex-col gap-1 w-full  text-primary "}
+            onClick={toggleDropDown}
+          >
+            <div className="flex gap-10 hover:bg-[#393434] rounded-full p-3">
+              <div className="flex gap-3 items-center">
+                <CircleUserRound />
+                <span className="font-bold">Account</span>
+              </div>
+              {isDroppedDown ? <ChevronUp /> : <ChevronDown />}
+            </div>
+
+            <AnimatePresence>
+              {isDroppedDown && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  {user ? (
+                    <Link
+                      to="/"
+                      className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
+                      onClick={logout}
+                    >
+                      <span className="tracking-wide font-bold">Logout</span>
+                      <LogOut size={20} className="animate-bounce" />
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
+                      onClick={login}
+                    >
+                      <span className="tracking-wide font-bold">Login</span>
+                      <LogIn size={20} className="animate-bounce" />
+                    </Link>
+                  )}
+
+                  <div className={`${linkStyle} gap-1`}>
+                    {user?.email && (
+                      <span>
+                        Email: {user.email.slice(0, 10)}
+                        {user.email.length > 10 && "..."}
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-
-        {/* ==============Account Section ================= */}
-        <div className=" relative p-4 pt-10 flex flex-col gap-4">
-
-          <Link to="/profile" className="border-t border-primary flex items-center gap-3 px-4 py-4 w-full justify-start text-primary" onClick={closeSidebar}>
-            <CircleUserRound />
-            <span className="font-bold">Account</span>
-          </Link>
-
-          <Link to="/" className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost" onClick={logout}>
-            <span className="tracking-wide font-bold ">Logout</span>
-              <LogOut size={20} className="animate-bounce" />
-          </Link>
-        </div>
-
       </aside>
     </>
   );

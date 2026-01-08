@@ -2,7 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useUser} from "../../context/userContext" 
+import { useUser} from "../../context/userContext"
+import { Link } from "react-router-dom"; 
 
 const LoginSchema = Yup.object({
   email: Yup.string()
@@ -62,6 +63,7 @@ function LoginForm() {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
+
               {/* Email */}
               <div>
                 <Field
@@ -99,6 +101,9 @@ function LoginForm() {
               >
                 {isSubmitting ? "Logging in..." : "Login"}
               </button>
+              <div className="text-center">
+              If you don't have an account <Link to="/signup" className="text-info underline">register</Link>
+              </div>
             </Form>
           )}
         </Formik>

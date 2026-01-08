@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/SideBar";
-import Footer from "../components/Footer";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
+import Footer from "../../components/Footer";
 import { BookOpen } from "lucide-react"; //book icon
 
 function SubjectPage({ isOpen, setIsOpen }) {

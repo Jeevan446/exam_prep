@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/SideBar";
-import Footer from "../components/Footer";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
+import Footer from "../../components/Footer";
 import { List } from "lucide-react";
 
 function ChaptersPage({ isOpen, setIsOpen }) {

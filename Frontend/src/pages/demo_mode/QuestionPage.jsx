@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { RotateCcw } from 'lucide-react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
-import NavBar from '../components/NavBar';
-import SideBar from '../components/SideBar';
+import NavBar from "../../components/NavBar";
+import SideBar from '../../components/SideBar';
 import { motion, AnimatePresence, easeOut } from "framer-motion";
 
 export default function MCQQuiz({ isOpen, setIsOpen }) {
