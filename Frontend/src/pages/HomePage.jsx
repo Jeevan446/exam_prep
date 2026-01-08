@@ -5,13 +5,13 @@ import SideBar from "../components/SideBar";
 import { useUser } from "../context/userContext";
 
 function Homepage({ isOpen, setIsOpen }) {
-        const {token ,loading} =useUser();
-        console.log(token);
-    return(
+    const { token, loading } = useUser();
+    console.log(token);
+    return (
         <div className="flex flex-col justify-baseline">
             <NavBar />
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
-            <HomeContent  isOpen={isOpen} setIsOpen={setIsOpen} />
+            <HomeContent isOpen={isOpen} setIsOpen={setIsOpen} />
             {/* <Footer /> */}
         </div>
     );

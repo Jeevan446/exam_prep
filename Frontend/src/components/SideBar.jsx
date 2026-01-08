@@ -4,12 +4,16 @@ import {
   BookOpen,
   Megaphone,
   UsersRound,
-  PanelLeftClose
+  PanelLeftClose,
+  CircleUserRound,
+  LogOut
 } from "lucide-react";
 import { useSidebar } from "../context/sidebarContext";
+import {useUser} from '../context/userContext';
 
 function SideBar() {
   const { isOpen, closeSidebar } = useSidebar();
+  const {logout} =useUser();
 
   const linkStyle =
     "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
@@ -30,14 +34,14 @@ function SideBar() {
         className={`fixed top-0 left-0 h-screen w-64 
           bg-base-200 border-r border-base-content/10
           transition-transform duration-300
-          z-50
+          z-50 
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         <div className=" relative p-4 pt-10 flex flex-col gap-2">
           <div className=" flex justify-between items-center p-7">
             <span className="font-bold text-xl font-mono text-ghost uppercase tracking-tight">Menu</span>
-           <button onClick={closeSidebar}><PanelLeftClose /></button>
+            <button onClick={closeSidebar}><PanelLeftClose /></button>
           </div>
 
           <Link to="/" className={linkStyle} onClick={closeSidebar}>
@@ -60,6 +64,21 @@ function SideBar() {
             <span>About Us</span>
           </Link>
         </div>
+
+        {/* ==============Account Section ================= */}
+        <div className=" relative p-4 pt-10 flex flex-col gap-4">
+
+          <Link to="/profile" className="border-t border-primary flex items-center gap-3 px-4 py-4 w-full justify-start text-primary" onClick={closeSidebar}>
+            <CircleUserRound />
+            <span className="font-bold">Account</span>
+          </Link>
+
+          <Link to="/" className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost" onClick={logout}>
+            <span className="tracking-wide font-bold ">Logout</span>
+              <LogOut size={20} className="animate-bounce" />
+          </Link>
+        </div>
+
       </aside>
     </>
   );

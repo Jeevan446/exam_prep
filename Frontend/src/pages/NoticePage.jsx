@@ -10,7 +10,7 @@ import { useSidebar } from "../context/sidebarContext";
 const NoticePage = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isOpen } = useSidebar();
+ 
 
   const fetchData = async () => {
     try {
@@ -33,17 +33,15 @@ const NoticePage = () => {
       <NavBar />
 
       {/* Sidebar (FIXED) */}
-      <SideBar  />
+      <SideBar />
 
       {/* Main Content */}
       <main
-        className={`
+        className="
           pt-5
           md:pt-17
           px-4 sm:px-6 lg:px-8
-          transition-all duration-300
-          ${isOpen ? "lg:ml-64" : "lg:ml-20"}
-        `}
+          transition-all duration-300"
       >
         <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center text-secondary">
           Notices
@@ -81,7 +79,7 @@ const NoticePage = () => {
                   {notice.message}
                 </p>
 
-                <p className="text-xs sm:text-sm text-gray-500 mt-3">
+                <p className="text-xs sm:text-sm text-ghost mt-3">
                   {new Date(notice.createdAt).toLocaleString()}
                 </p>
               </div>
