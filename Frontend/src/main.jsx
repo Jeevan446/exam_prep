@@ -5,17 +5,20 @@ import './index.css'
 import App from './App.jsx'
 import { Toaster } from "react-hot-toast"
 import { SidebarProvider } from "./context/SidebarContext.jsx";
+import { UserProvider } from './context/userContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <StrictMode>
-      <SidebarProvider>
-        <App />
-        <Toaster
-          position="bottom-right"
-          reverseOrder={false}
-        />
-      </SidebarProvider>
+      <UserProvider>
+        <SidebarProvider>
+          <App />
+          <Toaster
+            position="bottom-right"
+            reverseOrder={false}
+          />
+        </SidebarProvider>
+      </UserProvider>
 
     </StrictMode>
   </BrowserRouter>,

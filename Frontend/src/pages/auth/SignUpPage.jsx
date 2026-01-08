@@ -2,9 +2,15 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/userContext" 
+
 
 const SignUpForm = () => {
-  // 1. Enhanced Validation Schema
+  const navigate = useNavigate();
+  const { setUser, setToken } = useUser(); 
+
   const validationSchema = Yup.object({
     username: Yup.string()
       .min(3, "Username must be at least 3 characters")
@@ -17,7 +23,7 @@ const SignUpForm = () => {
       .lowercase()
       .matches(
         /^[a-z]+[0-9]*@gmail\.com$/,
-        "Email must start with lowercase letters (numbers optional) and end with @gmail.com (e.g., john@gmail.com or john123@gmail.com)"
+        "Email must start with lowercase letters (numbers optional) and end with @gmail.com"
       )
       .required("Email is required"),
 
@@ -35,17 +41,8 @@ const SignUpForm = () => {
       .required("Confirm password is required"),
   });
 
-  // 2. Form Submission Logic
   const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
     try {
-      // Additional client-side validation before submission
-      if (!values.email.match(/^[a-z]+[0-9]*@gmail\.com$/)) {
-        setErrors({
-          email: "Email must start with lowercase letters (numbers optional) and end with @gmail.com"
-        });
-        return;
-      }
-
       const response = await axios.post(
         "/api/user/register",
         {
@@ -54,32 +51,37 @@ const SignUpForm = () => {
           password: values.password,
         },
         {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      console.log("Success:", response.data);
-      alert("Registration Successful!");
+      // Success
+      toast.success("Successfully registered!");
       resetForm();
+
+      
+      setUser(response.data.user);
+
+  
+      if (response.data.token) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+      }
+
+    
+      navigate("/login");
     } catch (error) {
-      // Handle server-side errors
       if (error.response) {
-        if (error.response.status === 400) {
-          const errorMessage = error.response.data?.message || error.response.data?.error;
-          if (errorMessage?.toLowerCase().includes("email")) {
-            setErrors({ email: "This email is already registered" });
-          } else if (errorMessage?.toLowerCase().includes("username")) {
-            setErrors({ username: "This username is already taken" });
-          } else {
-            setErrors({ submit: errorMessage || "Registration failed" });
-          }
+        const errorMessage = error.response.data?.message || "Registration failed";
+        if (errorMessage.toLowerCase().includes("email")) {
+          setErrors({ email: "This email is already registered" });
+        } else if (errorMessage.toLowerCase().includes("username")) {
+          setErrors({ username: "This username is already taken" });
         } else {
-          setErrors({ submit: `Server error: ${error.response.status}` });
+          setErrors({ submit: errorMessage });
         }
       } else {
-        setErrors({ submit: "Network error. Please check your connection." });
+        setErrors({ submit: "Network error. Please try again." });
       }
       console.error("Error:", error.response?.data || error.message);
     } finally {
@@ -103,100 +105,75 @@ const SignUpForm = () => {
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-          validateOnBlur={true}
-          validateOnChange={true}
+          validateOnBlur
+          validateOnChange
         >
           {({ isSubmitting, errors, touched }) => (
             <Form className="space-y-5">
-              {/* Display submission errors */}
               {errors.submit && (
                 <div className="p-3 bg-red-50 border border-red-200 text-error rounded-md text-sm">
                   {errors.submit}
                 </div>
               )}
 
-              {/* Username Field */}
+              {/* Username */}
               <div>
-                <label className="block text-sm font-semibold text-secondary mb-1">
-                  Username
-                </label>
+                <label className="block text-sm font-semibold text-secondary mb-1">Username</label>
                 <Field
                   type="text"
                   name="username"
-
-                  className={`w-full px-4 py-2  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.username && touched.username ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-2 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${
+                    errors.username && touched.username ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
-                <ErrorMessage
-                  name="username"
-                  component="p"
-                  className="text-error text-xs mt-1"
-                />
+                <ErrorMessage name="username" component="p" className="text-error text-xs mt-1" />
               </div>
 
-              {/* Email Field */}
+              {/* Email */}
               <div>
-                <label className="block text-sm font-semibold text-secondary mb-1">
-                  Email Address
-                </label>
+                <label className="block text-sm font-semibold text-secondary mb-1">Email Address</label>
                 <Field
                   type="email"
                   name="email"
                   placeholder="example@gmail.com"
-                  className={`w-full px-4 py-2 border  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-2 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${
+                    errors.email && touched.email ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
-                <ErrorMessage
-                  name="email"
-                  component="p"
-                  className="text-error text-xs mt-1"
-                />
-                {/* Format text removed from here */}
+                <ErrorMessage name="email" component="p" className="text-error text-xs mt-1" />
               </div>
 
-              {/* Password Field */}
+              {/* Password */}
               <div>
-                <label className="block text-sm font-semibold text-secondary mb-1">
-                  Password
-                </label>
+                <label className="block text-sm font-semibold text-secondary mb-1">Password</label>
                 <Field
                   type="password"
                   name="password"
-                  placeholder=""
-                  className={`w-full px-4 py-2 border  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-2 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${
+                    errors.password && touched.password ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
-                <ErrorMessage
-                  name="password"
-                  component="p"
-                  className="text-red-500 text-xs mt-1"
-                />
+                <ErrorMessage name="password" component="p" className="text-error text-xs mt-1" />
                 <p className="text-xs text-gray-500 mt-1">
                   Must contain at least 6 characters, including uppercase, lowercase, and number
                 </p>
               </div>
 
-              {/* Confirm Password Field */}
+              {/* Confirm Password */}
               <div>
-                <label className="block text-sm font-semibold text-secondary mb-1">
-                  Confirm Password
-                </label>
+                <label className="block text-sm font-semibold text-secondary mb-1">Confirm Password</label>
                 <Field
                   type="password"
                   name="confirmPassword"
-                  placeholder="••••••••"
-                  className={`w-full px-4 py-2  input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`w-full px-4 py-2 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none ${
+                    errors.confirmPassword && touched.confirmPassword ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
-                <ErrorMessage
-                  name="confirmPassword"
-                  component="p"
-                  className="text-red-500 text-xs mt-1"
-                />
+                <ErrorMessage name="confirmPassword" component="p" className="text-error text-xs mt-1" />
               </div>
 
-              {/* Submit Button */}
               <button
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full btn btn-secondary font-bold py-2 rounded-md"
               >

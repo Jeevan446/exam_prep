@@ -1,6 +1,8 @@
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser} from "../../context/userContext" 
 
 const LoginSchema = Yup.object({
   email: Yup.string()
@@ -12,10 +14,12 @@ const LoginSchema = Yup.object({
 });
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const { setUser, setToken } = useUser();
+
   const handleSubmit = async (values, { resetForm, setSubmitting, setErrors }) => {
     try {
-      const response = await fetch("/api/user/login", {
-        method: "POST",
+      const response = await fetch("/api/user/login", {         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -25,12 +29,20 @@ function LoginForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        // example: backend returns { message: "Invalid credentials" }
+        // Backend returns { message: "Invalid credentials" }
         throw new Error(data.message || "Login failed");
       }
 
       console.log("Login success:", data);
+
+    
+      setUser(data.user);
+      setToken(data.token);
+
+      localStorage.setItem("token", data.token);
+
       resetForm();
+      navigate("/"); 
     } catch (error) {
       setErrors({ password: error.message });
     } finally {
