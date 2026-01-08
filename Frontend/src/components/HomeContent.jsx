@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
-function HomeContent({ isOpen }) {
+function HomeContent() {
   // Cleaned up DaisyUI button classes
   const btnClass = "btn btn-secondary shadow-lg";
 
@@ -25,7 +25,7 @@ function HomeContent({ isOpen }) {
             <p className="text-lg text-center md:text-left max-w-lg">
               Access <span className="text-secondary font-bold">Practice Sessions</span> to improve your speed and accuracy with real-time feedback.
             </p>
-            <Link to="/examtype" className={btnClass}>Practice Mode</Link>
+            <Link to="/practice/examtype" className={btnClass}>Practice Mode</Link>
           </div>
 
           {/* Row 3: Weekly */}
