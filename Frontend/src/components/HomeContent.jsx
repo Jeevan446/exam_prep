@@ -6,9 +6,7 @@ function HomeContent({ isOpen }) {
   const btnClass = "btn btn-secondary shadow-lg";
 
   return (
-    <div className={`transition-all duration-300 min-h-screen  flex flex-col
-      ${isOpen ? "pl-14  lg:pl-48 md:pl-20" : "pl-14 md:pl-20"} 
-    `}>
+    <div className="transition-all duration-300 min-h-screen  flex flex-col">
       
       {/* Main Content Container */}
       <main className="flex-grow mt-4  md:p-10 md:mt-10 ">
