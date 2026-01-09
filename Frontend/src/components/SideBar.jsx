@@ -15,11 +15,16 @@ import { useSidebar } from "../context/sidebarContext";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
+
+const availabletheme = ['forest', 'cyberpunk', 'valentine'];
 
 function SideBar() {
+  const { changeTheme } = useTheme();
   const { isOpen, closeSidebar } = useSidebar();
   const { logout, user, login } = useUser();
   const [isDroppedDown, setIsDroppedDown] = useState(false);
+  const [themeDropDown, setThemeDropDown] = useState(false);
 
   const linkStyle =
     "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
@@ -30,6 +35,10 @@ function SideBar() {
 
   const toggleDropDown = () => {
     setIsDroppedDown((prev) => !prev);
+  };
+
+  const handleThemeDropDown = () => {
+    setThemeDropDown((prev) => !prev)
   };
 
   // const handleOnClick = () => {
@@ -87,13 +96,56 @@ function SideBar() {
             <span>About Us</span>
           </Link>
 
+          <div className="flex gap-1 w-full px-4 justify-between text-primary" >
+            <div className="flex gap-4 items-center">
+              <UsersRound size={20} />
+              <span className="font-bold">Theme</span>
+            </div>
+            <div className="flex items-center" onClick={handleThemeDropDown}>
+              {
+                themeDropDown ?
+
+                  <ChevronUp />
+                  :
+                  <ChevronDown />
+              }
+            </div>
+          </div>
+
+          {/* ThemeSelection */}
+
+          <AnimatePresence>
+            {themeDropDown && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="px-4 mt-1 space-y-1"
+              >
+                {availabletheme.map((mytheme) => (
+                  <motion.div
+                    key={mytheme}
+                    onClick={() => changeTheme(mytheme)}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="cursor-pointer text-primary px-2 py-1 hover:bg-base-200 rounded"
+                  >
+                    {mytheme}
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+
           <div
             to=""
             className={"flex flex-col gap-1 w-full  text-primary "}
             onClick={toggleDropDown}
           >
-            <div className="flex gap-10 hover:bg-[#393434] rounded-full p-3">
-              <div className="flex gap-3 items-center">
+            <div className="flex justify-between hover:bg-[#393434] rounded-full py-3 px-4 ">
+              <div className="flex gap-2 items-center">
                 <CircleUserRound />
                 <span className="font-bold">Account</span>
               </div>
