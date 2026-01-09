@@ -4,6 +4,9 @@ import { useUser } from "../../context/userContext";
 import NotFoundPage from '../NotFoundPage';
 import axios from 'axios';
 import toast from "react-hot-toast";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
+import Footer from "../../components/Footer";
 
 export default function ProfilePage() {
    
@@ -122,6 +125,8 @@ const handleSave = async () => {
 
     return (
         <div className="min-h-screen  p-4 sm:p-8">
+             <NavBar />
+             <SideBar />
             <div className="max-w-4xl mx-auto bg-base">
                 {/* Profile Card */}
                 <div className="bg-base border-2 border-primary rounded-2xl shadow-lg overflow-hidden mb-6">
@@ -131,8 +136,8 @@ const handleSave = async () => {
 
                     <div className="relative px-6 pb-6 border-t border-primary">
                         {/* Avatar */}
-                        <div className="absolute -top-16 left-6 bg-black ">
-                            <div className="w-32 h-32 rounded-full  border-4 border-primary bg- flex items-center justify-center text-ghost text-4xl font-bold shadow-lg">
+                        <div className="absolute -top-16 left-6  rounded-full">
+                            <div className="w-32 h-32 rounded-full bg-neutral  border-4 border-primary bg- flex items-center justify-center text-ghost text-4xl font-bold shadow-lg">
                                 {profile.name.split(' ').map(n => n[0]).join('')}
                             </div>
                         </div>
@@ -220,6 +225,7 @@ const handleSave = async () => {
                     )}
                 </div>
             </div>
+          <Footer />
         </div>
     );
 }

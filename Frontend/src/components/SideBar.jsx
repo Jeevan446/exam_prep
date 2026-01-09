@@ -119,12 +119,12 @@ function SideBar() {
 
 
           <div className="border-t  border-primary py-5 space-y-5">
-            <div className="flex gap-1 w-full px-4 justify-between text-primary">
+            <div className="flex gap-1 w-full px-4 justify-between text-primary" onClick={handleThemeDropDown}>
               <div className="flex gap-4 items-center">
                 <UsersRound size={20} />
                 <span className="font-bold">Theme</span>
               </div>
-              <div className="flex items-center" onClick={handleThemeDropDown}>
+              <div className="flex items-center">
                 {themeDropDown ? <ChevronUp /> : <ChevronDown />}
               </div>
             </div>
