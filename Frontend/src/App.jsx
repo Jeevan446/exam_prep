@@ -33,7 +33,7 @@ import  Profilepage from  './pages/profile/Profilepage'
 function App() {
   
   return (
-    <div>
+    <div id="themeElement">
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/examtype" element={<ExamTypePage />} />
