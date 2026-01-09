@@ -26,6 +26,9 @@ import QuestionPage from "./pages/demo_mode/QuestionPage";
 import PracticeExamTypePage from "./pages/practice_mode/PracticeExamTypePage";
 import SetPage from "./pages/practice_mode/SetPage";
 
+// For Profile Related Page:
+import  Profilepage from  './pages/profile/Profilepage'
+
 function App() {
   return (
     <div data-theme="forest">
@@ -55,6 +58,9 @@ function App() {
         {/* FOR PRACTICE MODE */}
         <Route path="/practice/examtype" element={<PracticeExamTypePage />} />
         <Route path="/practice/set" element={<SetPage />} />
+
+      {/* For Profile Page */}
+        <Route path="/profile" element={< Profilepage/>} />
       </Routes>
     </div>
   );
