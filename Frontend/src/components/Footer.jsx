@@ -12,22 +12,6 @@ function Footer() {
           </p>
         </div>
       </div>
-
-      {/* Testing Buttons Section */}
-      <div className="flex gap-4 pb-4">
-        <button 
-          onClick={() => toast.success("sucessfull")} 
-          className="btn btn-ghost btn-xs text-primary/60 hover:text-primary transition-colors"
-        >
-          click me
-        </button>
-        <button 
-          onClick={() => toast.error("failed")} 
-          className="btn btn-ghost btn-xs text-error/60 hover:text-error transition-colors"
-        >
-          Test me
-        </button>
-      </div>
     </footer>
   );
 }

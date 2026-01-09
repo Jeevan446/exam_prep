@@ -11,6 +11,7 @@ import AddExamType from "./pages/admin/AddExamType";
 import AddquestionPage from "./pages/admin/AddquestionPage";
 import EditQuestionPage from "./pages/admin/EditQuestionPage";
 import AddSubject from "./pages/admin/AddSubject";
+import AddSetPage from "./pages/admin/AddSetPage";
 
 // auth:
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -50,6 +51,7 @@ function App() {
         <Route path="/admin/addquestion" element={<AddquestionPage />} />
         <Route path="/admin/addsubjects" element={<AddSubject />} />
         <Route path="/admin/addchapters" element={<AddChapterPage />} />
+          <Route path="/admin/addset" element={<AddSetPage />} />
         <Route //Not yet designed
           path="/admin/editquestion"
           element={<EditQuestionPage />}
@@ -60,7 +62,8 @@ function App() {
 
         {/* FOR PRACTICE MODE */}
         <Route path="/practice/examtype" element={<PracticeExamTypePage />} />
-        <Route path="/practice/set" element={<SetPaperpage />} />
+        <Route path="/practice/set" element={<SetPage />} />
+        <Route path="/practice/set/setpaper" element={<SetPaperpage />} />
 
       {/* For Profile Page */}
         <Route path="/profile" element={< Profilepage/>} />
