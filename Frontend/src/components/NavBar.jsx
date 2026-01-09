@@ -73,12 +73,12 @@ function NavBar() {
 
             <Link
               to="/subscription"
-              className="flex items-center gap-2 md:btn btn-primary"
+              className="flex items-center gap-2 md:btn text-primary md:btn-primary"
             >
-              <span className="hidden md:block md:text-base-100">
+              <span className="hidden md:block ">
                 SUBSCRIPTION
               </span>
-              <CreditCard className="size-8 text-primary md:size-5 md:text-base-100" />
+              <CreditCard className="size-8 md:size-5" />
             </Link>
 
             {/* USER SECTION */}

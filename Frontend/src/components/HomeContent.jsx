@@ -6,7 +6,7 @@ function HomeContent() {
   const btnClass = "btn btn-secondary shadow-lg";
 
   return (
-    <div className="transition-all duration-300 min-h-screen  flex flex-col">
+    <div className="transition-all duration-300 min-h-screen flex flex-col">
       
       {/* Main Content Container */}
       <main className="flex-grow mt-4  md:p-10 md:mt-10 ">

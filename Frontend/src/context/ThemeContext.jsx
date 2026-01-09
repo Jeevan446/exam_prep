@@ -3,14 +3,21 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setThemeState] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "forest"; // default theme
+  });
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+useEffect(() => {
+  const themeElement = document.getElementById("themeElement");
+  if (themeElement) {
+    themeElement.setAttribute("data-theme", theme);
+  }
+}, [theme]);
+
 
   const changeTheme = (selectedTheme) => {
-    setThemeState(selectedTheme);
+    localStorage.setItem("theme", selectedTheme);
+    setTheme(selectedTheme);
   };
 
   return (

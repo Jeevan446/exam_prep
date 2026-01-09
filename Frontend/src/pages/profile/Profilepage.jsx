@@ -22,7 +22,6 @@ export default function ProfilePage() {
 
         const mappedProfile = {
             name: user.username || '',
-            title: user.title || '',
             email: user.email || '',
             joinDate: user.createdAt
                 ? new Date(user.createdAt).toLocaleDateString('en-US', {
@@ -122,7 +121,7 @@ const handleSave = async () => {
     };
 
     return (
-        <div className="min-h-screen bg-base p-4 sm:p-8">
+        <div className="min-h-screen  p-4 sm:p-8">
             <div className="max-w-4xl mx-auto bg-base">
                 {/* Profile Card */}
                 <div className="bg-base border-2 border-primary rounded-2xl shadow-lg overflow-hidden mb-6">
