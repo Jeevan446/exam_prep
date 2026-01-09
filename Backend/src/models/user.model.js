@@ -27,7 +27,12 @@ const userSchema = mongoose.Schema(
       enum: ['admin', 'user'],
       default: 'user',
     },
+    username_last_changed_at: {
+       type: Date,
+       default: Date.now, 
+     }
   },
+
   {
     timestamps: true,
   }
