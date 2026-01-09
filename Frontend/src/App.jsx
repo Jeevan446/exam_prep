@@ -29,9 +29,11 @@ import SetPage from "./pages/practice_mode/SetPage";
 // For Profile Related Page:
 import  Profilepage from  './pages/profile/Profilepage'
 
+
 function App() {
+  
   return (
-    <div data-theme="forest">
+    <div>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/examtype" element={<ExamTypePage />} />
