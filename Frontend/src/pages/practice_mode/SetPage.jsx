@@ -1,43 +1,60 @@
-import React from 'react'
-import NavBar from '../../components/NavBar'
-import SideBar from '../../components/SideBar'
-import Footer from '../../components/Footer'
-import { useNavigate } from 'react-router-dom'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation, Link, useParams } from "react-router-dom";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
+import Footer from "../../components/Footer";
 
-const SetPage = () => {
-  const navigate =useNavigate();
+function SetPage({ isOpen, setIsOpen }) {
+  const location = useLocation();
+  const router =useParams();
+  const examType = location.state?.examType;
+  const [sets, setSets] = useState([]);
+
+  async function fetchSets() {
+    try {
+      const response = await axios.get(`/api/setexam/sets/${examType}`);
+      setSets(response.data.sets);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  useEffect(() => {
+    if (examType) fetchSets();
+  }, [examType]);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      
-  
+    <div className="w-full flex flex-col">
       <NavBar />
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-    
-      <div className="flex  flex-1">
+      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center">
+        <div className="py-10 transition-all duration-300 w-[80%] lg:w-[70%] bg-base-300 border border-secondary/20 shadow-2xl rounded-xl flex flex-col gap-6 md:gap-8 items-center">
+          <h1 className="sm:text-xl md:text-2xl lg:text-3xl text-primary font-bold mb-6">
+            Sets for exam type: {examType.toUpperCase()}
+          </h1>
 
-        <SideBar />
+          {sets.length === 0 && (
+            <div className="text-red-500 font-bold">No sets available for this exam type.</div>
+          )}
 
-    
-        <main className="flex-1 p-4 flex justify-center">
-          <div className="w-full max-w-2xl space-y-3">
-            {[0,1,2,3,4,6,7,8,9,10].map((index) => (
-              <div onClick={()=> navigate(`/practice/set/${index}`)}
-                key={index}
-                className="border border-primary p-3 rounded cursor-pointer
-                           hover:bg-primary/40 transition-all"
-              >
-                <span className="font-medium">Set {index}</span>
-              </div>
-            ))}
-          </div>
-        </main>
-
+          {sets.map((set) => (
+            <Link
+              to={`/practice/${router.examtype}/set/${set.setId}`}
+              key={set.setId}
+              state={{ setName: set.setName, examType }}
+              className="btn btn-secondary shadow-lg text-xs md:text-sm lg:text-xl w-[90%] mb-4"
+            >
+              {set.setName}
+            </Link>
+          ))}
+        </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }
 
-export default SetPage
+export default SetPage;

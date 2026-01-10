@@ -124,10 +124,10 @@ const handleSave = async () => {
     };
 
     return (
-        <div className="min-h-screen  p-4 sm:p-8">
+        <div className="min-h-screen">
              <NavBar />
              <SideBar />
-            <div className="max-w-4xl mx-auto bg-base">
+            <div className="max-w-4xl mx-auto bg-base mt-5">
                 {/* Profile Card */}
                 <div className="bg-base border-2 border-primary rounded-2xl shadow-lg overflow-hidden mb-6">
                     <div className="h-48 bg-base-100 relative">

@@ -125,34 +125,41 @@ const getQuestionsBySet = async (req, res) => {
     const setId = req.params.setId;
     const examType = req.query.examType?.trim().toLowerCase(); // optional query
 
-    if (!setId) return res.status(400).json({ success: false, message: "setId required" });
+    if (!setId)
+      return res
+        .status(400)
+        .json({ success: false, message: "setId required" });
 
     const set = await Set.findById(setId).populate("exams.questions");
 
-    if (!set) return res.status(404).json({ success: false, message: "Set not found" });
+    if (!set)
+      return res.status(404).json({ success: false, message: "Set not found" });
 
     // Find exam inside set
     let exam;
     if (examType) {
-      exam = set.exams.find(e => e.examType?.toLowerCase() === examType);
+      exam = set.exams.find((e) => e.examType?.toLowerCase() === examType);
     } else {
       exam = set.exams[0]; // fallback to first exam if examType not provided
     }
 
-    if (!exam) return res.status(404).json({ success: false, message: "Exam type not found in this set" });
+    if (!exam)
+      return res
+        .status(404)
+        .json({ success: false, message: "Exam type not found in this set" });
 
     // Group questions by subject
     const subjectsMap = {};
-    exam.questions.forEach(q => {
+    exam.questions.forEach((q) => {
       const subj = q.subject.trim();
       if (!subjectsMap[subj]) subjectsMap[subj] = [];
       subjectsMap[subj].push(q);
     });
 
     // Sort each subject by marks ascending
-    const subjects = Object.keys(subjectsMap).map(subj => ({
+    const subjects = Object.keys(subjectsMap).map((subj) => ({
       subject: subj,
-      questions: subjectsMap[subj].sort((a, b) => a.marks - b.marks)
+      questions: subjectsMap[subj].sort((a, b) => a.marks - b.marks),
     }));
 
     res.status(200).json({
@@ -162,41 +169,34 @@ const getQuestionsBySet = async (req, res) => {
       examType: exam.examType,
       examTime: exam.examTime,
       fullMarks: exam.fullMarks,
-      subjects
+      subjects,
     });
-
   } catch (error) {
     console.error("GET QUESTIONS ERROR:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
-
-
 //get unique examtype
-
 
 const getUniqueExamTypes = async (req, res) => {
   try {
     const result = await Set.aggregate([
       { $unwind: "$exams" },
       { $group: { _id: null, examTypes: { $addToSet: "$exams.examType" } } },
-      { $project: { _id: 0, examTypes: 1 } }
+      { $project: { _id: 0, examTypes: 1 } },
     ]);
 
     res.status(200).json({
       success: true,
       total: result[0]?.examTypes?.length || 0,
-      examTypes: result[0]?.examTypes || []
+      examTypes: result[0]?.examTypes || [],
     });
-
   } catch (error) {
     console.error("GET UNIQUE EXAM TYPES ERROR:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
-
 
 
 //it gives setname  acrroding examtypes
@@ -205,32 +205,39 @@ const getSetsByExamType = async (req, res) => {
   try {
     const examType = req.params.examType?.trim().toLowerCase();
 
-    if (!examType) return res.status(400).json({ success: false, message: "examType required" });
+    if (!examType)
+      return res
+        .status(400)
+        .json({ success: false, message: "examType required" });
 
     const sets = await Set.find({ "exams.examType": examType });
 
     if (!sets.length)
-      return res.status(200).json({ success: true, examType, totalSets: 0, sets: [] });
+      return res
+        .status(200)
+        .json({ success: true, examType, totalSets: 0, sets: [] });
 
     // Return only set names and _id
-    const setList = sets.map(set => ({
+    const setList = sets.map((set) => ({
       setId: set._id,
-      setName: set.name
+      setName: set.name,
     }));
 
     res.status(200).json({
       success: true,
       examType,
       totalSets: setList.length,
-      sets: setList
+      sets: setList,
     });
-
   } catch (error) {
     console.error("GET SETS ERROR:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
-
-
-module.exports = { uploadExamSet,getQuestionsBySet ,getUniqueExamTypes,getSetsByExamType};
+module.exports = {
+  uploadExamSet,
+  getQuestionsBySet,
+  getUniqueExamTypes,
+  getSetsByExamType,
+};

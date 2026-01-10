@@ -1,672 +1,676 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import axios from "axios";
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import {
-  ChevronUp,
-  ChevronDown,
   Clock,
-  Pause,
-  Play,
-  RefreshCw,
-  Grip,
   CheckCircle,
   XCircle,
-  Eye,
-  EyeOff,
   BarChart3,
   Award,
+  ArrowLeft,
+  RotateCcw,
+  Send,
+  Loader2,
   BookOpen,
+  AlertCircle,
   Check,
-  X,
+  X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-/* ===================== QUESTION DATA ===================== */
-const questionSet = [
-  {
-    id: "math-1",
-    sub: "math",
-    qn: "What is the derivative of x²?",
-    options: ["2x", "x", "x²", "1"],
-    correctAns: 0,
-    marks: 2,
-  },
-  {
-    id: "math-2",
-    sub: "math",
-    qn: "Value of √144 is?",
-    options: ["10", "11", "12", "14"],
-    correctAns: 2,
-    marks: 2,
-  },
-  {
-    id: "physics-1",
-    sub: "physics",
-    qn: "Unit of force is?",
-    options: ["Joule", "Newton", "Watt", "Pascal"],
-    correctAns: 1,
-    marks: 2,
-  },
-  {
-    id: "chemistry-1",
-    sub: "chemistry",
-    qn: "Chemical formula of water is?",
-    options: ["CO₂", "H₂SO₄", "H₂O", "NaCl"],
-    correctAns: 2,
-    marks: 2,
-  },
-  {
-    id: "computer-1",
-    sub: "computer",
-    qn: "Which data structure follows FIFO?",
-    options: ["Stack", "Queue", "Tree", "Graph"],
-    correctAns: 1,
-    marks: 2,
-  },
-  {
-    id: "english-1",
-    sub: "english",
-    qn: "Choose the synonym of 'Happy'",
-    options: ["Sad", "Angry", "Joyful", "Tired"],
-    correctAns: 2,
-    marks: 2,
-  },
-];
-
-/* ===================== GROUP BY SUBJECT ===================== */
-const groupedQuestions = {
-  math: questionSet.filter((q) => q.sub === "math"),
-  physics: questionSet.filter((q) => q.sub === "physics"),
-  chemistry: questionSet.filter((q) => q.sub === "chemistry"),
-  computer: questionSet.filter((q) => q.sub === "computer"),
-  english: questionSet.filter((q) => q.sub === "english"),
-};
+import { useParams, useNavigate } from "react-router-dom";
 
 const SetPaperpage = () => {
+  const { examtype, id } = useParams(); // Get from URL params
+  const navigate = useNavigate();
+  
   /* ===================== STATE ===================== */
-  const [timeRemaining, setTimeRemaining] = useState(3 * 60 * 60);
-  const [isTimerRunning, setIsTimerRunning] = useState(true);
-  const [isTimerMinimized, setIsTimerMinimized] = useState(false);
-  const [timerPosition, setTimerPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [examData, setExamData] = useState(null);
+  const [questionSet, setQuestionSet] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [showResults, setShowResults] = useState(false);
-  const [showAnswerReview, setShowAnswerReview] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [answeredCount, setAnsweredCount] = useState(0);
+
+  /* ===================== FETCH DATA ===================== */
+  useEffect(() => {
+    const fetchExam = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log("Fetching from:", `/api/setexam/set-questions/${id}?examType=${examtype}`);
+        const response = await axios.get(
+          `/api/setexam/set-questions/${id}?examType=${examtype}`
+        );
+        
+        console.log("API Response:", response.data);
+        
+        if (response.data && response.data.success === true) {
+          setExamData(response.data);
+          
+          // Flatten questions for easy access
+          const allQuestions = response.data.subjects?.flatMap(sub => sub.questions || []) || [];
+          setQuestionSet(allQuestions);
+          
+          // Set timer - default to 180 minutes if not provided
+          setTimeRemaining((response.data.examTime || 180) * 60);
+          
+          console.log("Data loaded successfully:", {
+            setName: response.data.setName,
+            subjects: response.data.subjects?.length,
+            questions: allQuestions.length
+          });
+        } else {
+          throw new Error("Invalid response format or success: false");
+        }
+      } catch (err) {
+        console.error("Fetch Error:", err);
+        setError(err.message || "Failed to load exam data");
+        
+        // Fallback to hardcoded data if API fails
+        console.log("Using fallback hardcoded data");
+        const fallbackData = {
+          success: true,
+          setId: id,
+          setName: "Set A",
+          examType: examtype,
+          examTime: 180,
+          fullMarks: 100,
+          subjects: [
+            {
+              subject: "Physics",
+              questions: [
+                {
+                  _id: "6961383ad1208e9ff8da9c90",
+                  name: "What is Ohm's Law?",
+                  examtype: "ioe",
+                  subject: "Physics",
+                  chapter: "Electricity",
+                  level: "Easy",
+                  options: ["V=IR", "P=VI", "F=ma", "E=mc²"],
+                  answer: "V=IR",
+                  marks: 2
+                }
+              ]
+            },
+            {
+              subject: "Math",
+              questions: [
+                {
+                  _id: "69613894241838df74bfbf06",
+                  name: "2 + 2 = ?",
+                  examtype: "ioe",
+                  subject: "Math",
+                  chapter: "Algebra",
+                  level: "Easy",
+                  options: ["1", "2", "3", "4"],
+                  answer: "4",
+                  marks: 1
+                }
+              ]
+            }
+          ]
+        };
+        
+        setExamData(fallbackData);
+        const allQuestions = fallbackData.subjects.flatMap(sub => sub.questions);
+        setQuestionSet(allQuestions);
+        setTimeRemaining(fallbackData.examTime * 60);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id && examtype) {
+      fetchExam();
+    }
+  }, [id, examtype]);
 
   /* ===================== TIMER LOGIC ===================== */
   useEffect(() => {
-    if (!isTimerRunning || timeRemaining <= 0) return;
-
+    if (!isTimerRunning || timeRemaining <= 0 || showResults) return;
+    
     const interval = setInterval(() => {
-      setTimeRemaining((prev) => prev - 1);
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          handleAutoSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
-
+    
     return () => clearInterval(interval);
-  }, [isTimerRunning, timeRemaining]);
+  }, [isTimerRunning, timeRemaining, showResults]);
 
+  /* ===================== AUTO SUBMIT ON TIME UP ===================== */
+  const handleAutoSubmit = () => {
+    setIsTimerRunning(false);
+    setShowResults(true);
+    alert("Time's up! Your answers have been submitted automatically.");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  /* ===================== TRACK ANSWERED QUESTIONS ===================== */
   useEffect(() => {
-    if (timeRemaining <= 0 && !showResults) {
-      handleSubmit();
+    const count = Object.keys(selectedOptions).length;
+    setAnsweredCount(count);
+  }, [selectedOptions]);
+
+  /* ===================== SCORE CALCULATION ===================== */
+  const stats = useMemo(() => {
+    if (!examData) return { 
+      score: 0, 
+      correct: 0, 
+      incorrect: 0, 
+      percent: 0, 
+      unattempted: 0,
+      fullMarks: 100 
+    };
+    
+    let score = 0;
+    let correct = 0;
+    let incorrect = 0;
+    const totalQuestions = questionSet.length;
+
+    questionSet.forEach(q => {
+      const userIdx = selectedOptions[q._id];
+      if (userIdx !== undefined) {
+        if (q.options && q.options[userIdx] === q.answer) {
+          score += q.marks || 1;
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+    });
+
+    const unattempted = totalQuestions - correct - incorrect;
+    const fullMarks = examData.fullMarks || 100;
+
+    return {
+      score,
+      correct,
+      incorrect,
+      unattempted,
+      fullMarks,
+      percent: fullMarks > 0 ? Math.round((score / fullMarks) * 100) : 0
+    };
+  }, [selectedOptions, showResults, questionSet, examData]);
+
+  /* ===================== HANDLERS ===================== */
+  const handleOptionClick = (qid, idx) => {
+    if (showResults) return;
+    setSelectedOptions(prev => ({ ...prev, [qid]: idx }));
+  };
+
+  const handleSubmit = () => {
+    if (window.confirm(`Are you sure you want to submit?\n\nAnswered: ${answeredCount}/${questionSet.length}\nUnanswered: ${questionSet.length - answeredCount}`)) {
+      setIsTimerRunning(false);
+      setShowResults(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [timeRemaining]);
+  };
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    return `${h.toString().padStart(2, "0")}:${m
-      .toString()
-      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  /* ===================== SCORE CALCULATION ===================== */
-  const calculateResults = () => {
-    let score = 0;
-    let correct = 0;
-    let incorrect = 0;
-    let unanswered = 0;
-    const questionResults = [];
-
-    questionSet.forEach((q) => {
-      const userAnswer = selectedOptions[q.id];
-      const isAnswered = userAnswer !== undefined;
-      const isCorrect = userAnswer === q.correctAns;
-
-      if (!isAnswered) {
-        unanswered++;
-      } else if (isCorrect) {
-        score += q.marks;
-        correct++;
-      } else {
-        incorrect++;
-      }
-
-      questionResults.push({
-        ...q,
-        userAnswer,
-        isCorrect,
-        isAnswered,
-      });
-    });
-
-    const totalMarks = questionSet.reduce((sum, q) => sum + q.marks, 0);
-    const percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
-
-    return {
-      score,
-      totalMarks,
-      correct,
-      incorrect,
-      unanswered,
-      percentage: Math.round(percentage),
-      questionResults,
-    };
-  };
-
-  const results = calculateResults();
-
-  /* ===================== SUBMIT HANDLER ===================== */
-  const handleSubmit = () => {
-    setIsTimerRunning(false);
-    setShowResults(true);
-    setShowAnswerReview(true); // Automatically show answers when submitted
-  };
-
-  const handleOptionSelect = (qid, optIndex) => {
-    if (!showResults) {
-      setSelectedOptions((prev) => ({
-        ...prev,
-        [qid]: optIndex,
-      }));
-    }
-  };
-
-  /* ===================== RENDER QUESTION OPTIONS WITH COLORS ===================== */
-  const renderQuestionOptions = (q) => {
-    return q.options.map((opt, i) => {
-      const isSelected = selectedOptions[q.id] === i;
-      const isCorrectAnswer = i === q.correctAns;
-      const showAnswer = showAnswerReview;
-      
-      // Determine the color based on submission state
-      let optionStyle = "";
-      
-      if (showAnswer) {
-        if (isCorrectAnswer) {
-          // Correct answer is always green
-          optionStyle = "bg-green-100 border-green-500 text-green-800";
-        } else if (isSelected && !isCorrectAnswer) {
-          // Selected but wrong answer is red
-          optionStyle = "bg-red-100 border-red-500 text-red-800";
-        } else {
-          // Unselected options
-          optionStyle = "bg-gray-100 border-gray-300 text-gray-600";
-        }
-      } else {
-        // Before submission
-        optionStyle = isSelected
-          ? "bg-blue-100 border-blue-500 text-blue-800"
-          : "bg-gray-50 hover:bg-gray-100 border-gray-300 text-gray-700 hover:border-blue-300";
-      }
-
-      return (
-        <motion.label
-          key={i}
-          className={`flex items-center justify-between gap-3 p-3 rounded-lg cursor-pointer border transition-all duration-200 ${optionStyle} ${
-            !showResults ? "cursor-pointer" : "cursor-default"
-          }`}
-          whileHover={!showResults ? { scale: 1.02 } : {}}
-          whileTap={!showResults ? { scale: 0.98 } : {}}
-        >
-          <div className="flex items-center gap-3 flex-1">
-            <input
-              type="radio"
-              name={q.id}
-              checked={isSelected}
-              onChange={() => handleOptionSelect(q.id, i)}
-              className="h-4 w-4"
-              disabled={showResults}
-            />
-            <span className="font-medium">{opt}</span>
-          </div>
-          
-          {/* Show icons for correct/incorrect answers after submission */}
-          {showAnswer && (
-            <div className="ml-2">
-              {isCorrectAnswer && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="flex items-center gap-1"
-                >
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-sm text-green-700 font-medium">Correct</span>
-                </motion.div>
-              )}
-              {isSelected && !isCorrectAnswer && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="flex items-center gap-1"
-                >
-                  <XCircle className="h-5 w-5 text-red-600" />
-                  <span className="text-sm text-red-700 font-medium">Incorrect</span>
-                </motion.div>
-              )}
-            </div>
-          )}
-        </motion.label>
-      );
-    });
-  };
-
-  /* ===================== RENDER QUESTION SECTIONS ===================== */
-  const renderQuestionSection = (title, list) => {
-    if (list.length === 0) return null;
-
+  /* ===================== RENDER LOADING ===================== */
+  if (loading) {
     return (
-      <div className="space-y-4 mb-8">
-        <motion.h2
-          className="text-xl font-bold text-center bg-gradient-to-r from-blue-50 to-gray-50 p-3 rounded-lg shadow-sm border border-gray-200"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {title.toUpperCase()}
-        </motion.h2>
-
-        {list.map((q, index) => {
-          const result = results.questionResults.find(r => r.id === q.id);
-          
-          return (
-            <motion.div
-              key={q.id}
-              className="border rounded-lg p-4 bg-white shadow hover:shadow-md transition-shadow duration-300 relative"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              {/* Status badge */}
-              {showResults && (
-                <div className="absolute -top-2 -right-2">
-                  {result.isAnswered ? (
-                    result.isCorrect ? (
-                      <div className="flex items-center gap-1 bg-green-100 text-green-800 px-3 py-1 rounded-full border border-green-300">
-                        <Check className="h-4 w-4" />
-                        <span className="font-semibold">+{q.marks}</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1 bg-red-100 text-red-800 px-3 py-1 rounded-full border border-red-300">
-                        <X className="h-4 w-4" />
-                        <span className="font-semibold">0/{q.marks}</span>
-                      </div>
-                    )
-                  ) : (
-                    <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full border border-yellow-300">
-                      <span className="font-semibold">Not answered</span>
-                    </div>
-                  )}
-                </div>
-              )}
-              
-              <div className="flex justify-between items-start mb-3">
-                <p className="font-semibold text-gray-800 text-lg">
-                  {index + 1}. {q.qn}
-                </p>
-                <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                  {q.marks} marks
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {renderQuestionOptions(q)}
-              </div>
-
-              {/* Feedback after submission */}
-              {showResults && result.isAnswered && (
-                <motion.div
-                  className="mt-3 p-3 rounded-lg"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  style={{
-                    backgroundColor: result.isCorrect ? '#dcfce7' : '#fee2e2',
-                    borderLeft: `4px solid ${result.isCorrect ? '#22c55e' : '#ef4444'}`,
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    {result.isCorrect ? (
-                      <>
-                        <CheckCircle className="h-5 w-5 text-green-600" />
-                        <span className="font-medium text-green-700">
-                          Correct answer! You earned {q.marks} marks.
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <XCircle className="h-5 w-5 text-red-600" />
-                        <span className="font-medium text-red-700">
-                          Incorrect. The correct answer is: <strong>{q.options[q.correctAns]}</strong>
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Show correct answer if unanswered */}
-              {showResults && !result.isAnswered && (
-                <motion.div
-                  className="mt-3 p-3 rounded-lg bg-blue-50 border-l-4 border-blue-500"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                >
-                  <div className="flex items-center gap-2">
-                    <Eye className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium text-blue-700">
-                      You didn't answer this question. Correct answer: <strong>{q.options[q.correctAns]}</strong>
-                    </span>
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
-          );
-        })}
+      <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="relative">
+          <Loader2 className="w-16 h-16 text-blue-600 animate-spin mb-4" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 blur-xl opacity-20 animate-pulse"></div>
+        </div>
+        <p className="text-gray-700 font-bold text-lg animate-pulse uppercase tracking-widest mt-4">
+          Loading Exam Set...
+        </p>
+        <p className="text-gray-400 text-sm mt-2">{examtype?.toUpperCase?.() || "EXAM"} - {id?.slice?.(-6) || "SET"}</p>
       </div>
     );
-  };
+  }
 
-  /* ===================== RESULTS MODAL ===================== */
-  const ResultsModal = () => (
-    <motion.div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <motion.div
-        className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
-        initial={{ scale: 0.9, y: 50 }}
-        animate={{ scale: 1, y: 0 }}
-        transition={{ type: "spring", damping: 25 }}
-      >
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <Award className="h-8 w-8" />
-              <div>
-                <h2 className="text-2xl font-bold">Exam Results</h2>
-                <p className="text-blue-100">Paper submitted successfully!</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowResults(false)}
-              className="p-2 hover:bg-blue-700 rounded-full"
-            >
-              <XCircle className="h-6 w-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Score Summary */}
-        <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-50">
-          {[
-            {
-              label: "Total Score",
-              value: `${results.score}/${results.totalMarks}`,
-              icon: Award,
-              color: "text-green-600",
-              bg: "bg-green-50",
-            },
-            {
-              label: "Percentage",
-              value: `${results.percentage}%`,
-              icon: BarChart3,
-              color: results.percentage >= 60 ? "text-green-600" : 
-                     results.percentage >= 40 ? "text-yellow-600" : "text-red-600",
-              bg: results.percentage >= 60 ? "bg-green-50" : 
-                  results.percentage >= 40 ? "bg-yellow-50" : "bg-red-50",
-            },
-            {
-              label: "Correct Answers",
-              value: results.correct,
-              icon: CheckCircle,
-              color: "text-green-600",
-              bg: "bg-green-50",
-            },
-            {
-              label: "Incorrect Answers",
-              value: results.incorrect,
-              icon: XCircle,
-              color: "text-red-600",
-              bg: "bg-red-50",
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              className={`${item.bg} p-4 rounded-xl border`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <item.icon className={`h-6 w-6 ${item.color}`} />
-                <span className="text-sm font-medium text-gray-600">{item.label}</span>
-              </div>
-              <div className={`text-2xl font-bold ${item.color}`}>{item.value}</div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Performance Analysis */}
-        <div className="p-6 border-b">
-          <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" />
-            Performance Analysis
-          </h3>
-          <div className="space-y-3">
-            {[
-              { label: "Correct Answers", value: results.correct, total: questionSet.length, color: "bg-green-500" },
-              { label: "Incorrect Answers", value: results.incorrect, total: questionSet.length, color: "bg-red-500" },
-              { label: "Unanswered", value: results.unanswered, total: questionSet.length, color: "bg-yellow-500" },
-            ].map((item, index) => {
-              const percentage = (item.value / item.total) * 100;
-              return (
-                <div key={index}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="font-medium">{item.label}</span>
-                    <span>{item.value} ({Math.round(percentage)}%)</span>
-                  </div>
-                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <motion.div
-                      className={`h-full rounded-full ${item.color}`}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${percentage}%` }}
-                      transition={{ duration: 1, delay: index * 0.2 }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Modal Footer */}
-        <div className="p-6 border-t bg-gray-50 flex justify-between items-center">
-          <div className="text-gray-600">
-            <p className="font-medium">Time Taken: {formatTime(3 * 60 * 60 - timeRemaining)}</p>
-            <p className="text-sm">Total Questions: {questionSet.length}</p>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setShowResults(false);
-                setIsTimerRunning(true);
-              }}
-              className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              Review Questions
-            </button>
-            <button
-              onClick={() => {
-                alert("Your responses have been saved!");
-                setShowResults(false);
-              }}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Save & Exit
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-
-  /* ===================== TIMER COMPONENT ===================== */
-  const TimerComponent = () => {
-    const isLowTime = timeRemaining < 300;
-    const isCriticalTime = timeRemaining < 60;
-
+  /* ===================== RENDER NO DATA ===================== */
+  if (!examData) {
     return (
-      <motion.div
-        className="fixed z-40"
-        style={{
-          x: timerPosition.x,
-          y: timerPosition.y,
-          top: "120px",
-          right: "20px",
-        }}
-        drag
-        dragMomentum={false}
-        onDragStart={() => setIsDragging(true)}
-        onDragEnd={(event, info) => {
-          setIsDragging(false);
-          setTimerPosition({
-            x: timerPosition.x + info.offset.x,
-            y: timerPosition.y + info.offset.y,
-          });
-        }}
-        dragElastic={0.1}
-        whileDrag={{ scale: 1.05 }}
-      >
-        <div className={`bg-white p-4 rounded-xl shadow-lg w-64 border-2 ${
-          isCriticalTime ? "border-red-500" : isLowTime ? "border-orange-400" : "border-blue-200"
-        }`}>
-          <div className="flex justify-between items-center mb-2">
-            <div className="flex items-center gap-2">
-              <Clock className={`h-5 w-5 ${
-                isCriticalTime ? "text-red-600" : "text-blue-600"
-              }`} />
-              <span className="font-bold">Exam Timer</span>
-            </div>
-            <button
-              onClick={() => setIsTimerMinimized(!isTimerMinimized)}
-              className="p-1 hover:bg-gray-100 rounded"
-            >
-              {isTimerMinimized ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-            </button>
-          </div>
-
-          {!isTimerMinimized && (
-            <>
-              <div className={`text-center text-2xl font-mono font-bold my-2 ${
-                isCriticalTime ? "text-red-600 animate-pulse" : "text-blue-700"
-              }`}>
-                {formatTime(timeRemaining)}
-              </div>
-              <div className="flex justify-center gap-2">
-                <button
-                  onClick={() => setIsTimerRunning(!isTimerRunning)}
-                  className={`px-3 py-1 rounded ${
-                    isTimerRunning
-                      ? "bg-red-100 text-red-700"
-                      : "bg-green-100 text-green-700"
-                  }`}
-                >
-                  {isTimerRunning ? "Pause" : "Resume"}
-                </button>
-                <button
-                  onClick={() => {
-                    setTimeRemaining(3 * 60 * 60);
-                    setIsTimerRunning(true);
-                  }}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded"
-                >
-                  Reset
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </motion.div>
+      <div className="h-screen flex flex-col items-center justify-center bg-gray-50">
+        <AlertCircle className="w-20 h-20 text-red-400 mb-4" />
+        <h2 className="text-2xl font-black text-gray-800 mb-2">No Exam Data Found</h2>
+        <p className="text-gray-500 mb-4">Could not load exam data from the server.</p>
+        {error && <p className="text-red-500 text-sm mb-6">Error: {error}</p>}
+        <button
+          onClick={() => navigate(`/practice/examtype/${examtype || "ioe"}`)}
+          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all"
+        >
+          <ArrowLeft size={18} /> Back to Practice
+        </button>
+      </div>
     );
+  }
+
+  // Safe data access with fallbacks
+  const safeExamData = {
+    setName: examData?.setName || "Set Paper",
+    examType: examData?.examType || examtype || "ioe",
+    fullMarks: examData?.fullMarks || 100,
+    subjects: examData?.subjects || []
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
       <NavBar />
       <div className="flex">
         <SideBar />
-        <main className="flex-1 p-6 space-y-8 max-w-6xl mx-auto">
-          <TimerComponent />
-
-          {/* Header */}
-          <motion.div 
-            className="text-center bg-white p-6 rounded-2xl shadow-lg border border-gray-200"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Tribhuvan University</h1>
-            <p className="text-lg text-gray-700 mb-1">Institute of Science and Technology</p>
-            <p className="text-gray-600">2081</p>
-            <div className="mt-4 inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full">
-              <Clock className="h-5 w-5 text-blue-600" />
-              <span className="font-semibold text-blue-700">Time: 3 Hours</span>
+        
+        <main className="flex-1 p-4 lg:p-8 max-w-6xl mx-auto">
+          
+          {/* Top Navigation */}
+          <div className="mb-8 flex items-center justify-between">
+            <button 
+              onClick={() => navigate(`/practice/examtype/${examtype || "ioe"}`)}
+              className="group flex items-center gap-2 text-gray-400 hover:text-blue-600 font-bold transition-all px-4 py-2 rounded-xl hover:bg-blue-50"
+            >
+              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform"/> 
+              <span className="hidden sm:inline">Back to Sets</span>
+              <span className="sm:hidden">Back</span>
+            </button>
+            
+            <div className="text-right">
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
+                {safeExamData.setName}
+              </h1>
+              <div className="flex gap-2 justify-end items-center mt-1 flex-wrap">
+                <span className="text-xs bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full font-black uppercase">
+                  {safeExamData.examType}
+                </span>
+                <span className="text-xs text-gray-500 font-bold uppercase">
+                  Full Marks: {safeExamData.fullMarks}
+                </span>
+                <span className="text-xs text-gray-500 font-bold uppercase">
+                  • {safeExamData.subjects.length} Subjects
+                </span>
+                <span className="text-xs text-gray500 font-bold uppercase">
+                  • {questionSet.length} Questions
+                </span>
+              </div>
             </div>
-          </motion.div>
-
-          {/* Questions Sections */}
-          <div className="space-y-10">
-            {Object.entries(groupedQuestions).map(([subject, questions]) => 
-              questions.length > 0 && renderQuestionSection(subject, questions)
-            )}
           </div>
 
-          {/* Submit Button */}
-          <div className="text-center py-8">
-            <motion.button
-              className="px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSubmit}
-              disabled={showResults}
-            >
-              {showResults ? "Submitted" : "Submit Answer Sheet"}
-            </motion.button>
+          {/* Error Alert */}
+          {error && (
+            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-2xl">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="text-yellow-600" size={20} />
+                <p className="text-yellow-800 text-sm">
+                  Using fallback data. API Error: {error}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Progress Stats Bar */}
+          <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-black uppercase text-gray-400 tracking-widest">Answered</div>
+                  <div className="text-2xl font-black text-gray-900">
+                    {answeredCount}<span className="text-gray-400 text-lg">/{questionSet.length}</span>
+                  </div>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                  <Check className="text-green-600" size={20} />
+                </div>
+              </div>
+              <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-green-500 rounded-full transition-all duration-500"
+                  style={{ width: `${questionSet.length > 0 ? (answeredCount / questionSet.length) * 100 : 0}%` }}
+                ></div>
+              </div>
+            </div>
             
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-black uppercase text-gray-400 tracking-widest">Remaining</div>
+                  <div className="text-2xl font-black text-gray-900">
+                    {Math.max(0, questionSet.length - answeredCount)}
+                  </div>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                  <AlertCircle className="text-yellow-600" size={20} />
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-black uppercase text-gray-400 tracking-widest">Time Left</div>
+                  <div className={`font-mono text-2xl font-black ${timeRemaining < 300 ? 'text-red-600' : 'text-gray-900'}`}>
+                    {formatTime(timeRemaining)}
+                  </div>
+                </div>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${timeRemaining < 300 ? 'bg-red-100' : 'bg-blue-100'}`}>
+                  <Clock className={timeRemaining < 300 ? 'text-red-600' : 'text-blue-600'} size={20} />
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-black uppercase text-gray-400 tracking-widest">Score</div>
+                  <div className="text-2xl font-black text-gray-900">
+                    {stats.score}<span className="text-gray-400 text-lg">/{stats.fullMarks}</span>
+                  </div>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                  <Award className="text-purple-600" size={20} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Results Summary - Show only when results are visible */}
+          <AnimatePresence>
             {showResults && (
-              <motion.div
-                className="mt-4 p-4 bg-green-50 text-green-800 rounded-lg border border-green-200"
-                initial={{ opacity: 0, y: 20 }}
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }} 
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="mb-12 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 rounded-3xl p-8"
               >
-                <div className="flex items-center justify-center gap-2">
-                  <CheckCircle className="h-5 w-5" />
-                  <p className="font-medium">Answers submitted! Review your results above.</p>
+                <div className="flex items-center gap-3 mb-6">
+                  <Award className="text-yellow-500" size={28} />
+                  <h2 className="text-2xl font-black text-gray-900">Exam Results</h2>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <ResultCard 
+                    icon={<Award className="text-yellow-500"/>} 
+                    label="Total Score" 
+                    value={`${stats.score}/${stats.fullMarks}`}
+                    subtext={`${stats.percent}%`}
+                  />
+                  <ResultCard 
+                    icon={<CheckCircle className="text-green-500"/>} 
+                    label="Correct" 
+                    value={stats.correct}
+                    subtext={questionSet.length > 0 ? `${Math.round((stats.correct / questionSet.length) * 100)}%` : "0%"}
+                  />
+                  <ResultCard 
+                    icon={<XCircle className="text-red-500"/>} 
+                    label="Incorrect" 
+                    value={stats.incorrect}
+                    subtext={questionSet.length > 0 ? `${Math.round((stats.incorrect / questionSet.length) * 100)}%` : "0%"}
+                  />
+                  <ResultCard 
+                    icon={<BookOpen className="text-blue-500"/>} 
+                    label="Unattempted" 
+                    value={stats.unattempted}
+                    subtext={questionSet.length > 0 ? `${Math.round((stats.unattempted / questionSet.length) * 100)}%` : "0%"}
+                  />
+                </div>
+                
+                {/* Performance Summary */}
+                <div className="mt-8 pt-8 border-t border-blue-100">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-black text-gray-800 mb-2">Performance Summary</h3>
+                      <p className="text-gray-600">
+                        {stats.percent >= 80 ? "🎉 Excellent work! You're mastering this subject!" :
+                         stats.percent >= 60 ? "👍 Good job! Keep practicing to improve further!" :
+                         stats.percent >= 40 ? "📚 Keep going! Review the topics you missed." :
+                         "📖 More practice needed. Review the concepts and try again."}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-5xl font-black text-gray-900">{stats.percent}%</div>
+                      <div className="text-sm text-gray-500">Accuracy</div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
+          </AnimatePresence>
+
+          {/* Subjects and Questions */}
+          <div className="pr-0">
+            {safeExamData.subjects.map((sub, subjectIndex) => (
+              <div key={sub.subject || subjectIndex} className="mb-16">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-3 h-12 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                    <div>
+                      <h2 className="text-2xl font-black text-gray-900 tracking-tight">
+                        {sub.subject || `Subject ${subjectIndex + 1}`}
+                      </h2>
+                      <p className="text-sm text-gray-500 font-medium">
+                        {(sub.questions?.length || 0)} Questions • 
+                        {(sub.questions?.reduce((sum, q) => sum + (q.marks || 1), 0) || 0)} Marks
+                      </p>
+                    </div>
+                  </div>
+                  <div className="h-0.5 flex-1 bg-gradient-to-r from-blue-100 to-purple-100" />
+                </div>
+
+                <div className="space-y-8">
+                  {sub.questions?.map((q, qIdx) => {
+                    if (!q) return null;
+                    
+                    return (
+                      <div 
+                        key={q._id || qIdx} 
+                        className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                      >
+                        <div className="flex justify-between items-center mb-6">
+                          <div className="flex items-center gap-3">
+                            <span className="bg-gradient-to-r from-gray-900 to-gray-700 text-white text-xs font-black px-4 py-2 rounded-full uppercase tracking-tighter">
+                              Question {qIdx + 1}
+                            </span>
+                            {showResults && selectedOptions[q._id] !== undefined && (
+                              <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase ${
+                                q.options?.[selectedOptions[q._id]] === q.answer 
+                                  ? 'bg-green-100 text-green-700' 
+                                  : 'bg-red-100 text-red-700'
+                              }`}>
+                                {q.options?.[selectedOptions[q._id]] === q.answer ? 'Correct' : 'Incorrect'}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                              {q.chapter || "Chapter"}
+                            </span>
+                            <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                              (q.level === 'Easy') ? 'bg-green-100 text-green-700' :
+                              (q.level === 'Medium') ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>
+                              {q.level || "Medium"}
+                            </span>
+                            <span className="text-sm font-black text-blue-600">{q.marks || 1} Marks</span>
+                          </div>
+                        </div>
+
+                        <p className="text-gray-800 text-lg md:text-xl font-semibold mb-8 leading-relaxed">
+                          {q.name || "Question text not available"}
+                        </p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {q.options?.map((opt, i) => {
+                            const isSelected = selectedOptions[q._id] === i;
+                            const isCorrect = opt === q.answer;
+                            
+                            let optStyle = "border-2 border-gray-100 bg-gray-50 text-gray-700 hover:border-blue-300 hover:bg-blue-50";
+                            if (showResults) {
+                              if (isCorrect) {
+                                optStyle = "border-2 border-green-500 bg-green-50 text-green-800 shadow-lg shadow-green-100/50";
+                              } else if (isSelected && !isCorrect) {
+                                optStyle = "border-2 border-red-500 bg-red-50 text-red-800 shadow-lg shadow-red-100/50";
+                              }
+                            } else if (isSelected) {
+                              optStyle = "border-2 border-blue-600 bg-blue-600 text-white shadow-xl shadow-blue-200";
+                            }
+
+                            return (
+                              <button
+                                key={i}
+                                disabled={showResults}
+                                onClick={() => handleOptionClick(q._id, i)}
+                                className={`p-5 rounded-2xl text-left text-base font-medium transition-all duration-300 flex items-center gap-4 group ${optStyle}`}
+                              >
+                                <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border-2 font-bold transition-all
+                                  ${showResults && isCorrect ? 'bg-green-100 border-green-300 text-green-700' :
+                                    showResults && isSelected && !isCorrect ? 'bg-red-100 border-red-300 text-red-700' :
+                                    isSelected && !showResults ? 'bg-white border-white text-blue-600' :
+                                    'bg-white border-gray-200 text-gray-400 group-hover:border-blue-300'}`}>
+                                  {String.fromCharCode(65 + i)}
+                                </span>
+                                <span className="flex-1">{opt || `Option ${String.fromCharCode(65 + i)}`}</span>
+                                
+                                {/* Show icons for results */}
+                                {showResults && isCorrect && (
+                                  <CheckCircle className="text-green-500 ml-2 flex-shrink-0" size={20} />
+                                )}
+                                {showResults && isSelected && !isCorrect && (
+                                  <XCircle className="text-red-500 ml-2 flex-shrink-0" size={20} />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Explanation for correct answer (show only in results) */}
+                        {showResults && q.answer && (
+                          <motion.div 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            className="mt-6 p-4 bg-blue-50 rounded-2xl border border-blue-100"
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <BookOpen size={18} className="text-blue-600" />
+                              <h4 className="font-bold text-blue-800">Correct Answer</h4>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-blue-100 border border-blue-200 flex items-center justify-center font-bold text-blue-700">
+                                {q.options?.includes(q.answer) ? 
+                                  String.fromCharCode(65 + q.options.indexOf(q.answer)) : 
+                                  "A"}
+                              </div>
+                              <p className="text-blue-900 font-medium">{q.answer}</p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Submission Bar */}
+          <div className="mt-12 pt-12 border-t border-gray-200">
+            <div className="flex flex-col items-center">
+              {!showResults ? (
+                <>
+                  <div className="mb-8 text-center">
+                    <div className="text-gray-600 font-medium mb-2">
+                      Answered: <span className="font-black text-gray-900">{answeredCount}</span> / {questionSet.length} questions
+                    </div>
+                    <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-green-500 to-blue-500 rounded-full transition-all duration-500"
+                        style={{ width: `${questionSet.length > 0 ? (answeredCount / questionSet.length) * 100 : 0}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={answeredCount === 0}
+                      className="flex items-center justify-center gap-3 bg-gradient-to-r from-gray-900 to-gray-700 text-white px-12 py-5 rounded-2xl font-black text-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Send size={22} /> SUBMIT ANSWERS
+                    </button>
+                    
+                    <button
+                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      className="flex items-center justify-center gap-2 bg-white border-2 border-gray-300 text-gray-700 px-8 py-5 rounded-2xl font-bold hover:bg-gray-50 transition-all"
+                    >
+                      <ArrowLeft className="rotate-90" size={18} /> Back to Top
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center">
+                  <div className="mb-6">
+                    <h3 className="text-2xl font-black text-gray-900 mb-2">Exam Completed!</h3>
+                    <p className="text-gray-600 max-w-2xl mx-auto">
+                      You scored {stats.score} out of {stats.fullMarks} marks. {
+                        stats.percent >= 80 ? "Excellent performance! 🎉" :
+                        stats.percent >= 60 ? "Good job! Keep it up! 👍" :
+                        "Review your mistakes and try again! 📚"
+                      }
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button
+                      onClick={() => navigate(`/practice/examtype/${examtype || "ioe"}`)}
+                      className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-2xl font-bold hover:shadow-xl hover:-translate-y-1 transition-all"
+                    >
+                      <RotateCcw size={20} /> Try Another Set
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        setShowResults(false);
+                        setIsTimerRunning(true);
+                        setSelectedOptions({});
+                      }}
+                      className="flex items-center justify-center gap-2 bg-white border-2 border-gray-300 text-gray-700 px-10 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all"
+                    >
+                      <RotateCcw size={20} /> Retry This Set
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </main>
       </div>
-
-      {/* Results Modal */}
-      <AnimatePresence>
-        {showResults && <ResultsModal />}
-      </AnimatePresence>
     </div>
   );
 };
+
+/* Result Card Sub-component */
+const ResultCard = ({ icon, label, value, subtext }) => (
+  <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
+    <div className="flex items-center gap-4 mb-4">
+      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 flex items-center justify-center">
+        {icon}
+      </div>
+      <div>
+        <div className="text-xs font-black uppercase text-gray-400 tracking-widest">{label}</div>
+        <div className="text-2xl font-black text-gray-900 leading-none">{value}</div>
+        {subtext && <div className="text-sm text-gray-500 mt-1">{subtext}</div>}
+      </div>
+    </div>
+  </div>
+);
 
 export default SetPaperpage;

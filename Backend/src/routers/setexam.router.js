@@ -11,7 +11,7 @@ router.post("/upload",auth, upload.single("file"), uploadExamSet);
 
 router.get("/set-questions/:setId", getQuestionsBySet);
 
-router.get("/examtypes", getUniqueExamTypes);
+router.get("/getexamtype", getUniqueExamTypes);
 
 router.get("/sets/:examType", getSetsByExamType);
 
