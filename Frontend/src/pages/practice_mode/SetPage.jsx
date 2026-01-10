@@ -19,9 +19,9 @@ const SetPage = () => {
 
     
         <main className="flex-1 p-4 flex justify-center">
-          <div className="w-full max-w-2xl space-y-3" onClick={()=>navigate("/practice/set/setpaper")}>
+          <div className="w-full max-w-2xl space-y-3">
             {[0,1,2,3,4,6,7,8,9,10].map((index) => (
-              <div
+              <div onClick={()=> navigate(`/practice/set/${index}`)}
                 key={index}
                 className="border border-primary p-3 rounded cursor-pointer
                            hover:bg-primary/40 transition-all"

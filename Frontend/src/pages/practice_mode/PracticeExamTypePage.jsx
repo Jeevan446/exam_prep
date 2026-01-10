@@ -59,7 +59,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
 
               </div>
 
-              <Link to="/practice/set" state={{ examType: item.name }} >
+              <Link to={`/practice/examtype/${item.name}`} state={{ examType: item.name }} >
                 <button className="btn btn-secondary shadow-lg text-xs md:text-sm lg:text-xl">
                   {item.name}
                 </button>
