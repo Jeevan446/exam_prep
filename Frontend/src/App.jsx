@@ -62,8 +62,8 @@ function App() {
 
         {/* FOR PRACTICE MODE */}
         <Route path="/practice/examtype" element={<PracticeExamTypePage />} />
-        <Route path="/practice/set" element={<SetPage />} />
-        <Route path="/practice/set/setpaper" element={<SetPaperpage />} />
+        <Route path="/practice/examtype/:examtype" element={<SetPage />} />
+        <Route path="/practice/set/:id" element={<SetPaperpage />} />
 
       {/* For Profile Page */}
         <Route path="/profile" element={< Profilepage/>} />
