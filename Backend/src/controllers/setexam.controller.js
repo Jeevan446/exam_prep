@@ -199,7 +199,7 @@ const getUniqueExamTypes = async (req, res) => {
 
 
 
-//it gives setname  acrroding examtype
+//it gives setname  acrroding examtypes
 
 const getSetsByExamType = async (req, res) => {
   try {
