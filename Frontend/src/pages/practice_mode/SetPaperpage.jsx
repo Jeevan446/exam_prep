@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SideBar from "../../components/SideBar"
 
 import NavBar from "../../components/NavBar";
+import Loading from "../../components/Loading";
 
 const SetPaperpage = () => {
   const { examtype, id } = useParams();
@@ -148,7 +149,7 @@ const SetPaperpage = () => {
     return `${hrs > 0 ? hrs + ":" : ""}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <Loading />;
 
   return (
     <div className="relative min-h-screen flex flex-col">
@@ -372,16 +373,6 @@ const QuestionCard = ({ q, qIdx, subName, showResults, isSelected, onSelect, onC
   );
 };
 
-const LoadingSpinner = () => (
-  <div className="h-screen flex flex-col items-center justify-center bg-white gap-6">
-    <div className="relative">
-       <Loader2 className="animate-spin text-blue-600" size={56} />
-       <div className="absolute inset-0 flex items-center justify-center">
-         <div className="w-2 h-2 bg-blue-600 rounded-full" />
-       </div>
-    </div>
-    <p className="text-slate-400 font-black uppercase tracking-[0.4em] text-[10px]">Assembling Test</p>
-  </div>
-);
+
 
 export default SetPaperpage;
