@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronUp,
   LogIn,
+  Palette,
 } from "lucide-react";
 import { useSidebar } from "../context/sidebarContext";
 import { useUser } from "../context/userContext";
@@ -121,7 +122,7 @@ function SideBar() {
           <div className="border-t  border-primary py-5 space-y-5">
             <div className="flex gap-1 w-full px-4 justify-between text-primary" onClick={handleThemeDropDown}>
               <div className="flex gap-4 items-center">
-                <UsersRound size={20} />
+                <Palette size={20} />
                 <span className="font-bold">Theme</span>
               </div>
               <div className="flex items-center">

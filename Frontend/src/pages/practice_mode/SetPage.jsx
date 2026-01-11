@@ -39,14 +39,16 @@ function SetPage({ isOpen, setIsOpen }) {
             <div className="text-red-500 font-bold">No sets available for this exam type.</div>
           )}
 
-          {sets.map((set) => (
+          {sets.map((set, key) => (
             <Link
               to={`/practice/${router.examtype}/set/${set.setId}`}
               key={set.setId}
               state={{ setName: set.setName, examType }}
-              className="btn btn-secondary shadow-lg text-xs md:text-sm lg:text-xl w-[90%] mb-4"
+              className="border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] hover:text-secondary"
             >
-              {set.setName}
+              <span className="text-secondary">{key + 1}.</span>
+              <span className="ml-2">{set.setName}</span>
+              
             </Link>
           ))}
         </div>
