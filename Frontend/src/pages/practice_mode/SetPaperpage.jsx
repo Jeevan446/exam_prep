@@ -6,6 +6,7 @@ import {
   XCircle, RotateCcw, AlertCircle, BarChart3, TrendingUp, Eraser 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import SideBar from "../../components/SideBar"
 
 import NavBar from "../../components/NavBar";
 
@@ -152,6 +153,7 @@ const SetPaperpage = () => {
   return (
     <div className="relative min-h-screen bg-slate-50 flex flex-col">
       <div className="sticky top-0 z-[60] w-full"><NavBar /></div>
+      <SideBar />
 
       <div className="flex flex-1">
         {/* PALETTE SIDEBAR */}
