@@ -151,30 +151,30 @@ const SetPaperpage = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="relative min-h-screen bg-slate-50 flex flex-col">
+    <div className="relative min-h-screen flex flex-col">
       <div className="sticky top-0 z-[60] w-full"><NavBar /></div>
       <SideBar />
 
       <div className="flex flex-1">
         {/* PALETTE SIDEBAR */}
-        <aside className="hidden xl:block w-64 h-[calc(100vh-64px)] sticky top-16 bg-white border-r border-slate-200 p-5 overflow-y-auto">
+        <aside className="hidden xl:block w-64 h-[calc(100vh-64px)] sticky top-16 bg-base-100 border-r border-base-content/20 p-5 overflow-y-auto">
           <div className="flex items-center gap-2 mb-6 px-1">
-            <LayoutGrid size={14} className="text-blue-600" />
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Question Palette</h3>
+            <LayoutGrid size={14} className="text-secondary" />
+            <h3 className="text-[10px] font-black text-secondary uppercase tracking-tighter">Question Palette</h3>
           </div>
           {examData?.subjects?.map((sub, sIdx) => (
             <div key={sIdx} className="mb-8">
               <div className="flex justify-between items-center mb-3 px-1">
-                <p className="text-[10px] font-black text-slate-800 uppercase tracking-tight">{sub.subject}</p>
-                <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                <p className="text-[10px] font-black text-secondary uppercase tracking-tight">{sub.subject}</p>
+                <span className="text-[9px] font-bold text-secondary border border-secondary px-2 py-0.5 rounded-full">
                   {sub.questions.filter(q => selectedOptions[q._id] !== undefined).length}/{sub.questions.length}
                 </span>
               </div>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-5 gap-2">  
                 {sub.questions.map((q, qIdx) => (
                   <button key={q._id} onClick={() => document.getElementById(`question-${q._id}`).scrollIntoView({ behavior: 'smooth', block: 'center' })}
                     className={`h-8 w-8 rounded-lg text-[10px] font-bold border transition-all shadow-sm
-                      ${selectedOptions[q._id] !== undefined ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-400'}`}>
+                      ${selectedOptions[q._id] !== undefined ? 'bg-secondary border-secondary text-white' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-400'}`}>
                     {qIdx + 1}
                   </button>
                 ))}
@@ -185,18 +185,18 @@ const SetPaperpage = () => {
 
         <main className="flex-1 pb-24">
           {/* STICKY HEADER */}
-          <div className="sticky top-[64px] z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm">
+          <div className="sticky top-[64px] z-50 bg-base-100 border-b border-secondary px-6 py-4 flex justify-between items-center shadow-sm">
             <div className="flex flex-col">
-              <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest">Active Exam</span>
-              <h2 className="text-xs font-bold text-slate-800 truncate max-w-[150px]">{examData?.setName}</h2>
-            </div>
+              <span className="text-[9px] font-black text-secondary uppercase tracking-widest">Active Exam</span>
+              <h2 className="text-xs font-bold text-ghost truncate max-w-[150px]">{examData?.setName}</h2>
+            </div>  
             <div className="flex items-center gap-3">
-              <div className={`flex items-center gap-2 font-mono font-bold px-4 py-2 rounded-xl border text-sm shadow-sm
-                ${timeRemaining < 300 && !showResults ? 'bg-red-50 text-red-600 border-red-200 animate-pulse' : 'bg-slate-900 text-white border-slate-800'}`}>
+              <div className={`flex items-center gap-2 font-mono font-bold px-4 py-2 rounded-2xl border text-sm shadow-sm
+                ${timeRemaining < 300 && !showResults ? 'bg-red-50 text-red-600 border-red-200 animate-pulse' : ' text-ghost border-secondary'}`}>
                 <Clock size={16} /> {showResults ? "FINISHED" : formatTime(timeRemaining)}
               </div>
               {!showResults && (
-                <button onClick={() => setIsConfirming(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-blue-100 transition-all active:scale-95">
+                <button onClick={() => setIsConfirming(true)} className="btn btn-info text-[10px] uppercase tracking-widest flex items-center gap-2">
                   <Send size={14} /> Submit
                 </button>
               )}
@@ -208,12 +208,12 @@ const SetPaperpage = () => {
             <AnimatePresence>
               {showResults && (
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 mb-12">
-                  <div className="bg-white border-2 border-blue-50 rounded-[2rem] p-8 shadow-2xl shadow-blue-50">
+                  <div className=" border-2 border-secondary rounded-2xl p-8 ">
                     <div className="flex justify-between items-center mb-8">
-                      <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
-                        <TrendingUp className="text-blue-600" /> Performance Report
+                      <h2 className="text-2xl font-black text-ghost flex items-center gap-3">
+                        <TrendingUp className="text-secondary" /> Performance Report
                       </h2>
-                      <button onClick={() => window.location.reload()} className="p-3 bg-slate-100 rounded-2xl hover:bg-blue-600 hover:text-white transition-all">
+                      <button onClick={() => window.location.reload()} className="p-3 border-2 border-secondary rounded-2xl hover:bg-secondary hover:text-ghost  transition-all">
                         <RotateCcw size={20}/>
                       </button>
                     </div>
@@ -225,7 +225,7 @@ const SetPaperpage = () => {
                       <StatCard label="Skipped" value={analysis.skipped} color="slate" />
                     </div>
 
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 px-1">Subject Breakdown</h3>
+                    <h3 className="text-[10px] font-black text-secondary uppercase tracking-widest mb-6 px-1">Subject Breakdown</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {Object.entries(analysis.subjectStats).map(([name, stats]) => (
                         <SubjectResultCard key={name} name={name} stats={stats} />
@@ -240,8 +240,8 @@ const SetPaperpage = () => {
             {examData?.subjects?.map((sub) => (
               <div key={sub.subject} className="mb-16">
                 <div className="flex items-center gap-4 mb-8">
-                  <h2 className="text-xs font-black text-slate-900 uppercase tracking-[0.3em]">{sub.subject}</h2>
-                  <div className="h-[2px] flex-1 bg-gradient-to-r from-slate-200 to-transparent" />
+                  <h2 className="text-xs font-black text-ghost uppercase tracking-[0.3em]">{sub.subject}</h2>
+                  <div className="h-[2px] flex-1 bg-gradient-to-r from-secondary to-transparent" />
                 </div>
                 <div className="space-y-8">
                   {sub.questions.map((q, qIdx) => (
@@ -265,15 +265,15 @@ const SetPaperpage = () => {
         {isConfirming && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsConfirming(false)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative bg-white rounded-[2rem] p-10 max-w-sm w-full shadow-2xl text-center">
-              <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative bg-base-100 border-2 border-secondary rounded-[2rem] p-10 max-w-sm w-full text-center">
+              <div className="w-20 h-20 text-secondary rounded-3xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
                 <AlertCircle size={40} />
               </div>
-              <h3 className="text-2xl font-black text-slate-900 mb-2">Final Submit?</h3>
-              <p className="text-slate-500 text-sm leading-relaxed mb-8">You've attempted {Object.keys(selectedOptions).length} questions. Are you sure you want to end the test?</p>
+              <h3 className="text-2xl font-black text-secondary mb-2">Final Submit?</h3>
+              <p className="text-ghost text-sm leading-relaxed mb-8">You've attempted {Object.keys(selectedOptions).length} questions. Are you sure you want to end the test?</p>
               <div className="flex gap-4">
                 <button onClick={() => setIsConfirming(false)} className="flex-1 py-4 font-bold text-slate-400 hover:text-slate-600 transition-all">Cancel</button>
-                <button onClick={handleFinalSubmit} className="flex-1 py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-xl shadow-blue-100 hover:bg-blue-700 transition-all">Yes, Submit</button>
+                <button onClick={handleFinalSubmit} className="flex-1 py-4 bg-primary text-white rounded-2xl font-bold  hover:bg-secondary transition-all">Yes, Submit</button>
               </div>
             </motion.div>
           </div>
@@ -287,21 +287,21 @@ const SetPaperpage = () => {
 
 const SubjectResultCard = ({ name, stats }) => {
   const percentage = Math.round((stats.score / stats.total) * 100) || 0;
-  const colorClass = percentage >= 75 ? 'bg-green-500' : percentage >= 40 ? 'bg-blue-600' : 'bg-red-500';
+  const colorClass = percentage >= 75 ? 'bg-success' : percentage >= 40 ? 'bg-info' : 'bg-error';
   
   return (
-    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5">
+    <div className="border border-secondary rounded-2xl p-5">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <p className="text-[10px] font-black text-slate-400 uppercase mb-1">{name}</p>
-          <p className="text-xl font-black text-slate-800">{stats.score}<span className="text-sm text-slate-400">/{stats.total}</span></p>
+          <p className="text-[10px] font-black text-ghost uppercase mb-1">{name}</p>
+          <p className="text-xl font-black text-white">{stats.score}<span className="text-sm text-ghost opacity-50">/{stats.total}</span></p>
         </div>
         <span className={`text-[10px] font-black px-2 py-1 rounded-lg text-white ${colorClass}`}>{percentage}%</span>
       </div>
       <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden mb-2">
         <motion.div initial={{ width: 0 }} animate={{ width: `${percentage}%` }} transition={{ duration: 1 }} className={`h-full ${colorClass}`} />
       </div>
-      <div className="flex justify-between text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
+      <div className="flex justify-between text-[9px] font-bold text-ghost uppercase tracking-tighter">
         <span>Accuracy: {Math.round((stats.correct / stats.count) * 100)}%</span>
         <span>{stats.correct}/{stats.count} Correct</span>
       </div>
@@ -326,10 +326,10 @@ const StatCard = ({ label, value, color }) => {
 
 const QuestionCard = ({ q, qIdx, subName, showResults, isSelected, onSelect, onClear }) => {
   return (
-    <div id={`question-${q._id}`} className="bg-white border border-slate-200 rounded-3xl p-8 transition-all hover:shadow-md">
+    <div id={`question-${q._id}`} className=" border border-secondary rounded-3xl p-8 transition-all hover:shadow-md">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <span className="bg-slate-50 text-[10px] font-black px-3 py-1 rounded-full text-slate-400 uppercase tracking-widest border border-slate-100">{subName} — Q {qIdx + 1}</span>
+          <span className=" text-[10px] font-black px-3 py-1 rounded-full text-ghost uppercase tracking-widest border border-secondary">{subName} — Q {qIdx + 1}</span>
           {/* CLEAR SELECTION BUTTON (Only visible during exam and when an option is selected) */}
           {!showResults && isSelected !== undefined && (
             <button 
@@ -340,26 +340,26 @@ const QuestionCard = ({ q, qIdx, subName, showResults, isSelected, onSelect, onC
             </button>
           )}
         </div>
-        <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">+{q.marks} Marks</span>
+        <span className="text-[10px] font-black text-info px-3 py-1 rounded-full border border-info">+{q.marks} Marks</span>
       </div>
-      <p className="text-lg font-bold text-slate-800 mb-8 leading-relaxed select-none">{q.name}</p>
+      <p className="text-lg font-bold text-ghost mb-8 leading-relaxed select-none">{q.name}</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {q.options.map((opt, i) => {
           const active = isSelected === i;
           const isCorrect = opt === q.answer;
-          let btnStyle = "border-slate-50 bg-slate-50 text-slate-500 hover:border-blue-200 hover:bg-white";
+          let btnStyle = "border-secondary/40 text-ghost hover:border-info";
           if (!showResults) {
-            if (active) btnStyle = "border-blue-600 bg-blue-600 text-white shadow-xl shadow-blue-100";
+            if (active) btnStyle = "border-info bg-info text-neutral";
           } else {
-            if (isCorrect) btnStyle = "border-green-500 bg-green-500 text-white shadow-lg shadow-green-100 scale-[1.02] z-10";
+            if (isCorrect) btnStyle = "border-success bg-success text-ghost scale-[1.02] z-10";
             else if (active) btnStyle = "border-red-500 bg-red-500 text-white";
-            else btnStyle = "border-slate-100 bg-white opacity-40 grayscale-[50%]";
+            else btnStyle = "border-secondary/40";
           }
           return (
             <button key={i} disabled={showResults} onClick={(e) => onSelect(i, e)}
               className={`p-5 rounded-2xl border-2 text-left text-sm font-bold flex items-center justify-between gap-4 transition-all duration-300 ${btnStyle}`}>
               <div className="flex items-center gap-4">
-                <span className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border font-black text-xs ${active || (showResults && isCorrect) ? 'bg-white/20 border-white/10' : 'bg-white text-slate-300'}`}>{String.fromCharCode(65 + i)}</span>
+                <span className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border font-black text-xs ${active || (showResults && isCorrect) ? 'bg-white/20 border-white/10' : 'border-neutral'}`}>{String.fromCharCode(65 + i)}</span>
                 <span className="leading-snug">{opt}</span>
               </div>
               {showResults && isCorrect && <CheckCircle2 size={18} />}
