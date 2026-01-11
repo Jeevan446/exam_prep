@@ -73,7 +73,7 @@ function SideBar() {
       {isOpen && (
         <div
           onClick={closeSidebar}
-          className="fixed inset-0 bg-black/60 z-40"
+          className="fixed inset-0 bg-black/60 z-[200]"
         />
       )}
 
@@ -83,7 +83,7 @@ function SideBar() {
         className={`fixed top-0 left-0 h-screen w-64 
           bg-base-200 border-r border-base-content/10
           transition-transform duration-300
-          z-50 
+          z-[200] 
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
