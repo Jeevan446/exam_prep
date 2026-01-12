@@ -12,6 +12,7 @@ import AddquestionPage from "./pages/admin/AddquestionPage";
 import EditQuestionPage from "./pages/admin/EditQuestionPage";
 import AddSubject from "./pages/admin/AddSubject";
 import AddSetPage from "./pages/admin/AddSetPage";
+import AddNoticePage from "./pages/admin/AddNoticePage";
 
 // auth:
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -29,7 +30,7 @@ import SetPage from "./pages/practice_mode/SetPage";
 import SetPaperpage from "./pages/practice_mode/SetPaperpage";
 
 // For Profile Related Page:
-import Profilepage from './pages/profile/Profilepage'
+import Profilepage from "./pages/profile/Profilepage";
 import { useUser } from "./context/userContext";
 
 //protected route;
@@ -37,8 +38,6 @@ import ProtectedRoute from "../routes/protectedRoute";
 
 
 function App() {
-
-
   return (
     <div id="themeElement">
       <Routes>
@@ -52,7 +51,7 @@ function App() {
           path="/examtype/chapter/questionpage"
           element={<QuestionPage />}
         />
-       
+
         <Route
           path="/admin"
           element={
@@ -101,9 +100,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-
-
+        <Route
+          path="/admin/addnotice"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AddNoticePage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/admin/addexamtype" element={<AddExamType />} />
@@ -115,7 +119,7 @@ function App() {
         <Route path="/practice/:examtype/set/:id" element={<SetPaperpage />} />
 
         {/* For Profile Page */}
-        <Route path="/profile" element={< Profilepage />} />
+        <Route path="/profile" element={<Profilepage />} />
       </Routes>
     </div>
   );
