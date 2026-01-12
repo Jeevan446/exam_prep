@@ -52,16 +52,7 @@ function App() {
           path="/examtype/chapter/questionpage"
           element={<QuestionPage />}
         />
-        {/* <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminPage /></ProtectedRoute>} />
-        <Route path="/admin/addquestion" element={<AddquestionPage />} />
-        <Route path="/admin/addsubjects" element={<AddSubject />} />
-        <Route path="/admin/addchapters" element={<AddChapterPage />} />
-        <Route path="/admin/addset" element={<AddSetPage />} />
-        <Route //Not yet designed
-          path="/admin/editquestion"
-          element={<EditQuestionPage />}
-        /> */}
-
+       
         <Route
           path="/admin"
           element={
