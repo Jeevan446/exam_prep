@@ -3,10 +3,10 @@ import { createContext, useContext, useState } from "react";
 const SidebarContext = createContext(null);
 
 export const SidebarProvider = ({ children }) => {
-  // ✅ DEFINE isOpen FIRST
+
   const [isOpen, setIsOpen] = useState(false);
 
-  // ✅ helper functions
+  
   const toggleSidebar = () => setIsOpen(prev => !prev);
   const openSidebar = () => setIsOpen(true);
   const closeSidebar = () => setIsOpen(false);
@@ -14,7 +14,7 @@ export const SidebarProvider = ({ children }) => {
   return (
     <SidebarContext.Provider
       value={{
-        isOpen,          // ✅ now defined
+        isOpen,         
         toggleSidebar,
         openSidebar,
         closeSidebar,

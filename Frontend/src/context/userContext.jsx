@@ -72,6 +72,10 @@ export const UserProvider = ({ children }) => {
     const res = await axios.put("/api/user/changepassword", data);
     return res.data.message;
   };
+  
+  const isAdmin = user?.role === "admin";
+      
+  
 
   return (
     <UserContext.Provider
@@ -84,7 +88,8 @@ export const UserProvider = ({ children }) => {
         logout,
         setToken,
         register,
-        changePassword
+        changePassword ,
+        isAdmin
       }}
     >
       {children}

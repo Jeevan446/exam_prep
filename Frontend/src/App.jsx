@@ -29,11 +29,16 @@ import SetPage from "./pages/practice_mode/SetPage";
 import SetPaperpage from "./pages/practice_mode/SetPaperpage";
 
 // For Profile Related Page:
-import  Profilepage from  './pages/profile/Profilepage'
+import Profilepage from './pages/profile/Profilepage'
+import { useUser } from "./context/userContext";
+
+//protected route;
+import ProtectedRoute from "../routes/protectedRoute";
 
 
 function App() {
-  
+
+
   return (
     <div id="themeElement">
       <Routes>
@@ -47,15 +52,68 @@ function App() {
           path="/examtype/chapter/questionpage"
           element={<QuestionPage />}
         />
-        <Route path="/admin" element={<AdminPage />} />
+        {/* <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminPage /></ProtectedRoute>} />
         <Route path="/admin/addquestion" element={<AddquestionPage />} />
         <Route path="/admin/addsubjects" element={<AddSubject />} />
         <Route path="/admin/addchapters" element={<AddChapterPage />} />
-          <Route path="/admin/addset" element={<AddSetPage />} />
+        <Route path="/admin/addset" element={<AddSetPage />} />
         <Route //Not yet designed
           path="/admin/editquestion"
           element={<EditQuestionPage />}
+        /> */}
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
         />
+        <Route
+          path="/admin/addquestion"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AddquestionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/addsubjects"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AddSubject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/addchapters"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AddChapterPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/addset"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AddSetPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/editquestion"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EditQuestionPage />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/admin/addexamtype" element={<AddExamType />} />
         <Route path="*" element={<NotFoundPage />} />
@@ -65,8 +123,8 @@ function App() {
         <Route path="/practice/examtype/:examtype" element={<SetPage />} />
         <Route path="/practice/:examtype/set/:id" element={<SetPaperpage />} />
 
-      {/* For Profile Page */}
-        <Route path="/profile" element={< Profilepage/>} />
+        {/* For Profile Page */}
+        <Route path="/profile" element={< Profilepage />} />
       </Routes>
     </div>
   );
