@@ -78,7 +78,7 @@ const AddSetPage = () => {
         </div>
 
         {response && (
-          <div className="mt-4 p-2 border border-sucess bg-green-100 rounded">
+          <div className="mt-4 p-2 border border-sucess rounded">
             <h3 className="font-bold">Success!</h3>
             <pre>{JSON.stringify(response, null, 2)}</pre>
           </div>
