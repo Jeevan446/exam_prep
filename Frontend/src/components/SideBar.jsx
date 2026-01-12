@@ -43,8 +43,23 @@ const availabletheme = [
 ];
 
 function SideBar() {
-  const { changeTheme } = useTheme();
   const { isOpen, closeSidebar } = useSidebar();
+  
+  useEffect(() => {
+  if (isOpen) {
+    // Disable background scroll
+    document.body.style.overflow = "hidden";
+  } else {
+    // Enable scroll again
+    document.body.style.overflow = "auto";
+  }
+  // Cleanup when component unmounts
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [isOpen]);
+
+  const { changeTheme } = useTheme();
   const { logout, user, login} = useUser();
 
 

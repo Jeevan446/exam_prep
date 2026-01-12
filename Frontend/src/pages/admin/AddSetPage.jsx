@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar"
+import toast from "react-hot-toast";
 
 const AddSetPage = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+ 
+
 
   // Optional: get JWT token from localStorage
   const token = localStorage.getItem("token"); // replace with your method if different
@@ -16,8 +21,9 @@ const AddSetPage = () => {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file first!");
-      return;
+      toast.error(error || "file not uploaded",{
+          duration: 1500,
+      });
     }
 
     const formData = new FormData();
@@ -51,31 +57,33 @@ const AddSetPage = () => {
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Upload Exam Set</h2>
+    <div className="min-h-screen">
+      <NavBar />
+      <SideBar />
+      <div className="p-4 max-w-xl mx-auto">
+        <div className="border-2 border-secondary p-3 rounded">
 
-      <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
-      <button
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={handleUpload}
-        disabled={loading}
-      >
-        {loading ? "Uploading..." : "Upload"}
-      </button>
+          <h2 className="text-2xl font-bold mb-4">Upload Exam Set</h2>
 
-      {response && (
-        <div className="mt-4 p-2 border border-green-500 bg-green-100 rounded">
-          <h3 className="font-bold">Success!</h3>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
+          <div className="flex justify-between mt-2">
+            <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+            <button
+              className="mt-4 btn btn-info md:mt-0"
+              onClick={handleUpload}
+              disabled={loading}
+            >
+              {loading ? "Uploading..." : "Upload"}
+            </button>
+          </div>
         </div>
-      )}
 
-      {error && (
-        <div className="mt-4 p-2 border border-red-500 bg-red-100 rounded">
-          <h3 className="font-bold">Error!</h3>
-          <p>{error}</p>
-        </div>
-      )}
+        {response && (
+          <div className="mt-4 p-2 border border-sucess bg-green-100 rounded">
+            <h3 className="font-bold">Success!</h3>
+            <pre>{JSON.stringify(response, null, 2)}</pre>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
