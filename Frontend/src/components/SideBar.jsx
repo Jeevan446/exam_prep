@@ -12,6 +12,7 @@ import {
   LogIn,
   Palette,
 } from "lucide-react";
+import { FaUserSecret } from "react-icons/fa";
 import { useSidebar } from "../context/sidebarContext";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
@@ -44,16 +45,15 @@ const availabletheme = [
 function SideBar() {
   const { changeTheme } = useTheme();
   const { isOpen, closeSidebar } = useSidebar();
-  const { logout, user, login } = useUser();
+  const { logout, user, login} = useUser();
+
+
   const [isDroppedDown, setIsDroppedDown] = useState(false);
   const [themeDropDown, setThemeDropDown] = useState(false);
 
   const linkStyle =
     "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
 
-  useEffect(() => {
-    console.log(isDroppedDown);
-  }, [isDroppedDown]);
 
   const toggleDropDown = () => {
     setIsDroppedDown((prev) => !prev);
@@ -62,12 +62,7 @@ function SideBar() {
   const handleThemeDropDown = () => {
     setThemeDropDown((prev) => !prev);
   };
-
-  // const handleOnClick = () => {
-  //   // closeSidebar();
-  //   toggleDropDown();
-  //
-  // }
+    
   return (
     <>
       {/* OVERLAY */}
@@ -117,6 +112,13 @@ function SideBar() {
             <UsersRound size={20} />
             <span>About Us</span>
           </Link>
+           {user?.role==='admin'&& ( 
+           <Link to="/admin" className={linkStyle} onClick={closeSidebar}>
+            <FaUserSecret size={20} />
+            <span>Admin</span>
+          </Link>
+           )
+}
 
 
           <div className="border-t  border-primary py-5 space-y-5">
