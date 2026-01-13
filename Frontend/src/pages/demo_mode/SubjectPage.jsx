@@ -35,12 +35,12 @@ function SubjectPage({ isOpen, setIsOpen }) {
   }
 
   return (
-    <div className="w-full flex flex-col ">
+    <div className="min-h-screen w-full flex flex-col ">
       <NavBar />
 
       <SideBar />
 
-      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center">
+      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center flex-1">
 
       <div className="py-10 transition-all duration-300 w-[80%]  lg:w-[70%] border bg-base-300 border-secondary/20 shadow-2xl rounded-xl 
         flex flex-col gap-6 md:gap-8 items-center"
