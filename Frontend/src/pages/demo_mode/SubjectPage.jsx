@@ -5,9 +5,11 @@ import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import { BookOpen } from "lucide-react"; //book icon
+import Loading from "../../components/Loading";
 
 function SubjectPage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
+  const [loading ,setLoading]=useState(true);
   const location = useLocation();
   const { examType } = location.state || {};
 
@@ -18,6 +20,7 @@ function SubjectPage({ isOpen, setIsOpen }) {
       const names = response.data.subjects.map((item) => item.name);
 
       setData(names);
+      setLoading(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -26,6 +29,10 @@ function SubjectPage({ isOpen, setIsOpen }) {
   useEffect(() => {
     fetchData();
   }, []);
+
+  if(loading) {
+    return <Loading />
+  }
 
   return (
     <div className="w-full flex flex-col ">

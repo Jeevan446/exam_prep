@@ -4,17 +4,20 @@ import { useLocation, Link, useParams } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
+import Loading from "../../components/Loading";
 
 function SetPage({ isOpen, setIsOpen }) {
   const location = useLocation();
   const router =useParams();
   const examType = location.state?.examType;
   const [sets, setSets] = useState([]);
+  const [loading,setLoading] =useState(true);
 
   async function fetchSets() {
     try {
       const response = await axios.get(`/api/setexam/sets/${examType}`);
       setSets(response.data.sets);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -23,6 +26,10 @@ function SetPage({ isOpen, setIsOpen }) {
   useEffect(() => {
     if (examType) fetchSets();
   }, [examType]);
+
+  if(loading) {
+    return <Loading />
+  }
 
   return (
     <div className="w-full flex flex-col">

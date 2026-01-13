@@ -5,9 +5,11 @@ import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import { List } from "lucide-react";
+import Loading from "../../components/Loading";
 
 function ChaptersPage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
+  const [loading,setLoading] =useState(true);
 
   const location = useLocation();
 
@@ -16,8 +18,8 @@ function ChaptersPage({ isOpen, setIsOpen }) {
       const response = await axios.get(
         `/api/demomode/${location.state.examType}/${location.state.subject}/chapters`
       );
-
       setData(response.data.message);
+      setLoading(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -27,6 +29,9 @@ function ChaptersPage({ isOpen, setIsOpen }) {
     fetchData();
   }, []);
 
+  if(loading) {
+    return <Loading />
+  }
 
   return (
     <div className="w-full flex flex-col ml-auto mr-auto">
