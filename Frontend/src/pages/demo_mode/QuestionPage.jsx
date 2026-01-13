@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import SideBar from '../../components/SideBar';
 import { motion, AnimatePresence, easeOut } from "framer-motion";
+import Loading from '../../components/Loading';
 
 export default function MCQQuiz({ isOpen, setIsOpen }) {
   const [quizQuestions, setQuizQuestions] = useState([]);
@@ -92,7 +93,7 @@ export default function MCQQuiz({ isOpen, setIsOpen }) {
   const score = calculateScore();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl">Loading Quiz...</div>;
+    return <Loading />
   }
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "../components/Loading"
 
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
@@ -48,7 +49,7 @@ const NoticePage = () => {
         </h1>
 
         {loading ? (
-          <p className="text-center text-ghost">Loading notices...</p>
+          <Loading />
         ) : notices.length === 0 ? (
           <p className="text-center text-ghost">No notices available.</p>
         ) : (

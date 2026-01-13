@@ -4,9 +4,11 @@ import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 function ExamTypePage({ isOpen, setIsOpen }) {
   const [data, setData] = useState([]);
+  const [loading,setLoading] =useState(true);
 
   // Fetch exams from API
   async function fetchData() {
@@ -16,6 +18,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
       );
       console.log(response.data.examTypes);
       setData(response.data.examTypes);
+      setLoading(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -24,6 +27,9 @@ function ExamTypePage({ isOpen, setIsOpen }) {
   useEffect(() => {
     fetchData();
   }, []);
+  if(loading) {
+    return <Loading />
+  }
 
   return (
     <div className=" w-full flex flex-col">

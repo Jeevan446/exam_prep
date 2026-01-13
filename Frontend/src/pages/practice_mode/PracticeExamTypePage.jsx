@@ -4,14 +4,17 @@ import { Link } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
+import Loading from "../../components/Loading";
 
 function ExamTypePage() {
   const [data, setData] = useState([]);
+  const [loading ,setLoading]=useState(true);
 
   async function fetchData() {
     try {
       const response = await axios.get("http://localhost:3000/api/setexam/getexamtype");
       setData(response.data.examTypes); 
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -20,9 +23,12 @@ function ExamTypePage() {
   useEffect(() => {
     fetchData();
   }, []);
+  if(loading) {
+   return  <Loading />
+  }
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="max-h-screen flex flex-col">
       <NavBar />
       <SideBar />
 
