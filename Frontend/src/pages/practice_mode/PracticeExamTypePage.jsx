@@ -28,11 +28,11 @@ function ExamTypePage() {
   }
 
   return (
-    <div className="max-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <NavBar />
       <SideBar />
 
-      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center">
+      <div className="flex flex-col sm:mt-8 md:mt-10 lg:mt-12 gap-4 items-center justify-center flex-1 ">
         <div className="py-10 transition-all duration-300 w-[80%] lg:w-[70%] bg-base-300 border border-secondary/20 shadow-2xl rounded-xl flex flex-col gap-6 md:gap-8 items-center">
           <h1 className="sm:text-xl md:text-2xl lg:text-3xl text-primary font-bold mb-6">
             Please select your exam type:

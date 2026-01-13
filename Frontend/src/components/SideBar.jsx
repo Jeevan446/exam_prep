@@ -44,31 +44,29 @@ const availabletheme = [
 
 function SideBar() {
   const { isOpen, closeSidebar } = useSidebar();
-  
+
   useEffect(() => {
-  if (isOpen) {
-    // Disable background scroll
-    document.body.style.overflow = "hidden";
-  } else {
-    // Enable scroll again
-    document.body.style.overflow = "auto";
-  }
-  // Cleanup when component unmounts
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [isOpen]);
+    if (isOpen) {
+      // Disable background scroll
+      document.body.style.overflow = "hidden";
+    } else {
+      // Enable scroll again
+      document.body.style.overflow = "auto";
+    }
+    // Cleanup when component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   const { changeTheme } = useTheme();
-  const { logout, user, login} = useUser();
-
+  const { logout, user, login } = useUser();
 
   const [isDroppedDown, setIsDroppedDown] = useState(false);
   const [themeDropDown, setThemeDropDown] = useState(false);
 
   const linkStyle =
     "btn btn-ghost flex items-center gap-4 px-4 w-full justify-start text-primary";
-
 
   const toggleDropDown = () => {
     setIsDroppedDown((prev) => !prev);
@@ -77,7 +75,7 @@ function SideBar() {
   const handleThemeDropDown = () => {
     setThemeDropDown((prev) => !prev);
   };
-    
+
   return (
     <>
       {/* OVERLAY */}
@@ -127,17 +125,18 @@ function SideBar() {
             <UsersRound size={20} />
             <span>About Us</span>
           </Link>
-           {user?.role==='admin'&& ( 
-           <Link to="/admin" className={linkStyle} onClick={closeSidebar}>
-            <FaUserSecret size={20} />
-            <span>Admin</span>
-          </Link>
-           )
-}
-
+          {user?.role === "admin" && (
+            <Link to="/admin" className={linkStyle} onClick={closeSidebar}>
+              <FaUserSecret size={20} />
+              <span>Admin</span>
+            </Link>
+          )}
 
           <div className="border-t  border-primary py-5 space-y-5">
-            <div className="flex gap-1 w-full px-4 justify-between text-primary" onClick={handleThemeDropDown}>
+            <div
+              className="flex gap-1 w-full px-4 justify-between text-primary"
+              onClick={handleThemeDropDown}
+            >
               <div className="flex gap-4 items-center">
                 <Palette size={20} />
                 <span className="font-bold">Theme</span>
@@ -152,11 +151,11 @@ function SideBar() {
             <AnimatePresence>
               {themeDropDown && (
                 <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="
                 h-[15vh]
                 overflow-y-auto overflow-x-hidden
                 scrollbar-thin
@@ -169,11 +168,11 @@ function SideBar() {
                 >
                   {availabletheme.map((mytheme) => (
                     <motion.div
-                    key={mytheme}
-                    onClick={() => changeTheme(mytheme)}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="cursor-pointer text-primary px-2 py-1 hover:bg-base-200 rounded"
+                      key={mytheme}
+                      onClick={() => changeTheme(mytheme)}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="cursor-pointer text-primary px-2 py-1 hover:bg-base-200 rounded"
                     >
                       {mytheme}
                     </motion.div>
@@ -186,8 +185,8 @@ function SideBar() {
               to=""
               className={"flex flex-col gap-1 w-full  text-primary "}
               onClick={toggleDropDown}
-              >
-              <div className="flex justify-between hover:bg-[#393434] rounded-full py-3 px-4 ">
+            >
+              <div className="flex justify-between rounded-full py-3 px-4 ">
                 <div className="flex gap-2 items-center">
                   <CircleUserRound />
                   <span className="font-bold">Account</span>
@@ -198,39 +197,39 @@ function SideBar() {
               <AnimatePresence>
                 {isDroppedDown && (
                   <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                   >
                     {user ? (
                       <Link
-                      to="/"
-                      className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
-                      onClick={logout}
+                        to="/"
+                        className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
+                        onClick={logout}
                       >
                         <span className="tracking-wide font-bold">Logout</span>
                         <LogOut size={20} className="animate-bounce" />
                       </Link>
                     ) : (
                       <Link
-                      to="/login"
-                      className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
-                      onClick={login}
+                        to="/login"
+                        className="btn btn-ghost flex items-center px-4 w-[90%] justify-between text-ghost"
+                        onClick={login}
                       >
                         <span className="tracking-wide font-bold">Login</span>
                         <LogIn size={20} className="animate-bounce" />
                       </Link>
                     )}
 
-                    <div className={`${linkStyle} gap-1`}>
-                      {user?.email && (
+                    {user?.email && (
+                      <div className={`${linkStyle} gap-1`}>
                         <span>
                           Email: {user.email.slice(0, 10)}
                           {user.email.length > 10 && "..."}
                         </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
