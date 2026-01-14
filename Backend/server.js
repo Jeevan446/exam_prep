@@ -9,7 +9,7 @@ const noticeRouter = require("./src/routers/notice.router");
 const setRouter =require("./src/routers/setexam.router");
 //connection to databases 
 db();
-
+//handeling cors error
 app.use(cors());
 app.use(express.json());
 app.use("/api/demomode/", demomodeRouter);
