@@ -13,6 +13,7 @@ import EditQuestionPage from "./pages/admin/EditQuestionPage";
 import AddSubject from "./pages/admin/AddSubject";
 import AddSetPage from "./pages/admin/AddSetPage";
 import AddNoticePage from "./pages/admin/AddNoticePage";
+import AnalyticsPage from "./pages/admin/AnalyticsPage";
 
 // auth:
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -108,6 +109,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+         <Route path="/admin/analytics" element={<AnalyticsPage/>} />
 
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/admin/addexamtype" element={<AddExamType />} />
