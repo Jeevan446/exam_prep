@@ -1,27 +1,42 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const app = express();
+
 const db = require("./src/db/config.db");
 const demomodeRouter = require("./src/routers/demomode.router");
 const userRouter = require("./src/routers/user.router");
 const noticeRouter = require("./src/routers/notice.router");
-const setRouter =require("./src/routers/setexam.router");
-//connection to databases 
+const setRouter = require("./src/routers/setexam.router");
+
+const app = express();
+
+// DB connection
 db();
-//handeling cors errors...
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
-app.use("/api/demomode/", demomodeRouter);
+
+// Routes
+app.use("/api/demomode", demomodeRouter);
 app.use("/api/user", userRouter);
-app.use("/api/user/", noticeRouter);
-app.use("/api/setexam",setRouter);
+app.use("/api/user", noticeRouter);
+app.use("/api/setexam", setRouter);
 
 app.get("/home", (req, res) => {
-  return res.status(200).json({ mesage: "Hello world" });
+  return res.status(200).json({ message: "Hello world" });
 });
 
-const PORT=process.env.PORT||3000
-app.listen(PORT, () => {
-  console.log("App is listening at port 3000");
-});
+/**
+ * ✅ IMPORTANT:
+ * - Only listen locally
+ * - Export app for Vercel
+ */
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`App is listening at port ${PORT}`);
+  });
+}
+
+module.exports = app;
