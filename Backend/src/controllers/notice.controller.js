@@ -1,6 +1,6 @@
-const noticeModel = require("../models/notice.model");
+import noticeModel  from "../models/notice.model.js"
 
-const createNotice = async (req, res) => {
+export const createNotice = async (req, res) => {
   try {
     const { title, message } = req.body;
 
@@ -36,7 +36,7 @@ const createNotice = async (req, res) => {
   }
 };
 
-const getNotice = async (req, res) => {
+export const getNotice = async (req, res) => {
   try {
     const notices = await noticeModel
       .find()
@@ -64,4 +64,3 @@ const getNotice = async (req, res) => {
   }
 };
 
-module.exports = { createNotice, getNotice };

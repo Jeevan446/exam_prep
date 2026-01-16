@@ -1,4 +1,5 @@
-const mongoose=require('mongoose')
+import mongoose from "mongoose";
+
 
 const chapterSchema=mongoose.Schema({
     examtype:{
@@ -15,4 +16,4 @@ const chapterSchema=mongoose.Schema({
     }
 })
 
-module.exports=mongoose.model('chapter',chapterSchema)
+export default mongoose.model('chapter',chapterSchema)

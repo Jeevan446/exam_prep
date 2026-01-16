@@ -1,8 +1,8 @@
-const XLSX = require("xlsx");
-const Set = require("../models/set.model");
-const Question = require("../models/question.model");
+import XLSX from "xlsx"
+import  Set from "../models/set.model.js"
+import  Question from "../models/question.model.js"
 
-const uploadExamSet = async (req, res) => {
+export const uploadExamSet = async (req, res) => {
   try {
     // 1️⃣ Check if file is uploaded
     if (!req.file)
@@ -120,7 +120,7 @@ const uploadExamSet = async (req, res) => {
 
 //get set acording  set id
 
-const getQuestionsBySet = async (req, res) => {
+export const getQuestionsBySet = async (req, res) => {
   try {
     const setId = req.params.setId;
     const examType = req.query.examType?.trim().toLowerCase(); // optional query
@@ -179,7 +179,7 @@ const getQuestionsBySet = async (req, res) => {
 
 //get unique examtype
 
-const getUniqueExamTypes = async (req, res) => {
+export const getUniqueExamTypes = async (req, res) => {
   try {
     const result = await Set.aggregate([
       { $unwind: "$exams" },
@@ -201,7 +201,7 @@ const getUniqueExamTypes = async (req, res) => {
 
 //it gives setname  acrroding examtypes
 
-const getSetsByExamType = async (req, res) => {
+export const getSetsByExamType = async (req, res) => {
   try {
     const examType = req.params.examType?.trim().toLowerCase();
 
@@ -235,9 +235,4 @@ const getSetsByExamType = async (req, res) => {
   }
 };
 
-module.exports = {
-  uploadExamSet,
-  getQuestionsBySet,
-  getUniqueExamTypes,
-  getSetsByExamType,
-};
+
