@@ -137,7 +137,7 @@ const handleSave = async () => {
                     <div className="relative px-6 pb-6 border-t border-primary">
                         {/* Avatar */}
                         <div className="absolute -top-16 left-6  rounded-full">
-                            <div className="w-32 h-32 rounded-full bg-neutral  border-4 border-primary bg- flex items-center justify-center text-ghost text-4xl font-bold shadow-lg">
+                            <div className="w-32 h-32 rounded-full bg-primary  border-4 border-primary  flex items-center justify-center text-info text-4xl font-bold shadow-lg">
                                 {profile.name.split(' ').map(n => n[0]).join('')}
                             </div>
                         </div>
