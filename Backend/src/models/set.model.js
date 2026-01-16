@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ExamConfigSchema = new mongoose.Schema(
   {
@@ -56,7 +56,7 @@ const SetSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Set", SetSchema);
+export default mongoose.model("Set", SetSchema);
 
  //json data for setSchema
 // {

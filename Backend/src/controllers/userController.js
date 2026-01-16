@@ -1,8 +1,8 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import  User from  "../models/user.model.js"
+import  bcrypt from "bcryptjs"
+import  jwt from "jsonwebtoken"
 
-exports.registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
@@ -44,7 +44,7 @@ exports.registerUser = async (req, res) => {
 };
 
 // for login
-exports.loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -86,7 +86,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.getUserProfile = async (req, res) => {
+export const getUserProfiles = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
@@ -101,7 +101,7 @@ exports.getUserProfile = async (req, res) => {
 };
 
 // ================ Change Password =================
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
   try {
     const userId = req.user._id;
     const { currentPassword, newPassword } = req.body;
@@ -150,7 +150,7 @@ exports.changePassword = async (req, res) => {
 };
 
 // get user Info
-exports.getUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
 
@@ -177,7 +177,7 @@ exports.getUserProfile = async (req, res) => {
 };
 
 // Update user profile (only username)
-exports.updateUserProfile = async (req, res) => {
+export const updateUserProfile = async (req, res) => {
   const { username } = req.body;
 
   if (!username) {

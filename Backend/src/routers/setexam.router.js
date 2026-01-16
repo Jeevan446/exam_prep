@@ -1,8 +1,8 @@
 
-const express = require("express");
-const multer = require("multer");
-const auth =require("../middleware/auth.middleware");
-const { uploadExamSet ,getQuestionsBySet ,getSetsByExamType ,getUniqueExamTypes } = require("../controllers/setexam.controller");
+import  express from "express"
+import  multer from "multer"
+import auth from "../middleware/auth.middleware.js"
+import  { uploadExamSet ,getQuestionsBySet ,getSetsByExamType ,getUniqueExamTypes } from '../controllers/setexam.controller.js'
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
@@ -19,4 +19,4 @@ router.get("/sets/:examType", getSetsByExamType);
 
 
 
-module.exports = router;
+export default router

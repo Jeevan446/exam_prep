@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
+import "dotenv/config";
+import  express from "express"
+import  cors from "cors"
 
-const db = require("./src/db/config.db");
-const demomodeRouter = require("./src/routers/demomode.router");
-const userRouter = require("./src/routers/user.router");
-const noticeRouter = require("./src/routers/notice.router");
-const setRouter = require("./src/routers/setexam.router");
+import db from "./src/db/configdb.js"
+import demomodeRouter from "./src/routers/demomode.router.js"
+import userRouter from "./src/routers/user.router.js"
+import  noticeRouter from "./src/routers/notice.router.js"
+import  setRouter from "./src/routers/setexam.router.js"
 
 const app = express();
 
@@ -27,16 +27,8 @@ app.get("/home", (req, res) => {
   return res.status(200).json({ message: "Hello world" });
 });
 
-/**
- * ✅ IMPORTANT:
- * - Only listen locally
- * - Export app for Vercel
- */
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+
   app.listen(PORT, () => {
     console.log(`App is listening at port ${PORT}`);
   });
-}
-
-module.exports = app;

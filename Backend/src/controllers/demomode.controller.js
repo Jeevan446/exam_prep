@@ -1,10 +1,10 @@
-const examtypeModel = require("../models/examtypes.model");
-const subjectModel = require("../models/subject.model");
-const questionModel=require('../models/question.model')
-const chapterModel=require('../models/chapter.model')
+import  subjectModel from "../models/subject.model.js"
+import  examtypeModel from "../models/examtypes.model.js"
+import  questionModel from '../models/question.model.js'
+import chapterModel from '../models/chapter.model.js'
 
 // add exam type
-async function addexamtype(req, res) {
+export async function addexamtype(req, res) {
   const { name, subjects ,discription} = req.body;
   try {
     const examtypefound = await examtypeModel.findOne({ name: name });
@@ -22,7 +22,7 @@ async function addexamtype(req, res) {
 
 // add subject
 
-async function addSubject(req, res) {
+export async function addSubject(req, res) {
   const {examtype, name, chapters } = req.body;
 
   try {
@@ -40,7 +40,7 @@ async function addSubject(req, res) {
 
 // get ExamType
 
-async function getExamType(req, res) {
+export async function getExamType(req, res) {
 
   try {
     const examtypefound = await examtypeModel.find();
@@ -56,7 +56,7 @@ async function getExamType(req, res) {
 
 //get subjects
 
-async function getSubjects(req, res) {
+export async function getSubjects(req, res) {
 console.log(req.params)
   try {
     const subjectFound = await subjectModel.find({examtype:req.params.examtype});
@@ -72,7 +72,7 @@ console.log(req.params)
 
 //add questions
 
-async function addQuestions(req,res){
+export async function addQuestions(req,res){
 try{
 const{name,examtype,subject,chapter,level,options,answer,marks,creator}=req.body;
 const isquestionAvail=await questionModel.findOne({name:name,examtype:examtype})
@@ -89,7 +89,7 @@ return res.status(200).json({message:"Question created sucessfully"})
 
 //get questions
 
-async function getQuestions(req,res){
+export async function getQuestions(req,res){
 try{
   
   const questions=await questionModel.find({examtype:req.params.examtype,subject:req.params.subject,chapter:req.params.chapter})
@@ -105,7 +105,7 @@ console.log("Error at getquestions function")
 }
 
 // add chapters
-async function addChapters(req, res) {
+export async function addChapters(req, res) {
   try {
     const { examtype, subject, chapters } = req.body;
 
@@ -146,7 +146,7 @@ async function addChapters(req, res) {
 
 // get chapters
 
-async function getChapters(req,res){
+export async function getChapters(req,res){
   console.log(req.params)
 try{
   const chapters=await chapterModel.find({examtype:req.params.examtype,subject:req.params.subjects});
@@ -160,4 +160,3 @@ else{
   console.log("Error from showchapter function")
 }
 }
-module.exports = { getQuestions,getExamType, addexamtype, addSubject, getSubjects,addQuestions,addChapters,getChapters};
