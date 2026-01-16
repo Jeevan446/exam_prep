@@ -16,32 +16,11 @@ const LoginSchema = Yup.object({
 
 function LoginForm() {
   const navigate = useNavigate();
-  const { setUser, setToken } = useUser();
+  const { login } = useUser();
 
   const handleSubmit = async (values, { resetForm, setSubmitting, setErrors }) => {
     try {
-      const response = await fetch("/api/user/login", {         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // Backend returns { message: "Invalid credentials" }
-        throw new Error(data.message || "Login failed");
-      }
-
-      console.log("Login success:", data);
-
-    
-      setUser(data.user);
-      setToken(data.token);
-
-      localStorage.setItem("token", data.token);
-
+      await login(values);
       resetForm();
       navigate("/"); 
     } catch (error) {
