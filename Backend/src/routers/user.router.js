@@ -5,7 +5,7 @@ import {
   loginUser,
   getUserProfile,
   changePassword,
-  updateUserProfile
+  updateUserProfile ,updateRole,getallUsers
 } from "../controllers/userController.js"
 
 import  auth  from "../middleware/auth.middleware.js"
@@ -14,5 +14,7 @@ router.post("/login", loginUser);
 router.put("/changepassword",auth,changePassword);
 router.get('/profile',auth,getUserProfile);
 router.put('/updateprofile',auth,updateUserProfile);
+router.put('/updaterole/:selectedid',auth,updateRole);
+router.get('/getallusers',getallUsers);
 
 export default router
