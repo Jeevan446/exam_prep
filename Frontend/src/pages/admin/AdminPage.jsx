@@ -53,7 +53,7 @@ const AdminPage = ({ isOpen, setIsOpen }) => {
           <Link to="/admin/addsubjects" className="btn btn-info">
             <button>Add subjects</button>
           </Link>   
-          <Link to="" className="btn btn-info">
+          <Link to="/admin/promoteuser" className="btn btn-info">
             <button>Promote User</button>
           </Link>                   
         </div>
