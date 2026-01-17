@@ -7,20 +7,12 @@ import {
   GraduationCap,
   Menu
 } from "lucide-react";
-import { useEffect } from "react";
 import { useSidebar } from "../context/sidebarContext";
 import { useUser } from "../context/userContext";
 
 function NavBar() {
   const { toggleSidebar } = useSidebar();
   const { user, loading, logout } = useUser();
-
-  // Debug (optional – remove later)
-  useEffect(() => {
-    if (user) {
-      console.log("Logged user:", user);
-    }
-  }, [user]);
 
   // Prevent flicker while loading user
   if (loading) return null;
