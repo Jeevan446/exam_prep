@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import NavBar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
 
 const AddQuestionForm = () => {
   const [examtype, setExamtype] = useState([]);
@@ -206,6 +208,9 @@ const AddQuestionForm = () => {
   };
 
   return (
+     <div className="min-h-screen">
+      <NavBar />
+      <SideBar />
     <div className="max-w-2xl mx-auto p-6 bg-base-100 border border-secondary shadow-md rounded-lg mt-7 scale-95">
       <h2 className="text-2xl font-bold mb-6 text-secondary">Add New Question</h2>
 
@@ -426,6 +431,7 @@ const AddQuestionForm = () => {
         )}
       </Formik>
     </div>
+     </div>
   );
 };
 

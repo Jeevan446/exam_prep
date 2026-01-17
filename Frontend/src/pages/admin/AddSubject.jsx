@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import NavBar from "../../components/NavBar"
+import SideBar from "../../components/SideBar";
 
 const AddSubject = () => {
   const [examTypes, setExamTypes] = useState([]);
@@ -57,7 +59,10 @@ const AddSubject = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-3">
+     <div className="min-h-screen">
+      <NavBar />
+      <SideBar />
+    <div className="flex justify-center items-center px-3 py-7 md:3">
       <div className="bg-base-300 p-8 rounded-lg border border-secondary shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-secondary text-center">Add New Subject</h2>
 
@@ -101,6 +106,7 @@ const AddSubject = () => {
         </button>
       </div>
     </div>
+     </div>
   );
 };
 

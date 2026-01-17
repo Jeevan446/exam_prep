@@ -14,6 +14,7 @@ import AddSubject from "./pages/admin/AddSubject";
 import AddSetPage from "./pages/admin/AddSetPage";
 import AddNoticePage from "./pages/admin/AddNoticePage";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
+import PromoteUserPage from "./pages/admin/PromoteUserPage";
 
 // auth:
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -110,6 +111,7 @@ function App() {
           }
         />
          <Route path="/admin/analytics" element={<AnalyticsPage/>} />
+          <Route path="/admin/promoteuser" element={<PromoteUserPage/>} />
 
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/admin/addexamtype" element={<AddExamType />} />
