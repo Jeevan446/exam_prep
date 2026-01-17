@@ -224,3 +224,48 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+export const updateRole = async (req, res) => {
+  console.log("request coming");
+
+  const selectedID = req.params.selectedid;  
+  const id = req.user.id; 
+
+  try {
+    const user = await User.findById(selectedID);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Prevent self-demotion
+    if (user._id.toString() === id && user.role === "admin") {
+      return res.status(400).json({ message: "You cannot demote yourself" });
+    }
+
+    if (user.role === "admin") {
+      user.role = "user";
+      await user.save();
+      return res.status(200).json({ message: `${user.username} is demoted to user` });
+    }
+
+    user.role = "admin";
+    await user.save();
+    return res.status(200).json({ message: `${user.username} is promoted to admin` });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export const getallUsers = async(req,res)=>{
+          console.log("request ")
+         try{
+           const users =await User.find().select('-createdAt -updatedAt -username_last_changed_at');
+           res.status(200).json(users);
+          }
+          catch(error) {
+          res.status(401).json({message:"Internal server error"});
+          }
+} 
+
