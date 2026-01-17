@@ -3,6 +3,8 @@ import axios from "axios";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
+import NavBar from "../../components/NavBar"
+import SideBar from "../../components/SideBar"
 
 const AddSubjectWithChapters = () => {
  
@@ -137,7 +139,11 @@ const AddSubjectWithChapters = () => {
 
   /* -------------------- UI -------------------- */
   return (
-    <div className="flex justify-center items-start min-h-screen px-3 py-10">
+    <div className="min-h-screen">
+      <NavBar />
+      <SideBar />
+    <div className="flex justify-center items-center  px-3 py-2 md:py-7 ">
+
       <form
         onSubmit={handleSubmit}
         className="bg-base-300 p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-lg border border-secondary"
@@ -276,6 +282,7 @@ const AddSubjectWithChapters = () => {
           {submitting ? "Saving..." : "Save Subject & Chapters"}
         </button>
       </form>
+    </div>
     </div>
   );
 };
