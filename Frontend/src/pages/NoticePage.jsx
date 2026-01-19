@@ -5,7 +5,7 @@ import Loading from "../components/Loading"
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
-import { useSidebar } from "../context/sidebarContext";
+
 
 
 const NoticePage = () => {
