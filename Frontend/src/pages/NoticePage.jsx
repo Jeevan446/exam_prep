@@ -15,7 +15,7 @@ const NoticePage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("/api/user/getnotice");
+      const response = await axios.get("/api/getnotice");
       setNotices(response.data.data.reverse());
     } catch (error) {
       console.error("Error fetching notices:", error.message);
