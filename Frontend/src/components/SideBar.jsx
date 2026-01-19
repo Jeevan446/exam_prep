@@ -16,7 +16,7 @@ import { FaUserSecret } from "react-icons/fa";
 import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
 const availabletheme = [
