@@ -57,7 +57,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <AdminPage />
             </ProtectedRoute>
           }
@@ -65,7 +65,7 @@ function App() {
         <Route
           path="/admin/addquestion"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute  requirePrivilege = {false} >
               <AddquestionPage />
             </ProtectedRoute>
           }
@@ -73,7 +73,7 @@ function App() {
         <Route
           path="/admin/addsubjects"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <AddSubject />
             </ProtectedRoute>
           }
@@ -81,7 +81,7 @@ function App() {
         <Route
           path="/admin/addchapters"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <AddChapterPage />
             </ProtectedRoute>
           }
@@ -89,7 +89,7 @@ function App() {
         <Route
           path="/admin/addset"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <AddSetPage />
             </ProtectedRoute>
           }
@@ -97,7 +97,7 @@ function App() {
         <Route
           path="/admin/editquestion"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <EditQuestionPage />
             </ProtectedRoute>
           }
@@ -105,7 +105,7 @@ function App() {
         <Route
           path="/admin/addnotice"
           element={
-            <ProtectedRoute adminOnly={true}>
+            <ProtectedRoute requirePrivilege = {false}>
               <AddNoticePage />
             </ProtectedRoute>
           }

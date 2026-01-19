@@ -225,38 +225,55 @@ export const updateUserProfile = async (req, res) => {
   }
 };
 
-export const updateRole = async (req, res) => {
-  console.log("request coming");
 
-  const selectedID = req.params.selectedid;  
-  const id = req.user.id; 
+
+export const updateRole = async (req, res) => {
+  const selectedID = req.params.selectedid;
+  const id = req.user.id;
 
   try {
-    const user = await User.findById(selectedID);
-    if (!user) {
+    // 1. Prevent self-upgrading
+    if (id === selectedID) {
+      return res.status(403).json({ message: "You cannot change your own role" });
+    }
+
+    const userToUpdate = await User.findById(selectedID);
+    const requestUser = await User.findById(id);
+
+    if (!userToUpdate) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Prevent self-demotion
-    if (user._id.toString() === id && user.role === "admin") {
-      return res.status(400).json({ message: "You cannot demote yourself" });
+    // 2. Logic for Admin
+    if (requestUser.role === "admin") {
+      // Toggle logic: if user -> moderator, else (is moderator) -> user
+      userToUpdate.role = userToUpdate.role === "user" ? "moderator" : "user";
+    } 
+    
+    // 3. Logic for Moderator
+    else if (requestUser.role === "moderator") {
+      // Moderators can only toggle other users between user/moderator
+      userToUpdate.role = userToUpdate.role === "moderator" ? "user" : "moderator";
+    } 
+    
+    else {
+      return res.status(401).json({ message: "Unauthorized: Insufficient permissions" });
     }
 
-    if (user.role === "admin") {
-      user.role = "user";
-      await user.save();
-      return res.status(200).json({ message: `${user.username} is demoted to user` });
-    }
-
-    user.role = "admin";
-    await user.save();
-    return res.status(200).json({ message: `${user.username} is promoted to admin` });
+    // 4. Save and Send Response
+    await userToUpdate.save();
+    return res.status(200).json({ 
+      message: "Role updated successfully", 
+      user: userToUpdate 
+    });
 
   } catch (error) {
-    console.error(error);
+    console.error("Update Role Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
+
+
 
 export const getallUsers = async(req,res)=>{
           console.log("request ")
