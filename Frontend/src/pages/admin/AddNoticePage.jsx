@@ -23,7 +23,7 @@ const AddNoticePage = () => {
     };
 
     try {
-      await axios.post("/api/user/notice", payload);
+      await axios.post("/api/notice", payload);
       resetForm();
       toast.success("Notice added successfully");
     } catch (error) {

@@ -13,7 +13,7 @@ import {
   Palette,
 } from "lucide-react";
 import { FaUserSecret } from "react-icons/fa";
-import { useSidebar } from "../context/sidebarContext";
+import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";

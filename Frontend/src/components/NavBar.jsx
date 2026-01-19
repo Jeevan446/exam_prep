@@ -7,7 +7,7 @@ import {
   GraduationCap,
   Menu
 } from "lucide-react";
-import { useSidebar } from "../context/sidebarContext";
+import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/userContext";
 
 function NavBar() {
