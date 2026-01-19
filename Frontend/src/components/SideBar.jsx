@@ -125,10 +125,11 @@ function SideBar() {
             <UsersRound size={20} />
             <span>About Us</span>
           </Link>
-          {user?.role === "admin" && (
+
+          {(user?.role === "admin" || user?.role === "moderator") && (
             <Link to="/admin" className={linkStyle} onClick={closeSidebar}>
               <FaUserSecret size={20} />
-              <span>Admin</span>
+              <span>{user?.role ==="admin" ?"admin":"moderator"}</span>
             </Link>
           )}
 

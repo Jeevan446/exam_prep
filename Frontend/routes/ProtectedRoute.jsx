@@ -1,20 +1,29 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useUser } from "../../Frontend/src/context/userContext";
+import Loading from "../src/components/Loading";
 
-const ProtectedRoute = ({ children, adminOnly = false }) => {
-  const { user, loading, isAdmin } = useUser();
+const ProtectedRoute = ({ children, requirePrivilege = false }) => {
+  const { user, loading, isAdmin, isModerator } = useUser();
 
-  // Show nothing or loader while checking user
-  if (loading) return <div style={{ padding: "2rem" }}>Loading...</div>;
+  if (loading) return <Loading />;
+
+  //  If not logged in at all, go to login
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  //only Admin and Moderator can acess this page
+  if (requirePrivilege) {
+    if (isAdmin || isModerator) {
+      return children;
+    } else {
+      
+      return <Navigate to="/" replace />; 
+    }
+  }
 
 
-  if (!user) return <Navigate to="/login" replace />;
-
-  // Logged in but not admin
-  if (adminOnly && !isAdmin) return <Navigate to="/" replace />;
-
-  //  User is allowed
   return children;
 };
 

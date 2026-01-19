@@ -74,6 +74,8 @@ export const UserProvider = ({ children }) => {
   };
   
   const isAdmin = user?.role === "admin";
+
+  const isModerator =user?.role ==="moderator"
       
   
 
@@ -89,7 +91,8 @@ export const UserProvider = ({ children }) => {
         setToken,
         register,
         changePassword ,
-        isAdmin
+        isAdmin ,
+        isModerator
       }}
     >
       {children}
