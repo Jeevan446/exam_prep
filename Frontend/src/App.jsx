@@ -36,7 +36,7 @@ import Profilepage from "./pages/profile/Profilepage";
 import { useUser } from "./context/userContext";
 
 //protected route;
-import ProtectedRoute from "../routes/protectedRoute";
+import ProtectedRoute from "../routes/ProtectedRoute";
 
 
 function App() {
