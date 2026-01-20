@@ -36,7 +36,6 @@ const availabletheme = [
   "fantasy",
   "lofi",
   "garden",
-  "valentine",
   "corporate",
   "emerald",
   "cupcake",
