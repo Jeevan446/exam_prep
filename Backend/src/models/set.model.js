@@ -22,7 +22,7 @@ const ExamConfigSchema = new mongoose.Schema(
 
     setType: {
       type: String,
-      enum: ["paid", "live", "offline"], // allowed values
+      enum: ["paid", "live", "free"], // allowed values
       required: true,
     },
 

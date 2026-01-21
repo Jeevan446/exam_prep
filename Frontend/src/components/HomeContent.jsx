@@ -33,7 +33,7 @@ function HomeContent() {
             <p className="text-lg text-center md:text-left max-w-lg">
               Review your results and track your progress over time with our <span className="text-secondary font-bold">Weekly Tests</span>.
             </p>
-            <Link to="/examtype" className={btnClass}>Weekly Test</Link>
+            <Link to="/weeklymode/examtype" className={btnClass}>Weekly Test</Link>
           </div>
 
         </div>

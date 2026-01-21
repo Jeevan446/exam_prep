@@ -6,19 +6,19 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 
-function SetPage({ isOpen, setIsOpen }) {
+function WeeklySetNamePage({ isOpen, setIsOpen }) {
   const location = useLocation();
   const router =useParams();
   const examType = location.state?.examType;
   const [sets, setSets] = useState([]);
   const [loading,setLoading] =useState(true);
 
-  
+
 
   useEffect(() => {
-  async function fetchSets() {
+     async function fetchSets() {
     try {
-      const response = await axios.get(`/api/setexam/${examType}/free`);
+      const response = await axios.get(`/api/setexam/${examType}/live`);
       setSets(response.data.sets);
       setLoading(false);
     } catch (err) {
@@ -49,7 +49,7 @@ function SetPage({ isOpen, setIsOpen }) {
 
           {sets.map((set, key) => (
             <Link
-              to={`/practice/${router.examtype}/set/${set.setId}`}
+              to={`/weeklymode/${router.examtype}/set/${set.setId}`}
               key={set.setId}
               state={{ setName: set.setName, examType }}
               className="border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] hover:text-secondary"
@@ -67,4 +67,4 @@ function SetPage({ isOpen, setIsOpen }) {
   );
 }
 
-export default SetPage;
+export default WeeklySetNamePage;

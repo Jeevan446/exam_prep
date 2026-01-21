@@ -153,33 +153,62 @@ export const getUniqueExamTypes = async (req, res) => {
   }
 };
 
-/* ================= 4. GET SETS BY EXAM TYPE ================= */
-export const getSetsByExamType = async (req, res) => {
+
+
+
+
+/* ========== GET SETS BY EXAM TYPE & SET TYPE (WITH LIVE TIME) ========== */
+export const getSetsByExamTypeAndSetType = async (req, res) => {
   try {
-    const { examType } = req.params;
+    const { examType, setType } = req.params;
 
-    // Find sets that contain the specified exam type in their exams array
-    const sets = await SetModel.find({ "exams.examType": examType })
-      .select("name exams.setType exams.examType");
+    const pipeline = [
+      { $unwind: "$exams" },
+      {
+        $match: {
+          "exams.examType": examType,
+          ...(setType && { "exams.setType": setType }),
+        },
+      },
+      {
+        $project: {
+          setId: "$_id",
+          setName: "$name",
+          examType: "$exams.examType",
+          setType: "$exams.setType",
 
-    const setList = sets.map(set => {
-      // Find the specific exam info for the requested type
-      const specificExam = set.exams.find(e => e.examType === examType);
-      return {
-        setId: set._id,
-        setName: set.name,
-        setType: specificExam?.setType
-      };
+          // show only if live
+          startTime: {
+            $cond: [
+              { $eq: ["$exams.setType", "live"] },
+              "$exams.startTime",
+              null,
+            ],
+          },
+          endTime: {
+            $cond: [
+              { $eq: ["$exams.setType", "live"] },
+              "$exams.endTime",
+              null,
+            ],
+          },
+        },
+      },
+    ];
+
+    const sets = await SetModel.aggregate(pipeline);
+
+    res.status(200).json({
+      success: true,
+      examType,
+      setType: setType || "all",
+      totalSets: sets.length,
+      sets,
     });
-
-    res.status(200).json({ 
-      success: true, 
-      examType, 
-      totalSets: setList.length, 
-      sets: setList 
-    });
-
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

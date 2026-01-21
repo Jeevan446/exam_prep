@@ -34,6 +34,10 @@ import SetPaperpage from "./pages/practice_mode/SetPaperpage";
 // For Profile Related Page:
 import Profilepage from "./pages/profile/Profilepage";
 
+//Weekly live mode 
+import WeeklyExamTypePage from "./pages/weekly_mode/WeeklyExamTypePage"
+import WeeklySetNamePage from "./pages/weekly_mode/WeeklySetNamePage";
+
 
 //protected route;
 import ProtectedRoute from "../routes/ProtectedRoute";
@@ -121,7 +125,13 @@ function App() {
         <Route path="/practice/examtype" element={<PracticeExamTypePage />} />
         <Route path="/practice/examtype/:examtype" element={<SetPage />} />
         <Route path="/practice/:examtype/set/:id" element={<SetPaperpage />} />
+        
+        {/* WEEKLY_MODE MPDE */}
 
+        <Route path="/weeklymode/examtype" element={<WeeklyExamTypePage />}></Route>
+         <Route path="/weeklymode/examtype/:examtype" element={<WeeklySetNamePage/>}></Route>
+           <Route path="/weeklymode/:examtype/set/:id" element={<SetPaperpage />} />
+      
         {/* For Profile Page */}
         <Route path="/profile" element={<Profilepage />} />
       </Routes>

@@ -14,6 +14,7 @@ export default {
 
   daisyui: {
     themes: [
+      "forest",
       "light",
       "dark",
       "cupcake",
@@ -26,7 +27,6 @@ export default {
       "valentine",
       "halloween",
       "garden",
-      "forest",
       "aqua",
       "lofi",
       "pastel",

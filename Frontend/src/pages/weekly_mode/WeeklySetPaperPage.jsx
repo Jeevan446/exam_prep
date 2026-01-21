@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import axios from "axios";
-import { useParams} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { 
   Clock, LayoutGrid, Loader2, Send, CheckCircle2, 
   XCircle, RotateCcw, AlertCircle, BarChart3, TrendingUp, Eraser 
@@ -11,9 +11,9 @@ import SideBar from "../../components/SideBar"
 import NavBar from "../../components/NavBar";
 import Loading from "../../components/Loading";
 
-const SetPaperpage = () => {
+const WeeklySetPaperPage = () => {
   const { examtype, id } = useParams();
-
+  const navigate = useNavigate();
 
   // --- State Management ---
   const [examData, setExamData] = useState(null);
@@ -375,4 +375,4 @@ const QuestionCard = ({ q, qIdx, subName, showResults, isSelected, onSelect, onC
 
 
 
-export default SetPaperpage;
+export default WeeklySetPaperPage;
