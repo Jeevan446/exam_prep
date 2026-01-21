@@ -3,40 +3,73 @@ import SetModel from "../models/set.model.js";
 import Question from "../models/question.model.js";
 import fs from "fs";
 
-
 export const uploadExamSet = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ success: false, message: "No Excel file uploaded" });
+      return res.status(400).json({
+        success: false,
+        message: "No Excel file uploaded",
+      });
     }
 
     const createdBy = req.user._id;
     const { examType, examTime, fullMarks, setType, startTime, endTime } = req.body;
 
+    //  Validate required fields
+    if (!examType || !examTime || !fullMarks || !setType) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required exam configuration",
+      });
+    }
+
+    //  Live exam validation
+    if (setType === "live" && (!startTime || !endTime)) {
+      return res.status(400).json({
+        success: false,
+        message: "Live exams require startTime and endTime",
+      });
+    }
+
     const workbook = XLSX.readFile(req.file.path);
     const sheetName = workbook.SheetNames[0];
     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-    if (!rows || rows.length === 0) {
-      return res.status(400).json({ success: false, message: "Excel file is empty" });
+    if (!rows.length) {
+      return res.status(400).json({
+        success: false,
+        message: "Excel file is empty",
+      });
     }
 
     const setsMap = {};
+    const usedSetNames = new Set();
 
     for (const row of rows) {
-      const { setName, questionName, subject, chapter, level, marks, options, answer } = row;
+      const { setName, questionName, options, answer, subject, chapter, level, marks } = row;
 
       if (!setName || !questionName || !options || !answer) continue;
 
-      // Handle options: split by comma and trim
-      const optionsArray = String(options).split(",").map(o => o.trim());
+      //  Ensure unique setName
+      if (usedSetNames.has(setName)) {
+        return res.status(400).json({
+          success: false,
+          message: `Duplicate setName found: ${setName}`,
+        });
+      }
+      usedSetNames.add(setName);
 
-      // Upsert Question (prevents duplicates, updates existing)
+      // Split options
+      const optionsArray = String(options)
+        .split(",")
+        .map((o) => o.trim());
+
+      // Upsert question
       const question = await Question.findOneAndUpdate(
         { name: questionName.trim() },
         {
           name: questionName.trim(),
-          examType, 
+          examType,
           subject: subject || "General",
           chapter: chapter || "General",
           level: level || "Medium",
@@ -47,49 +80,58 @@ export const uploadExamSet = async (req, res) => {
         { upsert: true, new: true }
       );
 
-      // Group questions by setName
+      // Initialize set if not exists
       if (!setsMap[setName]) {
+        //  Prevent overwriting existing sets
+        const exists = await SetModel.findOne({ name: setName });
+        if (exists) {
+          return res.status(400).json({
+            success: false,
+            message: `Set already exists: ${setName}`,
+          });
+        }
+
         setsMap[setName] = {
           name: setName,
           createdBy,
-          exams: [{
-            examType,
-            examTime: Number(examTime),
-            fullMarks: Number(fullMarks),
-            setType,
-            startTime: setType === "live" ? new Date(startTime) : null,
-            endTime: setType === "live" ? new Date(endTime) : null,
-            questions: []
-          }]
+          exams: [
+            {
+              examType,
+              examTime: Number(examTime),
+              fullMarks: Number(fullMarks),
+              setType,
+              startTime: setType === "live" ? new Date(startTime) : undefined,
+              endTime: setType === "live" ? new Date(endTime) : undefined,
+              questions: [],
+            },
+          ],
         };
       }
 
-      // Add question ID if not already in the array
-      if (!setsMap[setName].exams[0].questions.includes(question._id)) {
-        setsMap[setName].exams[0].questions.push(question._id);
-      }
+      // Add question ID
+      setsMap[setName].exams[0].questions.push(question._id);
     }
 
-    // Save/Update Sets in Database
-    const setEntries = Object.values(setsMap);
-    for (const setData of setEntries) {
-      await SetModel.findOneAndUpdate(
-        { name: setData.name },
-        setData,
-        { upsert: true }
-      );
-    }
+    // Save sets
+    await SetModel.insertMany(Object.values(setsMap));
 
-    // Clean up temporary file
-    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    // Cleanup
+    fs.existsSync(req.file.path) && fs.unlinkSync(req.file.path);
 
-    res.status(201).json({ success: true, message: "Data processed successfully" });
-
+    res.status(201).json({
+      success: true,
+      message: "Exam sets uploaded successfully",
+      totalSets: Object.keys(setsMap).length,
+    });
   } catch (error) {
     console.error("Upload Error:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
+
 
 /* ================= 2. GET QUESTIONS BY SET ================= */
 export const getQuestionsBySet = async (req, res) => {
