@@ -20,7 +20,7 @@ const AddSetPage = () => {
   useEffect(() => {
     const fetchExamTypes = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/demomode/getexams");
+        const res = await axios.get("/api/demomode/getexams");
         setExamTypes(res.data.examTypes || []);
       } catch (error) {
         toast.error("Failed to load exam types");
@@ -49,7 +49,7 @@ const AddSetPage = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/api/setexam/upload", formData, {
+      await axios.post("/api/setexam/upload", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
