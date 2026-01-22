@@ -21,7 +21,10 @@ function ExamTypePage() {
   }
 
   useEffect(() => {
-    fetchData();
+    const loadData = async () => {
+      await fetchData();
+    };
+    loadData();
   }, []);
   if(loading) {
    return  <Loading />

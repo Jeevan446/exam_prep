@@ -1,6 +1,6 @@
 export const checkPaidUser = async (req, res, next) => {
   try {
-    const { setType } = req.body;
+    const { setType } = req.params || req.body;
 
     // Only apply rule for PAID sets
     if (setType !== "paid") {

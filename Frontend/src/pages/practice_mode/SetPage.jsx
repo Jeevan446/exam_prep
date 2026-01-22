@@ -8,10 +8,10 @@ import Loading from "../../components/Loading";
 
 function SetPage({ isOpen, setIsOpen }) {
   const location = useLocation();
-  const router =useParams();
-  const examType = location.state?.examType;
+  const router = useParams();
+  const examType = location.state?.examType || router.examtype;
   const [sets, setSets] = useState([]);
-  const [loading,setLoading] =useState(true);
+  const [loading, setLoading] = useState(true);
 
   
 
