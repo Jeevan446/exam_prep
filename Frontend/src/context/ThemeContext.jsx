@@ -8,10 +8,8 @@ export const ThemeProvider = ({ children }) => {
   });
 
 useEffect(() => {
-  const themeElement = document.getElementById("themeElement");
-  if (themeElement) {
-    themeElement.setAttribute("data-theme", theme);
-  }
+  // Apply theme to the document root element
+  document.documentElement.setAttribute("data-theme", theme);
 }, [theme]);
 
 
