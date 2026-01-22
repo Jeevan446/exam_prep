@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import auth from "../middleware/auth.middleware.js";
+
 import { uploadExamSet, getQuestionsBySet, getSetsByExamTypeAndSetType, getUniqueExamTypes } 
   from '../controllers/setexam.controller.js';
 
