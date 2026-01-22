@@ -22,28 +22,28 @@ const ExamConfigSchema = new mongoose.Schema(
 
     setType: {
       type: String,
-      enum: ["paid", "live", "free"], // allowed values
+      enum: ["paid", "live", "free"],
       required: true,
     },
 
     startTime: {
       type: Date,
       required: function () {
-        return this.setType === "live"; // only required for live exams
+        return this.setType === "live";
       },
     },
 
     endTime: {
       type: Date,
       required: function () {
-        return this.setType === "live"; // only required for live exams
+        return this.setType === "live";
       },
     },
 
     questions: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "question",
+        ref: "Question", 
         required: true,
       },
     ],
@@ -61,6 +61,7 @@ const SetSchema = new mongoose.Schema(
 
     exams: {
       type: [ExamConfigSchema],
+      required: true,
       validate: {
         validator: (v) => v.length > 0,
         message: "At least one exam configuration is required",

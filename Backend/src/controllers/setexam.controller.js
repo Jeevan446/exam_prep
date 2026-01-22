@@ -1,98 +1,100 @@
 import XLSX from "xlsx";
-import SetModel from "../models/set.model.js"; 
+import SetModel from "../models/set.model.js";
 import Question from "../models/question.model.js";
 import fs from "fs";
 
 export const uploadExamSet = async (req, res) => {
+  const filePath = req.file?.path;
+
   try {
     if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No Excel file uploaded",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "No Excel file uploaded" });
     }
 
     const createdBy = req.user._id;
-    const { examType, examTime, fullMarks, setType, startTime, endTime } = req.body;
+    const { examType, examTime, fullMarks, setType, startTime, endTime } =
+      req.body;
 
-    //  Validate required fields
-    if (!examType || !examTime || !fullMarks || !setType) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required exam configuration",
-      });
+    //  STRICTURE TIME VALIDATION (ONLY FOR LIVE EXAMS)
+    if (setType === "live") {
+      if (!startTime || !endTime) {
+        throw new Error("Start and End times are required for live exams.");
+      }
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+      const durationInMinutes = Math.round((end - start) / (1000 * 60));
+
+      if (durationInMinutes !== Number(examTime)) {
+        throw new Error(
+          `Time Mismatch: Window is ${durationInMinutes} mins, but duration is ${examTime} mins.`,
+        );
+      }
     }
 
-    //  Live exam validation
-    if (setType === "live" && (!startTime || !endTime)) {
-      return res.status(400).json({
-        success: false,
-        message: "Live exams require startTime and endTime",
-      });
-    }
+    //  READ EXCEL
+    const workbook = XLSX.readFile(filePath);
+    const rows = XLSX.utils.sheet_to_json(
+      workbook.Sheets[workbook.SheetNames[0]],
+    );
 
-    const workbook = XLSX.readFile(req.file.path);
-    const sheetName = workbook.SheetNames[0];
-    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-    if (!rows.length) {
-      return res.status(400).json({
-        success: false,
-        message: "Excel file is empty",
-      });
-    }
+    if (!rows.length) throw new Error("Excel file is empty");
 
     const setsMap = {};
-    const usedSetNames = new Set();
+    const questionOperations = [];
 
-    for (const row of rows) {
-      const { setName, questionName, options, answer, subject, chapter, level, marks } = row;
+    //  ROW-BY-ROW VALIDATION
+    for (const [index, row] of rows.entries()) {
+      const rowNum = index + 2;
 
-      if (!setName || !questionName || !options || !answer) continue;
-
-      //  Ensure unique setName
-      if (usedSetNames.has(setName)) {
-        return res.status(400).json({
-          success: false,
-          message: `Duplicate setName found: ${setName}`,
-        });
+      // Strict ExamType Check: Excel vs Form
+      const rowExamType = row.examType ? String(row.examType).trim() : null;
+      if (rowExamType !== String(examType).trim()) {
+        throw new Error(
+          `Row ${rowNum}: Excel Type "${rowExamType}" does not match Form selection "${examType}"`,
+        );
       }
-      usedSetNames.add(setName);
 
-      // Split options
-      const optionsArray = String(options)
-        .split(",")
-        .map((o) => o.trim());
-
-      // Upsert question
-      const question = await Question.findOneAndUpdate(
-        { name: questionName.trim() },
-        {
-          name: questionName.trim(),
-          examType,
-          subject: subject || "General",
-          chapter: chapter || "General",
-          level: level || "Medium",
-          marks: Number(marks) || 1,
-          options: optionsArray,
-          answer: String(answer).trim(),
+      // Prepare Question Data
+      questionOperations.push({
+        updateOne: {
+          filter: {
+            name: String(row.questionName).trim(),
+            examType: examType.trim(),
+          },
+          update: {
+            $set: {
+              subject: row.subject || "General",
+              chapter: row.chapter || "General",
+              level: row.level || "Medium",
+              marks: Number(row.marks) || 1,
+              options: String(row.options)
+                .split(",")
+                .map((o) => o.trim()),
+              answer: String(row.answer).trim(),
+              creator: createdBy,
+            },
+          },
+          upsert: true,
         },
-        { upsert: true, new: true }
-      );
+      });
 
-      // Initialize set if not exists
-      if (!setsMap[setName]) {
-        //  Prevent overwriting existing sets
-        const exists = await SetModel.findOne({ name: setName });
-        if (exists) {
-          return res.status(400).json({
-            success: false,
-            message: `Set already exists: ${setName}`,
-          });
-        }
+      // Group into Sets
+      const setKey = `${row.setName}_${examType}`;
+      if (!setsMap[setKey]) {
+        // Check DB for duplicates
+        const exists = await SetModel.findOne({
+          name: row.setName,
+          "exams.examType": examType,
+        });
+        if (exists)
+          throw new Error(
+            `Set "${row.setName}" already exists for ${examType}`,
+          );
 
-        setsMap[setName] = {
-          name: setName,
+        setsMap[setKey] = {
+          name: row.setName,
           createdBy,
           exams: [
             {
@@ -107,30 +109,35 @@ export const uploadExamSet = async (req, res) => {
           ],
         };
       }
-
-      // Add question ID
-      setsMap[setName].exams[0].questions.push(question._id);
     }
 
-    // Save sets
+    // 4. EXECUTE DB OPS
+    await Question.bulkWrite(questionOperations);
+    const dbQuestions = await Question.find({
+      name: { $in: rows.map((r) => String(r.questionName).trim()) },
+      examType,
+    });
+
+    for (const row of rows) {
+      const setKey = `${row.setName}_${examType}`;
+      const q = dbQuestions.find(
+        (q) => q.name === String(row.questionName).trim(),
+      );
+      if (q && !setsMap[setKey].exams[0].questions.includes(q._id)) {
+        setsMap[setKey].exams[0].questions.push(q._id);
+      }
+    }
+
     await SetModel.insertMany(Object.values(setsMap));
-
-    // Cleanup
-    fs.existsSync(req.file.path) && fs.unlinkSync(req.file.path);
-
-    res.status(201).json({
-      success: true,
-      message: "Exam sets uploaded successfully",
-      totalSets: Object.keys(setsMap).length,
-    });
+    res.status(201).json({ success: true, message: "Upload successful!" });
   } catch (error) {
-    console.error("Upload Error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    console.error("CRITICAL ERROR:", error.message);
+    res.status(400).json({ success: false, message: error.message });
+  } finally {
+    if (filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
   }
 };
+
 
 
 /* ================= 2. GET QUESTIONS BY SET ================= */
@@ -141,28 +148,31 @@ export const getQuestionsBySet = async (req, res) => {
 
     // Populate the questions inside the exams array
     const set = await SetModel.findById(setId).populate("exams.questions");
-    if (!set) return res.status(404).json({ success: false, message: "Set not found" });
+    if (!set)
+      return res.status(404).json({ success: false, message: "Set not found" });
 
     // Find the specific exam configuration (e.g., IOE or CEE) within that set
-    let examConfig = requestedExamType 
-      ? set.exams.find(e => e.examType === requestedExamType) 
+    let examConfig = requestedExamType
+      ? set.exams.find((e) => e.examType === requestedExamType)
       : set.exams[0];
 
     if (!examConfig) {
-      return res.status(404).json({ success: false, message: "Exam type not found in this set" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Exam type not found in this set" });
     }
 
     // Grouping questions by Subject for the Frontend UI
     const subjectsMap = {};
-    examConfig.questions.forEach(q => {
+    examConfig.questions.forEach((q) => {
       const subj = q.subject || "General";
       if (!subjectsMap[subj]) subjectsMap[subj] = [];
       subjectsMap[subj].push(q);
     });
 
-    const groupedBySubject = Object.keys(subjectsMap).map(subj => ({
+    const groupedBySubject = Object.keys(subjectsMap).map((subj) => ({
       subject: subj,
-      questions: subjectsMap[subj]
+      questions: subjectsMap[subj],
     }));
 
     res.status(200).json({
@@ -173,7 +183,6 @@ export const getQuestionsBySet = async (req, res) => {
       fullMarks: examConfig.fullMarks,
       subjects: groupedBySubject,
     });
-
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -194,10 +203,6 @@ export const getUniqueExamTypes = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
-
-
 
 /* ========== GET SETS BY EXAM TYPE & SET TYPE (WITH LIVE TIME) ========== */
 export const getSetsByExamTypeAndSetType = async (req, res) => {
