@@ -15,7 +15,7 @@ function WeeklyExamTypePage() {
   useEffect(() => {
     async function fetchData() {
     try {
-      const response = await axios.get("http://localhost:3000/api/setexam/getexamtype");
+      const response = await axios.get("/api/setexam/getexamtype");
       setData(response.data.examTypes); 
       setLoading(false);
     } catch (err) {
