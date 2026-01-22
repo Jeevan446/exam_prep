@@ -41,6 +41,7 @@ import WeeklySetNamePage from "./pages/weekly_mode/WeeklySetNamePage";
 
 //protected route;
 import ProtectedRoute from "../routes/ProtectedRoute";
+import ContactPage from "./pages/ContactPage";
 
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
       
         {/* For Profile Page */}
         <Route path="/profile" element={<Profilepage />} />
+          <Route path="/contactus" element={<ContactPage />} />
       </Routes>
     </div>
   );
