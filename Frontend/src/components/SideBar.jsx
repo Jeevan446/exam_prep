@@ -11,6 +11,7 @@ import {
   ChevronUp,
   LogIn,
   Palette,
+  Phone
 } from "lucide-react";
 import { FaUserSecret } from "react-icons/fa";
 import { useSidebar } from "../context/SidebarContext";
@@ -125,10 +126,17 @@ function SideBar() {
             <span>About Us</span>
           </Link>
 
+          {user && (
+            <Link to="/contactus" className={linkStyle} onClick={closeSidebar}>
+              <Phone size={20}/>
+              <span>Contact Us</span>
+            </Link>
+          )}
+
           {(user?.role === "admin" || user?.role === "moderator") && (
             <Link to="/admin" className={linkStyle} onClick={closeSidebar}>
               <FaUserSecret size={20} />
-              <span>{user?.role ==="admin" ?"admin":"moderator"}</span>
+              <span>{user?.role === "admin" ? "admin" : "moderator"}</span>
             </Link>
           )}
 

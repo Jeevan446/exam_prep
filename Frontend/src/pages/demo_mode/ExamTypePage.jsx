@@ -16,7 +16,7 @@ function ExamTypePage({ isOpen, setIsOpen }) {
       const response = await axios.get(
         "/api/demomode/getexams"
       );
-      console.log(response.data.examTypes);
+      // console.log(response.data.examTypes);
       setData(response.data.examTypes);
       setLoading(false);
     } catch (err) {

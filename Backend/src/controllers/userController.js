@@ -174,6 +174,7 @@ export const getUserProfile = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        hasPaid: user.hasPaid,
         createdAt: user.createdAt,
       },
     });
