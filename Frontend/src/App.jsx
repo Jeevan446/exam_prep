@@ -40,7 +40,10 @@ import WeeklySetNamePage from "./pages/weekly_mode/WeeklySetNamePage";
 
 
 //protected route;
+import LoggedinuserRoute from "../routes/LoggedInuser";
 import ProtectedRoute from "../routes/ProtectedRoute";
+
+// contace page route;
 import ContactPage from "./pages/ContactPage";
 
 
@@ -115,8 +118,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-         <Route path="/admin/analytics" element={<AnalyticsPage/>} />
-          <Route path="/admin/promoteuser" element={<PromoteUserPage/>} />
+
+        <Route path="/admin/analytics" element={<AnalyticsPage/>} />
+        <Route path="/admin/promoteuser" element={<PromoteUserPage/>} />
 
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/admin/addexamtype" element={<AddExamType />} />
@@ -135,7 +139,7 @@ function App() {
       
         {/* For Profile Page */}
         <Route path="/profile" element={<Profilepage />} />
-          <Route path="/contactus" element={<ContactPage />} />
+          <Route path="/contactus" element={<LoggedinuserRoute><ContactPage /></LoggedinuserRoute>} />
       </Routes>
     </div>
   );
