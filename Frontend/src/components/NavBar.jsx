@@ -64,7 +64,7 @@ function NavBar() {
             </Link>
 
             <Link
-              to="/subscription"
+              to="/subscription/examtype"
               className="flex items-center gap-2 md:btn text-primary md:btn-primary"
             >
               <span className="hidden md:block ">

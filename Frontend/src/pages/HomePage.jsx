@@ -6,7 +6,7 @@ import { useUser } from "../context/userContext";
 
 function Homepage({ isOpen, setIsOpen }) {
     const { token, loading } = useUser();
-    console.log(token);
+    // console.log(token);
     return (
         <div className="flex flex-col justify-baseline">
             <NavBar />
