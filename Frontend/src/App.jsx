@@ -54,7 +54,7 @@ import SubscriptionPage from "./pages/subscription/SubscriptionPage";
 
 function App() {
   return (
-    <div id="themeElement">
+    <div>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/examtype" element={<ExamTypePage />} />

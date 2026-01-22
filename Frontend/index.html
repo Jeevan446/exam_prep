@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href = "/" />      <!-- adds / in front of any relative URLs (need to run server proxy configuration) -->
     <title>frontend</title>
+    <script>
+      // Set theme synchronously before rendering to prevent FOUC (Flash of Unstyled Content)
+      (function() {
+        const theme = localStorage.getItem("theme") || "forest";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
