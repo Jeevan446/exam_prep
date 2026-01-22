@@ -108,7 +108,7 @@ const PromoteUserPage = () => {
                           className={`btn btn-sm ${user.role === 'admin' ? 'btn-outline btn-error' : 'btn-primary'}`}
                           onClick={() => upgradeRole(user._id)}
                         >
-                          {user.role === "admin" ? "Demote" : "Promote"}
+                          {user.role === "admin" || user.role === "moderator" ? "Demote" : "Promote"}
                         </button>
                       </div>
                     </div>
