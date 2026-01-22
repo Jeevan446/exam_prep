@@ -24,18 +24,24 @@ const userSchema = mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['admin','user','moderator'],
-      default: 'user',
+      enum: ["admin", "user", "moderator"],
+      default: "user",
     },
-    username_last_changed_at: {
-       type: Date,
-       default: Date.now, 
-     }
-  },
 
+  
+    hasPaid: {
+      type: Boolean,
+      default: false,
+    },
+
+    username_last_changed_at: {
+      type: Date,
+      default: Date.now,
+    },
+  },
   {
     timestamps: true,
   }
-)
+);
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model("User", userSchema);
