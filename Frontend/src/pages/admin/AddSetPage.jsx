@@ -18,19 +18,28 @@ const AddSetPage = () => {
   useEffect(() => {
     const fetchExamTypes = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/demomode/getexams");
+        const res = await axios.get("/api/setexam/getexamtype");
         setExamTypes(res.data.examTypes || []);
-      } catch (error) { toast.error("Failed to load exam types"); }
+      } catch (error) { 
+        toast.error("Failed to load exam types"); 
+      }
     };
     fetchExamTypes();
   }, []);
 
-  // AUTO-CALCULATE END TIME
+  // AUTO-CALCULATE END TIME (Fixed to prevent Time Mismatch)
   useEffect(() => {
     if (setType === "live" && startTime && examTime) {
       const start = new Date(startTime);
+      // Add the examTime (minutes) to the start time
       const end = new Date(start.getTime() + Number(examTime) * 60000);
-      setEndTime(end.toISOString().slice(0, 16)); // Format for datetime-local
+      
+      // FIXED: Format to Local ISO string (YYYY-MM-DDTHH:mm)
+      // This prevents the -5:45 hour shift from Nepal Time to UTC
+      const offset = end.getTimezoneOffset() * 60000;
+      const localISOTime = new Date(end.getTime() - offset).toISOString().slice(0, 16);
+      
+      setEndTime(localISOTime); 
     }
   }, [startTime, examTime, setType]);
 
@@ -46,7 +55,6 @@ const AddSetPage = () => {
     formData.append("fullMarks", fullMarks);
     formData.append("setType", setType);
 
-    // Only send dates if Type is Live
     if (setType === "live") {
       formData.append("startTime", startTime);
       formData.append("endTime", endTime);
@@ -54,7 +62,7 @@ const AddSetPage = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/api/setexam/upload", formData, {
+      const res = await axios.post("/api/setexam/upload", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data"
@@ -64,7 +72,7 @@ const AddSetPage = () => {
       resetForm();
     } catch (error) {
       console.error("Upload Error:", error);
-      toast.error(error.response?.data?.message || "Network Error: Check Backend Console");
+      toast.error(error.response?.data?.message || "Network Error");
     } finally {
       setLoading(false);
     }
@@ -73,7 +81,8 @@ const AddSetPage = () => {
   const resetForm = () => {
     setFile(null); setExamType(""); setExamTime(""); setFullMarks("");
     setSetType(""); setStartTime(""); setEndTime("");
-    document.getElementById("fileInput").value = "";
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) fileInput.value = "";
   };
 
   return (
@@ -90,7 +99,9 @@ const AddSetPage = () => {
                   <label className="label font-semibold">Exam Type</label>
                   <select className="select select-bordered" value={examType} onChange={(e) => setExamType(e.target.value)}>
                     <option value="">Select Category</option>
-                    {examTypes.map((e) => <option key={e._id} value={e.name}>{e.name}</option>)}
+                    {examTypes.map((type, index) => (
+                      <option key={index} value={type}>{type}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-control">
