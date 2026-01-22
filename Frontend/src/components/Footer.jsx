@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 
 function Footer() {
   return (
