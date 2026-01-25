@@ -3,6 +3,43 @@ import SetModel from "../models/set.model.js";
 import Question from "../models/question.model.js";
 import fs from "fs";
 
+
+
+// Run every 10 minutes and check only live set
+// if endtime is greater or equal to 1hrs then setType change to free
+
+cron.schedule("*/10 * * * *", async () => {
+  const now = new Date();
+  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000); 
+
+  // Find sets that have live exams whose endTime was more than 1 hour ago
+  const sets = await Set.find({
+    "exams.setType": "live",
+    "exams.endTime": { $lte: oneHourAgo },
+  });
+
+  for (let set of sets) {
+    let changed = false;
+
+    set.exams = set.exams.map((exam) => {
+      // Only update live exams
+      if (exam.setType === "live" && exam.endTime <= oneHourAgo) {
+        exam.setType = "free";
+        changed = true;
+      }
+      return exam;
+    });
+
+    if (changed) {
+      await set.save();
+      console.log(`Updated live exams in Set ${set._id} to free`);
+    }
+  }
+});
+
+
+// uploadExamSet using ExCel from Frontend
+
 export const uploadExamSet = async (req, res) => {
   const filePath = req.file?.path;
 
