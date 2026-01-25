@@ -52,9 +52,23 @@ import SubscriptionSetNamePage from "./pages/subscription/SubscriptionSetNamePag
 import SubscriptionSetPage from "./pages/subscription/SubscriptionSetPage";
 import SubscriptionPage from "./pages/subscription/SubscriptionPage";
 
+//hooks
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useNetworkStatus from "./hooks/useNetworkStatus";
+
 function App() {
+  useNetworkStatus();
   return (
     <div>
+      <ToastContainer
+  position="top-right"
+  autoClose={2500} 
+  closeOnClick
+  pauseOnHover
+  draggable
+  theme="colored"
+/>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/examtype" element={<ExamTypePage />} />
