@@ -6,13 +6,8 @@ export const registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    //only one admin  
-    const existingAdmin = await User.findOne({ role: "admin" });
-
-    if (existingAdmin) {  
-    throw new Error("An admin already exists!");
-   }
-
+ 
+    
     // validation
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
