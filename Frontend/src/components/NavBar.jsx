@@ -10,12 +10,18 @@ import {
 import { useSidebar } from "../context/SidebarContext";
 import { useUser } from "../context/userContext";
 
+const navLinks = [
+  { name: "COURSES", path: "/courses", icon: GraduationCap, hideOnMobile: true },
+  { name: "NOTICE", path: "/notice", icon: Megaphone, hideOnMobile: true },
+  { name: "CONTACT US", path: "/contactus", icon: Users, hideOnMobile: true },
+  { name: "SUBSCRIPTION", path: "/subscription/examtype", icon: CreditCard, hideOnMobile: false }
+];
+
 function NavBar() {
   const { toggleSidebar } = useSidebar();
   const { user, loading, logout } = useUser();
 
-  // Prevent flicker while loading user
-  if (loading) return null;
+  if (loading) return null; // prevent flicker
 
   return (
     <header className="bg-base-300 border-b border-base-content/20 sticky top-0 z-20">
@@ -38,40 +44,16 @@ function NavBar() {
 
           {/* RIGHT */}
           <div className="flex items-center gap-4">
-
-            <Link
-              to="/courses"
-              className="hidden lg:flex items-center gap-2 btn btn-primary"
-            >
-              <span>COURSES</span>
-              <GraduationCap className="size-5" />
-            </Link>
-
-            <Link
-              to="/notice"
-              className="hidden lg:flex items-center gap-2 btn btn-primary"
-            >
-              <span>NOTICE</span>
-              <Megaphone className="size-5" />
-            </Link>
-
-            <Link
-              to="/about"
-              className="hidden lg:flex items-center gap-2 btn btn-primary"
-            >
-              <span>ABOUT US</span>
-              <Users className="size-5" />
-            </Link>
-
-            <Link
-              to="/subscription/examtype"
-              className="flex items-center gap-2 md:btn text-primary md:btn-primary"
-            >
-              <span className="hidden md:block ">
-                SUBSCRIPTION
-              </span>
-              <CreditCard className="size-8 md:size-5" />
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`${link.hideOnMobile ? "hidden lg:flex" : "flex"} items-center gap-2 btn btn-primary`}
+              >
+                <span className={`${link.hideOnMobile ? "" : "hidden md:block"}`}>{link.name}</span>
+                <link.icon className={`size-5`} />
+              </Link>
+            ))}
 
             {/* USER SECTION */}
             {user ? (
