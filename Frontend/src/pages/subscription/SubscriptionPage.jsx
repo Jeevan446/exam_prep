@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Navbar from "../../components/NavBar";
+import SideBar from "../../components/SideBar";
+import { useSidebar } from "../../context/SidebarContext";
 import { User, Mail, Phone, Hash, GraduationCap, ArrowRight, ShieldCheck } from 'lucide-react';
 
 const SubscriptionForm = () => {
   const [formData, setFormData] = useState({
     name: '', email: '', contactNo: '', transactionId: '', examType: ''
   });
+  const { isOpen } = useSidebar();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +21,8 @@ const SubscriptionForm = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-base-200">
-      <Navbar /> 
+      <Navbar />
+      <SideBar /> 
 
       <div className="flex-grow flex justify-center items-center p-4" style={{ minHeight: 'calc(100vh - 64px)' }}>
         <div className="card w-full max-w-[380px] bg-base-100 shadow-lg border border-base-300 rounded-2xl overflow-hidden">

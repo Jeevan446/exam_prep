@@ -24,7 +24,8 @@ function LoginForm() {
       resetForm();
       navigate("/"); 
     } catch (error) {
-      setErrors({ password: error.message });
+      // Display error message properly
+      setErrors({ submit: error.message || "Login failed. Please try again." });
     } finally {
       setSubmitting(false);
     }
@@ -40,8 +41,14 @@ function LoginForm() {
           validationSchema={LoginSchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors }) => (
             <Form className="space-y-4">
+              {/* Display general error message */}
+              {errors.submit && (
+                <div className="p-3 bg-red-50 border border-red-200 text-error rounded-md text-sm">
+                  {errors.submit}
+                </div>
+              )}
 
               {/* Email */}
               <div>
