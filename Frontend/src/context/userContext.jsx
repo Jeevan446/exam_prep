@@ -45,20 +45,45 @@ export const UserProvider = ({ children }) => {
   }, [token]);
 
   const login = async ({ email, password }) => {
-    const res = await axios.post("/api/user/login", { email, password });
-    const { token, user } = res.data;
+    try {
+      const res = await axios.post("/api/user/login", { email, password });
+      const { token, user } = res.data;
 
-    localStorage.setItem("token", token);
-    setAuthToken(token);
-    setToken(token);
-    setUser(user);
+      localStorage.setItem("token", token);
+      setAuthToken(token);
+      setToken(token);
+      setUser(user);
 
-    return user;
+      return user;
+    } catch (error) {
+      if (error.response) {
+        // Backend returned an error response
+        const errorMessage = error.response.data?.message || "Login failed";
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        
+        throw new Error("Network error. Please check your connection.");
+      } else {
+      
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   const register = async (formData) => {
-    const res = await axios.post("/api/user/register", formData);
-    return res.data;
+    try {
+      const res = await axios.post("/api/user/register", formData);
+      return res.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMessage = error.response.data?.message || "Registration failed";
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        throw new Error("Network error. Please check your connection.");
+      } else {
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   const logout = () => {
@@ -69,8 +94,19 @@ export const UserProvider = ({ children }) => {
   };
 
   const changePassword = async (data) => {
-    const res = await axios.put("/api/user/changepassword", data);
-    return res.data.message;
+    try {
+      const res = await axios.put("/api/user/changepassword", data);
+      return res.data.message;
+    } catch (error) {
+      if (error.response) {
+        const errorMessage = error.response.data?.message || "Failed to change password";
+        throw new Error(errorMessage);
+      } else if (error.request) {
+        throw new Error("Network error. Please check your connection.");
+      } else {
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
+    }
   };
   
   const isAdmin = user?.role === "admin";
