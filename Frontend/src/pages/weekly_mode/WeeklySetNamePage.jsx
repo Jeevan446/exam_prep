@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, Link, useParams } from "react-router-dom";
+import { Lock } from "lucide-react";
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/Footer";
@@ -13,12 +14,19 @@ function WeeklySetNamePage({ isOpen, setIsOpen }) {
   const [sets, setSets] = useState([]);
   const [loading,setLoading] =useState(true);
 
-
+  // Check if a set is currently live
+  const isSetLive = (startTime, endTime) => {
+    const now = new Date();
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    return now >= start && now <= end;
+  };
 
   useEffect(() => {
      async function fetchSets() {
     try {
       const response = await axios.get(`/api/setexam/${examType}/live`);
+      console.log(response.data)
       setSets(response.data.sets);
       setLoading(false);
     } catch (err) {
@@ -47,18 +55,39 @@ function WeeklySetNamePage({ isOpen, setIsOpen }) {
             <div className="text-red-500 font-bold">No sets available for this exam type.</div>
           )}
 
-          {sets.map((set, key) => (
-            <Link
-              to={`/weeklymode/${router.examtype}/set/${set.setId}`}
-              key={set.setId}
-              state={{ setName: set.setName, examType }}
-              className="border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] hover:text-secondary"
-            >
-              <span className="text-secondary">{key + 1}.</span>
-              <span className="ml-2">{set.setName}</span>
-              
-            </Link>
-          ))}
+          {sets.map((set, key) => {
+            const isLive = isSetLive(set.startTime, set.endTime);
+            
+            return isLive ? (
+              <Link
+                to={`/weeklymode/${router.examtype}/set/${set.setId}`}
+                key={set.setId}
+                state={{ setName: set.setName, examType }}
+                className="border-secondary rounded-lg bg-base-100 border border-secondary/20 hover:border-secondary/50 transition-colors text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] hover:text-secondary flex items-center justify-between"
+              >
+                <div>
+                  <span className="text-secondary">{key + 1}.</span>
+                  <span className="ml-2">{set.setName}</span>
+                </div>
+                <span className="bg-green-500 text-white text-xs md:text-sm px-3 py-1 rounded-full font-semibold">
+                  Live
+                </span>
+              </Link>
+            ) : (
+              <div
+                key={set.setId}
+                className="border-secondary rounded-lg bg-base-100 border border-gray-400/20 text-xs md:text-sm lg:text-xl justify-center p-4 w-[90%] flex items-center justify-between opacity-50 cursor-not-allowed"
+              >
+                <div>
+                  <span className="text-gray-500">{key + 1}.</span>
+                  <span className="ml-2 text-gray-500">{set.setName}</span>
+                </div>
+                <span className="bg-red-500 text-white text-xs md:text-sm px-3 py-1 rounded-full font-semibold flex items-center gap-1">
+                  <Lock size={16} />
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
