@@ -10,31 +10,35 @@ import fs from "fs";
 // if endtime is greater or equal to 1hrs then setType change to free
 
 cron.schedule("*/10 * * * *", async () => {
-  const now = new Date();
-  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000); 
+  try {
+    const now = new Date();
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000); 
 
-  // Find sets that have live exams whose endTime was more than 1 hour ago
-  const sets = await Set.find({
-    "exams.setType": "live",
-    "exams.endTime": { $lte: oneHourAgo },
-  });
-
-  for (let set of sets) {
-    let changed = false;
-
-    set.exams = set.exams.map((exam) => {
-      // Only update live exams
-      if (exam.setType === "live" && exam.endTime <= oneHourAgo) {
-        exam.setType = "free";
-        changed = true;
-      }
-      return exam;
+    // Find all sets that have live exams
+    const sets = await SetModel.find({
+      "exams.setType": "live",
     });
 
-    if (changed) {
-      await set.save();
-      console.log(`Updated live exams in Set ${set._id} to free`);
+    for (let set of sets) {
+      let changed = false;
+
+      set.exams = set.exams.map((exam) => {
+        // Only update live exams whose endTime was more than 1 hour ago
+        if (exam.setType === "live" && exam.endTime && exam.endTime <= oneHourAgo) {
+          exam.setType = "free";
+          changed = true;
+          console.log(`Converting live exam to free: Set "${set.name}", Exam "${exam.examType}"`);
+        }
+        return exam;
+      });
+
+      if (changed) {
+        await set.save();
+        console.log(`✓ Updated live exams in Set ${set._id} (${set.name}) to free`);
+      }
     }
+  } catch (error) {
+    console.error(" Cron job error:", error.message);
   }
 });
 
