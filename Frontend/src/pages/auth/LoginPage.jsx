@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import { useUser} from "../../context/userContext"
 import { Link } from "react-router-dom"; 
 
@@ -17,6 +18,7 @@ const LoginSchema = Yup.object({
 function LoginForm() {
   const navigate = useNavigate();
   const { login } = useUser();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (values, { resetForm, setSubmitting, setErrors }) => {
     try {
@@ -67,12 +69,21 @@ function LoginForm() {
 
               {/* Password */}
               <div>
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="w-full px-4 py-2 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none"
-                />
+                <div className="relative">
+                  <Field
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    className="w-full px-4 py-2 pr-10 input input-bordered focus:ring-2 focus:ring-primary focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
                 <ErrorMessage
                   name="password"
                   component="div"
