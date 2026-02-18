@@ -37,9 +37,9 @@ function NavBar() {
               <Menu size={24} />
             </button>
 
-            <h1 className="text-xl font-bold text-primary font-mono tracking-tighter md:text-3xl">
+            <a href="/" className="text-xl font-bold text-primary font-mono tracking-tighter md:text-3xl cursor-pointer">
               EntrixNP
-            </h1>
+           </a> 
           </div>
 
           {/* RIGHT */}
