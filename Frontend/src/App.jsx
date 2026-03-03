@@ -1,42 +1,43 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Homepage from "./pages/HomePage";
-import NoticePage from "./pages/NoticePage";
-import NotFoundPage from "./pages/NotFoundPage";
+const Homepage = lazy(() => import("./pages/HomePage"));
+const NoticePage = lazy(() => import("./pages/NoticePage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 // Admin:
-import AdminPage from "./pages/admin/AdminPage";
-import AddChapterPage from "./pages/admin/AddChapterPage";
-import AddExamType from "./pages/admin/AddExamType";
-import AddquestionPage from "./pages/admin/AddquestionPage";
-import EditQuestionPage from "./pages/admin/EditQuestionPage";
-import AddSubject from "./pages/admin/AddSubject";
-import AddSetPage from "./pages/admin/AddSetPage";
-import AddNoticePage from "./pages/admin/AddNoticePage";
-import AnalyticsPage from "./pages/admin/AnalyticsPage";
-import PromoteUserPage from "./pages/admin/PromoteUserPage";
+const AdminPage = lazy(() => import("./pages/admin/AdminPage"));
+const AddChapterPage = lazy(() => import("./pages/admin/AddChapterPage"));
+const AddExamType = lazy(() => import("./pages/admin/AddExamType"));
+const AddquestionPage = lazy(() => import("./pages/admin/AddquestionPage"));
+const EditQuestionPage = lazy(() => import("./pages/admin/EditQuestionPage"));
+const AddSubject = lazy(() => import("./pages/admin/AddSubject"));
+const AddSetPage = lazy(() => import("./pages/admin/AddSetPage"));
+const AddNoticePage = lazy(() => import("./pages/admin/AddNoticePage"));
+const AnalyticsPage = lazy(() => import("./pages/admin/AnalyticsPage"));
+const PromoteUserPage = lazy(() => import("./pages/admin/PromoteUserPage"));
 
 // auth:
-import SignUpPage from "./pages/auth/SignUpPage";
-import LoginPage from "./pages/auth/LoginPage";
+const SignUpPage = lazy(() => import("./pages/auth/SignUpPage"));
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 
 // FOR DEMO MODE:
-import ExamTypePage from "./pages/demo_mode/ExamTypePage";
-import SubjectPage from "./pages/demo_mode/SubjectPage";
-import ChaptersPage from "./pages/demo_mode/ChaptersPage";
-import QuestionPage from "./pages/demo_mode/QuestionPage";
+const ExamTypePage = lazy(() => import("./pages/demo_mode/ExamTypePage"));
+const SubjectPage = lazy(() => import("./pages/demo_mode/SubjectPage"));
+const ChaptersPage = lazy(() => import("./pages/demo_mode/ChaptersPage"));
+const QuestionPage = lazy(() => import("./pages/demo_mode/QuestionPage"));
 
 // FOR PRACTICE MODE:
-import PracticeExamTypePage from "./pages/practice_mode/PracticeExamTypePage";
-import SetPage from "./pages/practice_mode/SetPage";
-import SetPaperpage from "./pages/practice_mode/SetPaperpage";
+const PracticeExamTypePage = lazy(() => import("./pages/practice_mode/PracticeExamTypePage"));
+const SetPage = lazy(() => import("./pages/practice_mode/SetPage"));
+const SetPaperpage = lazy(() => import("./pages/practice_mode/SetPaperpage"));
 
 // For Profile Related Page:
-import Profilepage from "./pages/profile/Profilepage";
+const Profilepage = lazy(() => import("./pages/profile/Profilepage"));
 
 //Weekly live mode
-import WeeklyExamTypePage from "./pages/weekly_mode/WeeklyExamTypePage";
-import WeeklySetNamePage from "./pages/weekly_mode/WeeklySetNamePage";
+const WeeklyExamTypePage = lazy(() => import("./pages/weekly_mode/WeeklyExamTypePage"));
+const WeeklySetNamePage = lazy(() => import("./pages/weekly_mode/WeeklySetNamePage"));
 
 //protected route;
 import LoggedinuserRoute from "../routes/LoggedInuser";
@@ -44,13 +45,13 @@ import ProtectedRoute from "../routes/ProtectedRoute";
 import SubscriptionRoute from "../routes/SubscriptionRoute";
 
 // contace page route;
-import ContactPage from "./pages/ContactPage";
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 //Subscription page routes;
-import SubscriptionExamTypePage from "./pages/subscription/SubscriptionExamTypePage";
-import SubscriptionSetNamePage from "./pages/subscription/SubscriptionSetNamePage";
-import SubscriptionSetPage from "./pages/subscription/SubscriptionSetPage";
-import SubscriptionPage from "./pages/subscription/SubscriptionPage";
+const SubscriptionExamTypePage = lazy(() => import("./pages/subscription/SubscriptionExamTypePage"));
+const SubscriptionSetNamePage = lazy(() => import("./pages/subscription/SubscriptionSetNamePage"));
+const SubscriptionSetPage = lazy(() => import("./pages/subscription/SubscriptionSetPage"));
+const SubscriptionPage = lazy(() => import("./pages/subscription/SubscriptionPage"));
 
 //hooks
 import { ToastContainer } from "react-toastify";
@@ -69,6 +70,7 @@ function App() {
   draggable
   theme="colored"
 />
+      <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/examtype" element={<ExamTypePage />} />
@@ -252,6 +254,7 @@ function App() {
           }
         />
       </Routes>
+      </Suspense>
     </div>
   );
 }
