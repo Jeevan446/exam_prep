@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useUser } from "../context/userContext";
 import axios from "axios";
 import Loading from "../components/Loading"
 
@@ -11,6 +12,7 @@ import Footer from "../components/Footer";
 const NoticePage = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isAdmin, user } = useUser();
  
 
   const fetchData = async () => {
@@ -21,6 +23,17 @@ const NoticePage = () => {
       console.error("Error fetching notices:", error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Delete notice handler (admin only)
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this notice?")) return;
+    try {
+      await axios.delete(`/api/notice/${id}`);
+      setNotices((prev) => prev.filter((n) => n._id !== id));
+    } catch (err) {
+      alert("Failed to delete notice");
     }
   };
 
@@ -68,6 +81,25 @@ const NoticePage = () => {
                 <p className="text-xs sm:text-sm text-ghost mt-3">
                   {new Date(notice.createdAt).toLocaleString()}
                 </p>
+
+                {/* Admin controls */}
+                {isAdmin && (
+                  <div className="flex gap-2 mt-2">
+                    {/* Edit button placeholder */}
+                    <button
+                      className="btn btn-xs btn-warning"
+                      onClick={() => alert("Edit feature coming soon")}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-xs btn-error"
+                      onClick={() => handleDelete(notice._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
